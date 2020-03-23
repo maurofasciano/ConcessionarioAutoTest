@@ -1,0 +1,4 @@
+C:\Users\Faggiano\source\repos\Progetti\ConcessionarioAuto\VenditaAutoConcessionarioConsole\obj\Debug\netcoreapp2.1\4FunMotorsportPortal.csprojAssemblyReference.cache
+C:\Users\Faggiano\source\repos\Progetti\ConcessionarioAuto\VenditaAutoConcessionarioConsole\obj\Debug\netcoreapp2.1\4FunMotorsportPortal.csproj.CoreCompileInputs.cache
+C:\Users\Faggiano\source\repos\Progetti\ConcessionarioAuto\VenditaAutoConcessionarioConsole\obj\Debug\netcoreapp2.1\4FunMotorsportPortal.AssemblyInfoInputs.cache
+C:\Users\Faggiano\source\repos\Progetti\ConcessionarioAuto\VenditaAutoConcessionarioConsole\obj\Debug\netcoreapp2.1\4FunMotorsportPortal.AssemblyInfo.cs
