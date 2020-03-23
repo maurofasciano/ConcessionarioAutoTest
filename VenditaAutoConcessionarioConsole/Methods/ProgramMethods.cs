@@ -188,6 +188,13 @@ namespace VenditaAutoConcessionarioConsole.Methods
                         break;
 
                     case 7:
+                        Console.WriteLine("");
+                        Console.WriteLine("-----------------------------------------------------");
+                        Console.WriteLine("- Hai selezionato QUIT, premi INVIO per chiudere ! - ");
+                        Console.WriteLine("-----------------------------------------------------");
+                        Console.WriteLine("");
+
+                        Environment.Exit(0);
                         return;
 
                     default:

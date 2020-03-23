@@ -17,7 +17,7 @@ namespace VenditaAutoConcessionarioConsole.Models.Interfaces
         DateTime? AnnoImmatricolazione { get; set; }
         DateTime DataVendita { get; set; }
         bool Timbrata { get; set; }
-        bool VeicoloNuovo { get; set; }
+        bool VeicoloNuovo { get; }
         bool Garanzia { get; set; }
         bool TagliandoVendita { get; set; }
 

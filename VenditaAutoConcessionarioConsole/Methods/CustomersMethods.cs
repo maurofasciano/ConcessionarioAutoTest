@@ -14,29 +14,38 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
             Clienti c = new Clienti();
 
-            if(c != null && Liste.Clienti.Count > 0)
+            // c != null &&
+
+            if (Liste.Clienti.Count > 0)
             {
                 int maxId = Liste.Clienti[0].Id;
 
                 for (int i = 1; i < Liste.Clienti.Count; i++)
                 {
+                    // i = maxId;
+
                     if (maxId < Liste.Clienti[i].Id)
                     {
-                        maxId = Liste.Clienti[i].Id + 1;
+                        maxId = Liste.Clienti[i].Id;
                     }
 
                 }
-                 
-            }
 
-            Liste.Clienti.Add(c);
+                c.Id = maxId + 1;
+            }
+            else
+            {
+                c.Id = 1;
+            }
+            
+
+            // Liste.Clienti.Add(c);
 
 
             Console.WriteLine();
             Console.WriteLine("------------------------------------");
             Console.WriteLine("- Inserisci il Nome del Cliente  : -");
             Console.WriteLine("------------------------------------");
-
 
             c.NomeCliente = Console.ReadLine();
 
@@ -63,9 +72,9 @@ namespace VenditaAutoConcessionarioConsole.Methods
             Console.Clear();
 
             Console.WriteLine();
-            Console.WriteLine("-------------------------------------");
-            Console.WriteLine("- Inserisci la Mail del Venditore : -");
-            Console.WriteLine("-------------------------------------");
+            Console.WriteLine("-----------------------------------");
+            Console.WriteLine("- Inserisci la Mail del Cliente : -");
+            Console.WriteLine("-----------------------------------");
 
             c.MailCliente = Console.ReadLine();
 
@@ -89,7 +98,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
             Console.WriteLine("-----------------------------------------------------------------------------------------");
             Console.WriteLine($"- Hai inserito il venditore {c.NomeCliente} - {c.CognomeCliente} - Avente Id - {c.Id} - ");
             Console.WriteLine($"- Il telefono è : {c.TelefonoCliente} - La sua mail è : {c.MailCliente}");
-            Console.WriteLine($"- Il Venditore è attivo dal : {c.OraInserimento}");
+            Console.WriteLine($"- Il Venditore è inserito dal : {c.OraInserimento}");
             Console.WriteLine("-----------------------------------------------------------------------------------------");
             Console.WriteLine("");
 
@@ -103,6 +112,8 @@ namespace VenditaAutoConcessionarioConsole.Methods
             // Eseguo un ForEach per ciclare dalla lista i miei dati. A differenza del While che cicla un condizionale
             // e For che cicla una index, questo comando è dedicato alle liste.
             // Associa alla variabile "item", tramite il comando "in", la lista venditori e mostra in console cosa contengono
+
+            Console.Clear();
 
             foreach (var item in Liste.Clienti)
             {
