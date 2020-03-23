@@ -43,23 +43,18 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
             Console.Clear();
 
-
             Console.WriteLine();
             Console.WriteLine("----------------------------------------");
             Console.WriteLine("- Inserisci il Cognome del Venditore : -");
             Console.WriteLine("----------------------------------------");
-
-
             v.CognomeVenditore = Console.ReadLine();
 
             Console.Clear();
-
 
             Console.WriteLine();
             Console.WriteLine("-----------------------------------------");
             Console.WriteLine("- Inserisci il Telefono del Venditore : -");
             Console.WriteLine("-----------------------------------------");
-
             v.TelefonoVenditore = Console.ReadLine();
 
             Console.Clear();
@@ -68,7 +63,6 @@ namespace VenditaAutoConcessionarioConsole.Methods
             Console.WriteLine("-------------------------------------");
             Console.WriteLine("- Inserisci la Mail del Venditore : -");
             Console.WriteLine("-------------------------------------");
-
             v.MailVenditore = Console.ReadLine();
 
 

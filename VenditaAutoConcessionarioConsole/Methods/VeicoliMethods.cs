@@ -62,9 +62,9 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 Console.WriteLine("Veicolo non trovato");
                 return;
             }
-            //veicolo = veicoli.Find(v => v.NumeroTelaio == telaio);
+            veicolo = veicoli.Find(v => v.NumeroTelaio == telaio);
 
-            //veicolo.AnnoImmatricolazione = DateTime.Parse(Console.ReadLine());
+            veicolo.AnnoImmatricolazione = DateTime.Parse(Console.ReadLine());
         }
         
     }
