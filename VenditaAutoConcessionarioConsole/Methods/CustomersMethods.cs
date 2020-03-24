@@ -127,13 +127,13 @@ namespace VenditaAutoConcessionarioConsole.Methods
             Console.WriteLine();
             string nomeCliente = Console.ReadLine();
 
-            string risultatoPositivo = "Il Cliente {0} è presente - Avente Id {1} - " +
-                "                       Il Cognome è {2} - Il Telefono è {3} - La Mail è {4}" +
-                "                       E' stato inserito il {5}";
+            string risultatoPositivo1 ="Il Cliente {0} è presente - Il Cognome è {1} ";
+            string risultatoPositivo2 ="Il Telefono è {0} - La Mail è {1}";
+            string risultatoPositivo3 = "Avente Id {0} - E' stato inserito il {1}";
             string risultatoNegativoNome = $"Il Venditore ''{nomeCliente}'' non è presente nella Lista";
 
 
-
+            
             int index = -1;
 
             for (int i = 0; i < Liste.Clienti.Count; i++)
@@ -163,14 +163,18 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 // Utilizzo metodo String.format per rappresentare i dati
 
                 Console.WriteLine("---------------------------------------------------------");
-                Console.WriteLine(String.Format(risultatoPositivo, Liste.Clienti[index].NomeCliente, Liste.Clienti[index].Id, Liste.Clienti[index].CognomeCliente, Liste.Clienti[index].TelefonoCliente, Liste.Clienti[index].MailCliente, Liste.Clienti[index].OraInserimento));
+                Console.WriteLine(String.Format(risultatoPositivo1, Liste.Clienti[index].NomeCliente, Liste.Clienti[index].Id, Liste.Clienti[index].CognomeCliente));
+                Console.WriteLine(String.Format(risultatoPositivo2, Liste.Clienti[index].TelefonoCliente, Liste.Clienti[index].MailCliente));
+                Console.WriteLine(String.Format(risultatoPositivo3, Liste.Clienti[index].Id, Liste.Clienti[index].OraInserimento));
                 Console.WriteLine("----------------------------------------------------------");
+
+                
             }
             // Oppure Visualizza il valore di risultatoNegativo
             else
             {
                 Console.WriteLine("---------------------------------------------------------");
-                Console.WriteLine(risultatoNegativoNome); //risultatoNegativoCognome
+                Console.WriteLine(risultatoNegativoNome); 
                 Console.WriteLine("---------------------------------------------------------");
             }
 
