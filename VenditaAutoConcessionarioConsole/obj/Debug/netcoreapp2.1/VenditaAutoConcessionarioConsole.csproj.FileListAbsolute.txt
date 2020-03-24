@@ -24,3 +24,14 @@ C:\Users\Faggiano\source\repos\Progetti\ConcessionarioAuto\VenditaAutoConcession
 C:\Users\Faggiano\source\repos\Progetti\ConcessionarioAuto\VenditaAutoConcessionarioConsole\bin\Debug\netcoreapp2.1\VenditaAutoConcessionarioConsole.pdb
 C:\Users\Faggiano\source\repos\Progetti\ConcessionarioAuto\VenditaAutoConcessionarioConsole\obj\Debug\netcoreapp2.1\VenditaAutoConcessionarioConsole.dll
 C:\Users\Faggiano\source\repos\Progetti\ConcessionarioAuto\VenditaAutoConcessionarioConsole\obj\Debug\netcoreapp2.1\VenditaAutoConcessionarioConsole.pdb
+C:\Users\Faggiano\source\repos\Concessionarioauto\VenditaAutoConcessionarioConsole\obj\Debug\netcoreapp2.1\VenditaAutoConcessionarioConsole.csprojAssemblyReference.cache
+C:\Users\Faggiano\source\repos\Concessionarioauto\VenditaAutoConcessionarioConsole\obj\Debug\netcoreapp2.1\VenditaAutoConcessionarioConsole.csproj.CoreCompileInputs.cache
+C:\Users\Faggiano\source\repos\Concessionarioauto\VenditaAutoConcessionarioConsole\obj\Debug\netcoreapp2.1\VenditaAutoConcessionarioConsole.AssemblyInfoInputs.cache
+C:\Users\Faggiano\source\repos\Concessionarioauto\VenditaAutoConcessionarioConsole\obj\Debug\netcoreapp2.1\VenditaAutoConcessionarioConsole.AssemblyInfo.cs
+C:\Users\Faggiano\source\repos\Concessionarioauto\VenditaAutoConcessionarioConsole\obj\Debug\netcoreapp2.1\VenditaAutoConcessionarioConsole.dll
+C:\Users\Faggiano\source\repos\Concessionarioauto\VenditaAutoConcessionarioConsole\obj\Debug\netcoreapp2.1\VenditaAutoConcessionarioConsole.pdb
+C:\Users\Faggiano\source\repos\Concessionarioauto\VenditaAutoConcessionarioConsole\bin\Debug\netcoreapp2.1\VenditaAutoConcessionarioConsole.deps.json
+C:\Users\Faggiano\source\repos\Concessionarioauto\VenditaAutoConcessionarioConsole\bin\Debug\netcoreapp2.1\VenditaAutoConcessionarioConsole.runtimeconfig.json
+C:\Users\Faggiano\source\repos\Concessionarioauto\VenditaAutoConcessionarioConsole\bin\Debug\netcoreapp2.1\VenditaAutoConcessionarioConsole.runtimeconfig.dev.json
+C:\Users\Faggiano\source\repos\Concessionarioauto\VenditaAutoConcessionarioConsole\bin\Debug\netcoreapp2.1\VenditaAutoConcessionarioConsole.dll
+C:\Users\Faggiano\source\repos\Concessionarioauto\VenditaAutoConcessionarioConsole\bin\Debug\netcoreapp2.1\VenditaAutoConcessionarioConsole.pdb
