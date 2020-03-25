@@ -103,16 +103,18 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 // Console.Clear();
                 Console.WriteLine("");
                 Console.WriteLine("");
-                Console.WriteLine(" ---------------------------------------------------------------------------------------------------------");
+                Console.WriteLine(" ---------------------------------------------------------------------------------------------");
                 Console.WriteLine($"- I Clienti presenti sono :  Nome - {item.NomeCliente} | GuId - {item.Id}");
-                Console.WriteLine($" ----------------------      Telefono - {item.TelefonoCliente} | Mail - {item.MailCliente}  -------------");    
+                Console.WriteLine($"                             Telefono - {item.TelefonoCliente} | Mail - {item.MailCliente}   ");    
                 Console.WriteLine($"                             Cliente Aggiunto il -  {item.OraInserimento}");
-                Console.WriteLine(" ---------------------------------------------------------------------------------------------------------");
+                Console.WriteLine(" ---------------------------------------------------------------------------------------------");
                 Console.WriteLine("");
                 Console.WriteLine("");
-
+                
             }
+            Console.Clear();
             return Liste.Clienti;
+            
             
         }
 
@@ -127,7 +129,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
             Console.WriteLine();
             string nomeCliente = Console.ReadLine();
 
-            string risultatoPositivo1 ="Il Cliente {0} è presente - Il Cognome è {1} ";
+            string risultatoPositivo1 ="Il Cliente {0} è presente - Il Cognome è {1}";
             string risultatoPositivo2 ="Il Telefono è {0} - La Mail è {1}";
             string risultatoPositivo3 = "Avente Id {0} - E' stato inserito il {1}";
             string risultatoNegativoNome = $"Il Venditore ''{nomeCliente}'' non è presente nella Lista";
@@ -163,7 +165,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 // Utilizzo metodo String.format per rappresentare i dati
 
                 Console.WriteLine("---------------------------------------------------------");
-                Console.WriteLine(String.Format(risultatoPositivo1, Liste.Clienti[index].NomeCliente, Liste.Clienti[index].Id, Liste.Clienti[index].CognomeCliente));
+                Console.WriteLine(String.Format(risultatoPositivo1, Liste.Clienti[index].NomeCliente, Liste.Clienti[index].CognomeCliente));
                 Console.WriteLine(String.Format(risultatoPositivo2, Liste.Clienti[index].TelefonoCliente, Liste.Clienti[index].MailCliente));
                 Console.WriteLine(String.Format(risultatoPositivo3, Liste.Clienti[index].Id, Liste.Clienti[index].OraInserimento));
                 Console.WriteLine("----------------------------------------------------------");
@@ -180,7 +182,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
         }
 
-        public static void ModificaVenditori()
+        public static void ModificaClienti()
         {           
            
             while (true)

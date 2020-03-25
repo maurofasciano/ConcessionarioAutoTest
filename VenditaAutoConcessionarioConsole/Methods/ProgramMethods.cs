@@ -78,6 +78,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
                         break;
 
                     case 4:
+                        VendorsMethods.ModificaVenditori();
                         break;
                     
 
@@ -117,6 +118,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
             }
 
         }
+
         public static void CustomerSelect()
 
         {
@@ -138,14 +140,23 @@ namespace VenditaAutoConcessionarioConsole.Methods
             bool PassCodeBlockToMenu = true;
             while (PassCodeBlockToMenu)
             {
-                Console.WriteLine("Cosa desideri fare per i Clienti? ");
-                Console.WriteLine("1) Aggiungi un Cliente");
-                Console.WriteLine("2) Verifica la presenza di un Cliente");
-                Console.WriteLine("3) Lista i Clienti ed i loro Id");
-                Console.WriteLine("4) Modifica un Cliente");
-                Console.WriteLine("5) Rimuovi un Cliente");
-                Console.WriteLine("6) Torna al MENU Principale");
-                Console.WriteLine("7) Esci dal Programma");
+                Console.WriteLine();
+                Console.WriteLine("----------------------------------");
+                Console.WriteLine("- Cosa vuoi fare per i Clienti ? -");
+                Console.WriteLine("----------------------------------");
+                Console.WriteLine();
+                Console.WriteLine();
+
+                Console.WriteLine("-----------------------------------------");
+                Console.WriteLine("- Cosa desideri fare per i Clienti?     -");
+                Console.WriteLine("- 1) Aggiungi un Cliente                -");
+                Console.WriteLine("- 2) Lista i Clienti ed i loro Id       -"); 
+                Console.WriteLine("- 3) Verifica la presenza di un Cliente -");
+                Console.WriteLine("- 4) Modifica un Cliente                -");
+                Console.WriteLine("- 5) Rimuovi un Cliente                 -");
+                Console.WriteLine("- 6) Torna al MENU Principale           -");
+                Console.WriteLine("- 7) Esci dal Programma                 -");
+                Console.WriteLine("-----------------------------------------");
 
                 string risposta = Console.ReadLine();
 
@@ -153,9 +164,12 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
                 if (rispostaUtente == false)
                 {
+                    Console.Clear();
+                    Console.WriteLine("");
                     Console.WriteLine("-------------------------------------------------");
                     Console.WriteLine("- Argomento NON VALIDO, usa SOLO le selezioni ! -");
                     Console.WriteLine("-------------------------------------------------");
+                    Console.WriteLine("");
 
                     continue;
                 }
@@ -168,13 +182,16 @@ namespace VenditaAutoConcessionarioConsole.Methods
                         break;
 
                     case 2:
-                        CustomersMethods.VerificaListaClienti();
+                        CustomersMethods.ElencoClienti();
+                        
                         break;
 
                     case 3:
+                        CustomersMethods.VerificaListaClienti();
                         break;
 
                     case 4:
+                        CustomersMethods.ModificaClienti();
                         break;
 
 
@@ -184,10 +201,17 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
                     case 6:
                         PassCodeBlockToMenu = false;
+                        Console.Clear();
                         break;
 
-                    case 7:
-                        return;
+                    case 7:                        
+                        Console.WriteLine("");
+                        Console.WriteLine("---------------------------------------------------------------");
+                        Console.WriteLine("- Hai selezionato QUIT, premi due volte INVIO per chiudere ! - ");
+                        Console.WriteLine("---------------------------------------------------------------");
+                        Console.WriteLine("");
+                        Environment.Exit(0);
+                        break;
 
                     default:
                         CommonMethods.RichiestaNonValida();
@@ -199,6 +223,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
      
         }
+
         public static void AutoSelect()
         {
             string risposta = Console.ReadLine();
