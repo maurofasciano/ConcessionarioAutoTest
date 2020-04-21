@@ -97,22 +97,21 @@ namespace VenditaAutoConcessionarioConsole.Methods
             // e For che cicla una index, questo comando è dedicato alle liste.
             // Associa alla variabile "item", tramite il comando "in", la lista venditori e mostra in console cosa contengono
 
-            foreach (var item in Liste.Clienti)
-            {
-
-                // Console.Clear();
-                Console.WriteLine("");
-                Console.WriteLine("");
-                Console.WriteLine(" ---------------------------------------------------------------------------------------------");
-                Console.WriteLine($"- I Clienti presenti sono :  Nome - {item.NomeCliente} | GuId - {item.Id}");
-                Console.WriteLine($"                             Telefono - {item.TelefonoCliente} | Mail - {item.MailCliente}   ");    
-                Console.WriteLine($"                             Cliente Aggiunto il -  {item.OraInserimento}");
-                Console.WriteLine(" ---------------------------------------------------------------------------------------------");
-                Console.WriteLine("");
-                Console.WriteLine("");
-                
-            }
             Console.Clear();
+
+            foreach (var item in Liste.Clienti)
+            {               
+                
+                Console.WriteLine("");
+                Console.WriteLine(" --------------------------------------------------------------------------------------");
+                Console.WriteLine($"- I Clienti presenti sono :  Nome - {item.NomeCliente} | GuId - {item.Id}");
+                Console.WriteLine($"                             Telefono - {item.TelefonoCliente} | Mail - {item.MailCliente}");    
+                Console.WriteLine($"                             Cliente Aggiunto il -  {item.OraInserimento}");
+                Console.WriteLine(" ---------------------------------------------------------------------------------------");
+                Console.WriteLine("");
+                              
+            }
+            
             return Liste.Clienti;
             
             
@@ -188,16 +187,16 @@ namespace VenditaAutoConcessionarioConsole.Methods
             while (true)
             {
                 Console.WriteLine("");
-                Console.WriteLine("------------------------------------------------");
-                Console.WriteLine("--- Scegli cosa desidere fare per i Clienti --- ");
-                Console.WriteLine("------------------------------------------------");
+                Console.WriteLine("----------------------------------------------------");
+                Console.WriteLine("-----  Scegli cosa desidere fare in Modifica  ----- ");
+                Console.WriteLine("----------------------------------------------------");
                 Console.WriteLine("");
 
                 Console.WriteLine("");
-                Console.WriteLine("------------------------------------------------");
-                Console.WriteLine("1) ----- Esegui Metodo Modifica Cliente---------");
-                Console.WriteLine("2) --- Ricerca Id Cliente per Nome o Cognome ---");
-                Console.WriteLine("------------------------------------------------");
+                Console.WriteLine("--------------------------------------------------------");
+                Console.WriteLine("1) ----Esegui Metodo Modifica Cliente (Tramite Id) -----");
+                Console.WriteLine("2) -----  Ricerca Id Cliente per Nome o Cognome --------");
+                Console.WriteLine("--------------------------------------------------------");
                 Console.WriteLine("");
 
                 string risposta = Console.ReadLine();

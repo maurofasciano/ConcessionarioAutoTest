@@ -20,16 +20,18 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 Console.WriteLine("- Cosa vuoi fare per i Venditori ? -");
                 Console.WriteLine("------------------------------------");
                 Console.WriteLine();
-                Console.WriteLine();
 
+                Console.WriteLine("---------------------------------------");
+                Console.WriteLine("---  Seleziona il Metodo Deiderato  ---");
+                Console.WriteLine("- 1) Aggiungi un Venditore            -"); 
+                Console.WriteLine("- 2) Lista i Venditori ed i loro Id   -");
+                Console.WriteLine("- 3) Verifica presenza Venditore      -");
+                Console.WriteLine("- 4) Modifica un Venditore            -");
+                Console.WriteLine("- 5) Rimuovi Venditore                -");
+                Console.WriteLine("- 6) Torna al MENU Principale         -");
+                Console.WriteLine("- 7) Esci dal Programma               -");
+                Console.WriteLine("---------------------------------------");
 
-                Console.WriteLine("1) Aggiungi un Venditore");
-                Console.WriteLine("2) Verifica presenza Venditore");
-                Console.WriteLine("3) Lista i Venditori ed i loro Id");
-                Console.WriteLine("4) Modifica un Venditore");
-                Console.WriteLine("5) Rimuovi Venditore");
-                Console.WriteLine("6) Torna al Menu Principale");
-                Console.WriteLine("7) Esci Dal Programma");
 
 
                 //Faccio valorizzare la variabile risposta
@@ -70,11 +72,11 @@ namespace VenditaAutoConcessionarioConsole.Methods
                         break;
 
                     case 2:
-                        VendorsMethods.VerificaListaVenditori();
+                        VendorsMethods.ElencoVenditori();
                         break;
 
                     case 3:
-                        VendorsMethods.ElencoVenditori();
+                        VendorsMethods.VerificaListaVenditori();
                         break;
 
                     case 4:
@@ -99,7 +101,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
                         Console.WriteLine("- Hai selezionato QUIT, premi due volte INVIO per chiudere ! - ");
                         Console.WriteLine("---------------------------------------------------------------");
                         Console.WriteLine("");
-
+                        Console.ReadLine();
                         Environment.Exit(0);
                         // Il return ti esegue il termine del proramma
                         return;
@@ -145,10 +147,9 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 Console.WriteLine("- Cosa vuoi fare per i Clienti ? -");
                 Console.WriteLine("----------------------------------");
                 Console.WriteLine();
-                Console.WriteLine();
 
                 Console.WriteLine("-----------------------------------------");
-                Console.WriteLine("- Cosa desideri fare per i Clienti?     -");
+                Console.WriteLine("----  Seleziona il Metodo Deiderato  ----");
                 Console.WriteLine("- 1) Aggiungi un Cliente                -");
                 Console.WriteLine("- 2) Lista i Clienti ed i loro Id       -"); 
                 Console.WriteLine("- 3) Verifica la presenza di un Cliente -");
@@ -210,6 +211,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
                         Console.WriteLine("- Hai selezionato QUIT, premi due volte INVIO per chiudere ! - ");
                         Console.WriteLine("---------------------------------------------------------------");
                         Console.WriteLine("");
+                        Console.ReadLine();
                         Environment.Exit(0);
                         break;
 

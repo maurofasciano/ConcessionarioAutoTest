@@ -105,16 +105,21 @@ namespace VenditaAutoConcessionarioConsole.Methods
             // e For che cicla una index, questo comando è dedicato alle liste.
             // Associa alla variabile "item", tramite il comando "in", la lista venditori e mostra in console cosa contengono
 
+            Console.Clear();
+
             foreach (var item in Liste.Venditori)
             {
 
-                // Console.Clear();
+                
+                Console.WriteLine("");
+                Console.WriteLine(" --------------------------------------------------------------------------------------");
                 Console.WriteLine("");
                 Console.WriteLine($"I Venditori presenti in Lista sono :  Nome - {item.NomeVenditore} | GuId - {item.Id}");
                 Console.WriteLine($"                                      Telefono - {item.TelefonoVenditore} | Mail - {item.MailVenditore}");
                 Console.WriteLine($"                                      Venditore Aggiunto il -  {item.OraInserimento}");
+                Console.WriteLine(" ---------------------------------------------------------------------------------------");
                 Console.WriteLine("");
-                Console.WriteLine("");
+                
 
             }
 

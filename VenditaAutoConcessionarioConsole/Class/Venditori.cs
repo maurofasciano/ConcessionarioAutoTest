@@ -13,7 +13,6 @@ namespace VenditaAutoConcessionarioConsole.Class
         public string CognomeVenditore { get; set; }
         public string TelefonoVenditore { get; set; }
         public string MailVenditore { get; set; }
-
         public bool VenditoreAttivo { get; set; }
         public string OraInserimento { get; set; }
 
