@@ -5,7 +5,7 @@ using VenditaAutoConcessionarioConsole.Models.Interfaces;
 
 namespace VenditaAutoConcessionarioConsole.Class
 {
-    public class Auto : IVeicolo
+    public class Auto : IVeicolo 
     {
         public Int32 Kilometri { get; }
         public int NumeroRuote { get; }
@@ -21,6 +21,12 @@ namespace VenditaAutoConcessionarioConsole.Class
         public bool VeicoloNuovo { get; set; }
         public bool Garanzia { get; set; }
         public bool TagliandoVendita { get; set; }
+        public string TipoVeicolo { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public DateTime DataAcquistoConcessionaria { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool TagliandoPreVendita { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool Competizione { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int OreMotore { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int Cilindrata { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 
 

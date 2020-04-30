@@ -3,13 +3,45 @@
 using VenditaAutoConcessionarioConsole.Class;
 using VenditaAutoConcessionarioConsole.Class.Base;
 using VenditaAutoConcessionarioConsole.Methods;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace VenditaAutoConcessionarioConsole
 {
     public class Program
     {
+
+
         static void Main(string[] args)
         {
+            string connectionString = "Server=DAMAGE000\\SQLEXPRESS;Database=ConcessionarioAutoConsole;Integrated Security=true";
+
+        string queryString =
+             @"SELECT [Id]
+              ,[NomeCliente]
+              ,[CognomeCliente]
+              ,[TelefonoCliente]
+              ,[MailCliente]
+              ,[ClienteAttivo]
+              ,[OraInserimento]
+          FROM[dbo].[Clienti]";
+
+            using (SqlConnection connection = new SqlConnection(
+                       connectionString))
+            {
+                SqlCommand command = new SqlCommand(
+                    queryString, connection);
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Console.WriteLine(String.Format("{0}, {1} {2}",
+                            reader[0], reader[1], reader[2]));
+                    }
+                }
+            }
+
             // bool passBlockCode = true;
             while (true)
             {
