@@ -8,7 +8,7 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
     // Connessione a Sql 2019
     public class ConnectionStringSql
     {
-        public string connectionString = "Server=DAMAGE000;Database=ConcessionarioAutoConsole;User Id=Faggiano;Password=cippi1;";
+        public string connectionString = "Server=DAMAGE003\\SQLEXPRESS;Database=ConcessionarioAutoTest;User Id=faggiano;Password=cippi1;";
 
 
         public  string GetConnectionString()
@@ -20,7 +20,7 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
 
         }
 
-        private SqlDataReader ExecuteQuerys(string query)
+        public SqlDataReader ExecuteQuerys(string query)
         {
             using (SqlConnection connection = new SqlConnection(GetConnectionString()))
             {
@@ -29,6 +29,16 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
                 connection.Open();
 
                 return command.ExecuteReader();
+            }
+        }
+
+        public void ExecuteNotQuery(string query)
+        {
+            using (SqlConnection connection = new SqlConnection(GetConnectionString()))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Connection.Open();
+                command.ExecuteNonQuery();
             }
         }
 

@@ -26,7 +26,8 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
             // Assegno il valore un valore alla proprietà "Id" e lo imposto su "v" 
             // che è stato costruito precedentemente, utilizzando metodo Guid
-            v.Id = Guid.NewGuid();
+            
+            // v.Id = Guid.NewGuid();
 
             Console.Clear();
 
@@ -75,7 +76,29 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
 
             // Aggiungo i valori delle proprietà alla lista Venditori, tramite metodo .Add
-            Liste.Venditori.Add(v);
+
+            ConnectionStringSql dataBase = new ConnectionStringSql();
+
+            dataBase.ExecuteNotQuery($"INSERT INTO [dbo].[Venditori]([NomeVenditore]" +
+           ",[CognomeVenditore]" +
+           ",[TelefonoVenditore]" +
+           ",[MailVenditore]" +
+           ",[VenditoreAttivo]" +
+           ",[OraInserimento])" +
+            "VALUES" +
+           "(" +
+           $"'{v.NomeVenditore}'," +
+           $"'{v.CognomeVenditore}'," +
+           $"'{v.TelefonoVenditore}'," +
+           $"'{v.MailVenditore}'," +
+           $"'{v.VenditoreAttivo}'," +
+           $"'{v.OraInserimento}'" +
+           ")"
+           );
+
+
+
+            //Liste.Venditori.Add(v);
 
             Console.Clear();
 

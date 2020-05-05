@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Faggiano\\source\\repos\\Progetti\\ConcessionarioAutoTest\\VenditaAutoConcessionarioConsole\\VenditaAutoConcessionarioConsole.csproj": {}
+    "C:\\Users\\Faggiano\\source\\repos\\ConcessionarioAutoTest\\VenditaAutoConcessionarioConsole\\VenditaAutoConcessionarioConsole.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Faggiano\\source\\repos\\Progetti\\ConcessionarioAutoTest\\VenditaAutoConcessionarioConsole\\VenditaAutoConcessionarioConsole.csproj": {
+    "C:\\Users\\Faggiano\\source\\repos\\ConcessionarioAutoTest\\VenditaAutoConcessionarioConsole\\VenditaAutoConcessionarioConsole.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Faggiano\\source\\repos\\Progetti\\ConcessionarioAutoTest\\VenditaAutoConcessionarioConsole\\VenditaAutoConcessionarioConsole.csproj",
+        "projectUniqueName": "C:\\Users\\Faggiano\\source\\repos\\ConcessionarioAutoTest\\VenditaAutoConcessionarioConsole\\VenditaAutoConcessionarioConsole.csproj",
         "projectName": "VenditaAutoConcessionarioConsole",
-        "projectPath": "C:\\Users\\Faggiano\\source\\repos\\Progetti\\ConcessionarioAutoTest\\VenditaAutoConcessionarioConsole\\VenditaAutoConcessionarioConsole.csproj",
+        "projectPath": "C:\\Users\\Faggiano\\source\\repos\\ConcessionarioAutoTest\\VenditaAutoConcessionarioConsole\\VenditaAutoConcessionarioConsole.csproj",
         "packagesPath": "C:\\Users\\Faggiano\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Faggiano\\source\\repos\\Progetti\\ConcessionarioAutoTest\\VenditaAutoConcessionarioConsole\\obj\\",
+        "outputPath": "C:\\Users\\Faggiano\\source\\repos\\ConcessionarioAutoTest\\VenditaAutoConcessionarioConsole\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",

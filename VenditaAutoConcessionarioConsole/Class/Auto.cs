@@ -9,7 +9,7 @@ namespace VenditaAutoConcessionarioConsole.Class
     {
         public Int32 Kilometri { get; }
         public int NumeroRuote { get; }
-        public string Targa { get; }
+        public string Targa { get; set; }
         public string Marca { get; }
         public string Modello { get; }
         public string NumeroTelaio { get; }
@@ -21,7 +21,9 @@ namespace VenditaAutoConcessionarioConsole.Class
         public bool VeicoloNuovo { get; set; }
         public bool Garanzia { get; set; }
         public bool TagliandoVendita { get; set; }
-        public string TipoVeicolo { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        
+        // public string TipoVeicolo { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        
         public DateTime DataAcquistoConcessionaria { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool TagliandoPreVendita { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool Competizione { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

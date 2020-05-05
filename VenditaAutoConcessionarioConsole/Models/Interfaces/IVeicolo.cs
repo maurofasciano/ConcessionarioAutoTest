@@ -7,8 +7,8 @@ namespace VenditaAutoConcessionarioConsole.Models.Interfaces
     public interface IVeicolo
     {
         Int32 Kilometri { get; }
-        string TipoVeicolo { get; set; } // Auto,Moto,Ciclomotore,Furgone,Camper,
-        string Targa { get; }
+        // string TipoVeicolo { get; set; } // Auto,Moto,Ciclomotore,Furgone,Camper,
+        string Targa { get; set; }
         string Marca { get; }
         string Modello { get; }
         string NumeroTelaio { get; }
@@ -22,9 +22,6 @@ namespace VenditaAutoConcessionarioConsole.Models.Interfaces
         bool TagliandoPreVendita { get; set; }
         bool Competizione { get; set; }
         int OreMotore {get; set; }
-        int Cilindrata { get; set; }
-
-        
-
+        int Cilindrata { get; set; } 
     }
 }

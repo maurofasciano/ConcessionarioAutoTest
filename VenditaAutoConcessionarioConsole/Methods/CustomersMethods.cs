@@ -196,6 +196,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 Console.WriteLine("--------------------------------------------------------");
                 Console.WriteLine("1) ----Esegui Metodo Modifica Cliente (Tramite Id) -----");
                 Console.WriteLine("2) -----  Ricerca Id Cliente per Nome o Cognome --------");
+                Console.WriteLine("3) -------------Torna al Menu Precedente----------------");
                 Console.WriteLine("--------------------------------------------------------");
                 Console.WriteLine("");
 

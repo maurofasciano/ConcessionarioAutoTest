@@ -9,7 +9,7 @@ namespace VenditaAutoConcessionarioConsole.Class
     {
         public int Kilometri => throw new NotImplementedException();
 
-        public string TipoVeicolo { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        // public string TipoVeicolo { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public string Targa => throw new NotImplementedException();
 
@@ -30,5 +30,6 @@ namespace VenditaAutoConcessionarioConsole.Class
         public bool Competizione { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int OreMotore { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int Cilindrata { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        string IVeicolo.Targa { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }
