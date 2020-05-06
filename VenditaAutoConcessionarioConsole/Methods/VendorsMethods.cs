@@ -16,23 +16,23 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
         public static Venditori Registravenditore()
         {
-            //Creo il metodo per generare i dati del venditore, chiedendo all' utente di valorizzarli
-            //Si legge : Genero "Registravenditore" che di tipo "Venditori", come la classe, al cui interno trovo 
-            //costruttore e funzioni 
-            // Costruisco un oggetto "v" di tipo Venditori, mi serve per caricare la lista dei Venditori con i dati
-            // richiesti all' utente
+            // Genero l' oggetto "v", di tipo  che conterrà i dati per delle proprietà
+
             Venditori v = new Venditori();
-
-
-            // Assegno il valore un valore alla proprietà "Id" e lo imposto su "v" 
-            // che è stato costruito precedentemente, utilizzando metodo Guid
-            
-            // v.Id = Guid.NewGuid();
 
             Console.Clear();
 
-            // Da qui inizio a chiedere all' utente di valorizzare le proprietà del venditore impostate in
-            // .Class.Venditori e le assegno a v da caricare in lista.
+            // Metodo vecchio Guid per l' autogenerazione dell' Id associato automaticamente
+
+            
+            
+
+
+            // Metodo per inseirmento progressivo Id, sulla tabella db l' Id è chiave primaria, ma come entity deve essere impostato su NO
+            // Se lo imposto YES eseguirà l'autoincrement
+
+            /* */
+
 
             Console.WriteLine();
             Console.WriteLine("-------------------------------------");
@@ -75,9 +75,19 @@ namespace VenditaAutoConcessionarioConsole.Methods
             v.OraInserimento = DateTime.Now.ToString();
 
 
-            // Aggiungo i valori delle proprietà alla lista Venditori, tramite metodo .Add
+            // Aggiungere a liste
+            // Aggiungo i valori delle proprietà alla lista Venditori, tramite metodo .Add. Devo passare l' oggetto che 
+            // contiene i dati 
+
+            // Liste.Venditori.Add(v);
+
+            /* Aggiunta dei dati su db tramite query. Costruisco un oggetto "database" di tipo ConnectionStringSql che poi estendo con il metodo
+               ExecuteQuery creato nella classe base */
 
             ConnectionStringSql dataBase = new ConnectionStringSql();
+
+            /* Uso l' oggetto costruito ed estendo con l' ExecuteNotQuery che serve per il CRUD e gli passo la query estratta direttamente
+               da SQL Management . Attenzione al $ per passare le variabili ed agli apici che sono comunque stringhe, ma necessrie a SQL */
 
             dataBase.ExecuteNotQuery($"INSERT INTO [dbo].[Venditori]([NomeVenditore]" +
            ",[CognomeVenditore]" +
@@ -97,13 +107,11 @@ namespace VenditaAutoConcessionarioConsole.Methods
            );
 
 
-
-            //Liste.Venditori.Add(v);
-
             Console.Clear();
 
 
             //Mostro ad output cosa ho inserito
+
             Console.WriteLine("");
             Console.WriteLine("---------------------------------------------------------------------------------------------------");
             Console.WriteLine($"- Hai inserito il venditore {v.NomeVenditore} - {v.CognomeVenditore} - Avente GuId - {v.Id} - ");
@@ -124,10 +132,29 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
         public static List<Venditori> ElencoVenditori()
         {
-            // Eseguo un ForEach per ciclare dalla lista i miei dati. A differenza del While che cicla un condizionale
-            // e For che cicla una index, questo comando è dedicato alle liste.
-            // Associa alla variabile "item", tramite il comando "in", la lista venditori e mostra in console cosa contengono
+            // Vecchio metodo per le Liste
+            /* Eseguo un ForEach per ciclare dalla lista i miei dati. A differenza del While che cicla un condizionale
+               e For che cicla una index, questo comando è dedicato alle liste.
+               Associa alla variabile "item", tramite il comando "in", la lista venditori e mostra in console cosa contengono */
 
+            //foreach (var item in Liste.Clienti)
+            //{
+
+            //    Console.WriteLine("");
+            //    Console.WriteLine(" --------------------------------------------------------------------------------------");
+            //    Console.WriteLine($"- I Clienti presenti sono :  Nome - {item.NomeCliente} | GuId - {item.Id}");
+            //    Console.WriteLine($"                             Telefono - {item.TelefonoCliente} | Mail - {item.MailCliente}");
+            //    Console.WriteLine($"                             Cliente Aggiunto il -  {item.OraInserimento}");
+            //    Console.WriteLine(" ---------------------------------------------------------------------------------------");
+            //    Console.WriteLine("");
+
+            //}
+
+            //return Liste.Clienti;
+
+
+            // Nuovo Metodo Lettura dal DB.
+            /*    */
             Console.Clear();
 
             ConnectionStringSql dataBase = new ConnectionStringSql();
