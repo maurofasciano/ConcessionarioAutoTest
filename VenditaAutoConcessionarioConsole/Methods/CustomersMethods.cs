@@ -225,22 +225,22 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
                 string idVenditore = Console.ReadLine();
 
-                bool value = Guid.TryParse(idVenditore, out Guid idVenditoreGuid);
+                //bool value = Guid.TryParse(idVenditore, out int idVenditoreGuid);
 
                 int index = -1;
 
-                if (value == true)
-                {
+                //if (value == true)
+                //{
 
-                    for (int i = 0; i < Liste.Venditori.Count; i++)
-                    {
-                        if (idVenditoreGuid == Liste.Venditori[i].Id)
-                        {
-                            index = i;
-                        }
+                //    for (int i = 0; i < Liste.Venditori.Count; i++)
+                //    {
+                //        if (idVenditoreGuid == Liste.Clienti[i].Id)
+                //        {
+                //            index = i;
+                //        }
 
-                    }
-                }
+                //    }
+                //}
 
                 switch (rispostaUtenteInt)
                 {

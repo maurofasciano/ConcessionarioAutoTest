@@ -9,7 +9,7 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
     public class ConnectionStringSql
     {
         public string connectionString = "Server=DAMAGE003\\SQLEXPRESS;Database=ConcessionarioAutoTest;User Id=faggiano;Password=cippi1;";
-
+        SqlConnection connection = null;
 
         public  string GetConnectionString()
         {
@@ -22,24 +22,27 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
 
         public SqlDataReader ExecuteQuerys(string query)
         {
-            using (SqlConnection connection = new SqlConnection(GetConnectionString()))
-            {
-                SqlCommand command = new SqlCommand(
-                query, connection);
-                connection.Open();
+            connection = new SqlConnection(GetConnectionString());
+            SqlCommand command = new SqlCommand(
+            query, connection);
+            connection.Open();
 
-                return command.ExecuteReader();
-            }
+            return command.ExecuteReader();
         }
 
         public void ExecuteNotQuery(string query)
         {
-            using (SqlConnection connection = new SqlConnection(GetConnectionString()))
+            using (connection = new SqlConnection(GetConnectionString()))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Connection.Open();
                 command.ExecuteNonQuery();
             }
+        }
+
+        public void ConnectionClose()
+        {
+            connection.Close();
         }
 
     }   

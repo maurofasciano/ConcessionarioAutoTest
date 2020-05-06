@@ -130,22 +130,48 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
             Console.Clear();
 
-            foreach (var item in Liste.Venditori)
-            {
+            ConnectionStringSql dataBase = new ConnectionStringSql();
+            using (var reader = dataBase.ExecuteQuerys(
+                @"SELECT [Id]
+                 ,[NomeVenditore]
+                 ,[CognomeVenditore]
+                 ,[TelefonoVenditore]
+                 ,[MailVenditore]
+                 ,[VenditoreAttivo]
+                 ,[OraInserimento]
+                FROM[dbo].[Venditori]"
 
-                
-                Console.WriteLine("");
-                Console.WriteLine(" --------------------------------------------------------------------------------------");
-                Console.WriteLine("");
-                Console.WriteLine($"I Venditori presenti in Lista sono :  Nome - {item.NomeVenditore} | GuId - {item.Id}");
-                Console.WriteLine($"                                      Telefono - {item.TelefonoVenditore} | Mail - {item.MailVenditore}");
-                Console.WriteLine($"                                      Venditore Aggiunto il -  {item.OraInserimento}");
-                Console.WriteLine(" ---------------------------------------------------------------------------------------");
-                Console.WriteLine("");
-                
-
+                ))
+            { 
+                while (reader.Read())
+                {
+                    Liste.Venditori.Add(new Venditori()
+                    {
+                        Id = Int32.Parse(reader["Id"].ToString()),
+                        NomeVenditore = reader["NomeVenditore"].ToString(),
+                        CognomeVenditore = reader["CognomeVenditore"].ToString(),
+                        TelefonoVenditore = reader["TelefonoVenditore"].ToString(),
+                        MailVenditore = reader["MailVenditore"].ToString(),
+                        VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString())
+                    });
+                }
             }
+            dataBase.ConnectionClose();
 
+            Console.WriteLine("");
+            Console.WriteLine(" --------------------------------------------------------------------------------------");
+            Console.WriteLine($"I Venditori presenti in Lista sono : ");
+            Console.WriteLine("");
+            foreach (var item in Liste.Venditori)
+            {         
+                Console.WriteLine("");
+                Console.WriteLine($"Nome - {item.NomeVenditore} | GuId - {item.Id}");
+                Console.WriteLine($"Telefono - {item.TelefonoVenditore} | Mail - {item.MailVenditore}");
+                Console.WriteLine($"Venditore Aggiunto il -  {item.OraInserimento}");
+                Console.WriteLine("");
+            }
+            Console.WriteLine(" ---------------------------------------------------------------------------------------");
+            Console.WriteLine("");
             return Liste.Venditori;
         }
 
@@ -262,7 +288,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 Console.WriteLine("Inserisci L' id venditore");
                 string idVenditore = Console.ReadLine();
 
-                bool value = Guid.TryParse(idVenditore, out Guid idVenditoreGuid);
+                bool value = Int32.TryParse(idVenditore, out int idVenditoreGuid);
 
                 int index = -1;
 
@@ -380,7 +406,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
         public static void CicloRicercaVenditoreId()
         {
             string idVenditore = Console.ReadLine();
-            bool value = Guid.TryParse(idVenditore, out Guid idVenditoreGuid);
+            bool value = Int32.TryParse(idVenditore, out int idVenditoreGuid);
             if (value == true)
             {
 

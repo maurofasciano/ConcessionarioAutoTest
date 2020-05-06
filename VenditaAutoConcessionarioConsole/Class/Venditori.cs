@@ -8,7 +8,7 @@ namespace VenditaAutoConcessionarioConsole.Class
     {
         // imposto le proprietà delle variabili
         // Il nome delle proprietà va in maiuscolo per convenzione
-        public Guid Id { set; get; }
+        public int Id { set; get; }
         public string NomeVenditore { get; set; }
         public string CognomeVenditore { get; set; }
         public string TelefonoVenditore { get; set; }
@@ -20,7 +20,7 @@ namespace VenditaAutoConcessionarioConsole.Class
         // Costruttore dei parametri, potrei anche omettere il this.
         // Passo i parametri dell' oggetto Venditori che di tipo lista, poi li costruisco associandoli alle proprietà
         // Or posso usare i parametri epr ottenere i valori da mettere in lista
-        public Venditori(Guid id, string nomevenditore, string telefonovenditore,string mailvenditore, bool venditoreattivo, string orainserimento )
+        public Venditori(int id, string nomevenditore, string telefonovenditore,string mailvenditore, bool venditoreattivo, string orainserimento )
         {
             this.Id = id;
             this.NomeVenditore = nomevenditore;
