@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using VenditaAutoConcessionarioConsole.Class;
 using VenditaAutoConcessionarioConsole.Class.Base;
@@ -24,15 +25,29 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
             // Metodo vecchio Guid per l' autogenerazione dell' Id associato automaticamente
 
-            
-            
+            /* v.Id = Guid(); */
+
+            // Metodo nuovo per inseirmento progressivo Id, sulla tabella db l' Id è chiave primaria, ma come entity deve essere impostato su NO
+            // Se lo imposto YES eseguirà l'autoincrement. In questo esercizio eseguo l' inserimento Id manuale
+
+            /* Apro la connessione ed inserisco una query per determinare il MaxId al posto di leggere, butare in lista e poi estrarre il dato */
+
+            ConnectionStringSql dataBase = new ConnectionStringSql();
+
+            int maxId = 0;
+            using (var reader = dataBase.ExecuteQuerys("select max(Id) as maxId from Venditori"))
+            {
 
 
-            // Metodo per inseirmento progressivo Id, sulla tabella db l' Id è chiave primaria, ma come entity deve essere impostato su NO
-            // Se lo imposto YES eseguirà l'autoincrement
+                while (reader.Read())
+                {
+                    maxId = Int32.Parse(reader["maxId"].ToString());
+                }
 
-            /* */
+                // v.Id = maxId + 1;
+            }
 
+            v.Id = maxId + 1;
 
             Console.WriteLine();
             Console.WriteLine("-------------------------------------");
@@ -76,15 +91,14 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
 
             // Aggiungere a liste
-            // Aggiungo i valori delle proprietà alla lista Venditori, tramite metodo .Add. Devo passare l' oggetto che 
-            // contiene i dati 
+            // Aggiungo i valori delle proprietà alla lista Venditori, tramite metodo .Add. Devo passare l' oggetto che contiene i dati 
 
             // Liste.Venditori.Add(v);
 
             /* Aggiunta dei dati su db tramite query. Costruisco un oggetto "database" di tipo ConnectionStringSql che poi estendo con il metodo
                ExecuteQuery creato nella classe base */
 
-            ConnectionStringSql dataBase = new ConnectionStringSql();
+            // Commento la riga in quanto la funzione "ConnectionStringSql dataBase = new ConnectionStringSql();" è già dichiarata sopra
 
             /* Uso l' oggetto costruito ed estendo con l' ExecuteNotQuery che serve per il CRUD e gli passo la query estratta direttamente
                da SQL Management . Attenzione al $ per passare le variabili ed agli apici che sono comunque stringhe, ma necessrie a SQL */
@@ -151,13 +165,19 @@ namespace VenditaAutoConcessionarioConsole.Methods
             //}
 
             //return Liste.Clienti;
-
-
-            // Nuovo Metodo Lettura dal DB.
-            /*    */
+            
             Console.Clear();
 
+            // Nuovo Metodo Lettura dal DB.
+            /* Creo sempre un oggetto "database" di tipo Connectionstring, in modo da legare la connessione, ma utilizzo l' "using"
+               altrimenti, se utilizzassi solo l' oggetto SqlDataReade che è nella classe connessioni, dato che mi torna la connessione,
+               me la chiuderebbe prima di eseguire la lettura dati */
+
+
             ConnectionStringSql dataBase = new ConnectionStringSql();
+
+            /* Creo una variabile Reference Type "reader" che dopo userò nel ciclo  */
+
             using (var reader = dataBase.ExecuteQuerys(
                 @"SELECT [Id]
                  ,[NomeVenditore]
