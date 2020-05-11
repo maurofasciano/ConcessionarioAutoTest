@@ -38,6 +38,7 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
                 command.Connection.Open();
                 command.ExecuteNonQuery();
             }
+
         }
 
         public void ConnectionClose()

@@ -190,8 +190,10 @@ namespace VenditaAutoConcessionarioConsole.Methods
             /* Eseguo il comando "using" (di tipo IDisposable) e gli passo la variabile "reader" contenente l' oggetto
                dataBase con il metodo ExecuteQuerys che contiene la query di lettura */
 
+            CIAO 
+
             using (var reader = dataBase.ExecuteQuerys(
-                @"SELECT [Id]
+                @"SELECT [Id] 
                  ,[NomeVenditore]
                  ,[CognomeVenditore]
                  ,[TelefonoVenditore]
@@ -201,6 +203,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 FROM[dbo].[Venditori]"
 
                 ))
+
             // {
                 /* Esco dal task ed eseguo un while per andare a riepire la lista da stampare a schermo.
                    Gli passo "reader" con il motodo .Read() e gli faccio richiamare il metodo .Add */ 
@@ -246,12 +249,16 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
         public static void CicloRicercaVenditoreId()
         {
-            string idVenditore = Console.ReadLine();
-            bool value = Int32.TryParse(idVenditore, out int idVenditoreGuid);
+            string datiVenditore = Console.ReadLine();
+            bool value = Int32.TryParse(datiVenditore, out int idVenditoreId);
             if (value == true)
             {
+                ConnectionStringSql dataBase = new ConnectionStringSql();
 
-                int index = -1;
+                while()
+
+                 // Vecchio metodo con Lista
+                 /*int index = -1;
 
                 for (int i = 0; i < Liste.Venditori.Count; i++)
                 {
@@ -264,7 +271,8 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 if (index >= 0)
                 {
 
-                }
+                } */
+              
             }
         }
 
