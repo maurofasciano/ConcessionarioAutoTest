@@ -8,5 +8,6 @@ namespace VenditaAutoConcessionarioConsole.Models.Interfaces
     {
         string NomeCasa { get; }
         string Modello { get; }
+        string nTelaio { get; } 
     }
 }   

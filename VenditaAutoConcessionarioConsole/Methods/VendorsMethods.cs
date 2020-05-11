@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Net.Mail;
 using System.Text;
 using VenditaAutoConcessionarioConsole.Class;
 using VenditaAutoConcessionarioConsole.Class.Base;
@@ -211,10 +212,10 @@ namespace VenditaAutoConcessionarioConsole.Methods
                         Id = Int32.Parse(reader["Id"].ToString()),
                         NomeVenditore = reader["NomeVenditore"].ToString(),
                         CognomeVenditore = reader["CognomeVenditore"].ToString(),
-                        TelefonoVenditore = reader["TelefonoVenditore"].ToString(),
+                        TelefonoVenditore = reader["TelefonoVenditore"].ToString(),                        
                         MailVenditore = reader["MailVenditore"].ToString(),
-                        VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString(),
-                        OraInserimento = reader["OraInserimento"])
+                        VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString()),
+                        OraInserimento = reader["MailVenditore"].ToString()
                     });
                 }
             // }
