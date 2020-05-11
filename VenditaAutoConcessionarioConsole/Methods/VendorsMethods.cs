@@ -32,21 +32,30 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
             /* Apro la connessione ed inserisco una query per determinare il MaxId al posto di leggere, butare in lista e poi estrarre il dato */
 
+            /* Genero prima l' oggetto "dataBase" di tipo ConnectionStringSql, che è il metodo che contiene la 
+               ConnectionString. Essendo nel metodo di classe, verrà istanziato anche per le altre queries */
+
             ConnectionStringSql dataBase = new ConnectionStringSql();
 
+            /* Imposto la variabile maxId su 0 */
             int maxId = 0;
-            using (var reader = dataBase.ExecuteQuerys("select max(Id) as maxId from Venditori"))
+            /* Utilizzo il comando "using" (che estende Idisposable, quindi brasabile dalla GarbageCollection)
+               e gli passo la variabile reference type "reader" associandogli : 
+               - L' oggetto DataBase
+               - Il metodo ExecuteQuery
+               - La query di Sql che determina il maxId del campo Id */
+            using (var reader = dataBase.ExecuteQuerys("select ISNULL(max(Id),0) as maxId from Venditori"))
             {
-
-
+                /*Eseguo il ciclo while passandogli la variabile "reader" con il metodo "Read" di Sql
+                  Poi trasformo l' int maxId che contiene ora il valore rilevato in .ToString.
+                  Questo perchè reader è di tipo Object e non è possibile convertirlo direttaemnte*/
                 while (reader.Read())
                 {
                     maxId = Int32.Parse(reader["maxId"].ToString());
                 }
-
-                // v.Id = maxId + 1;
             }
 
+            /* Estratto il massimo valore, aggiungo +1 e lo lego alla variabile Id di tipo "V" */
             v.Id = maxId + 1;
 
             Console.WriteLine();
@@ -82,28 +91,29 @@ namespace VenditaAutoConcessionarioConsole.Methods
             v.MailVenditore = Console.ReadLine();
 
 
-            // Un venditore è di default attivo, poi dovrò inabilitarlo creando un metodo apposito
+            /* Un venditore è di default attivo, poi dovrò inabilitarlo creando un metodo apposito */
             v.VenditoreAttivo = true;
 
 
-            // Aggiunto metodo per inserimento ora di registrazione
+            /* Aggiunto metodo per inserimento ora di registrazione */
             v.OraInserimento = DateTime.Now.ToString();
 
+            // Vecchio Metodo di aggiunta alle liste
+            /*--------------------------------------------------------------------------------
+             Aggiungere a liste
+               Aggiungo i valori delle proprietà alla lista Venditori, tramite metodo .Add. Devo passare l' oggetto che contiene i dati 
 
-            // Aggiungere a liste
-            // Aggiungo i valori delle proprietà alla lista Venditori, tramite metodo .Add. Devo passare l' oggetto che contiene i dati 
+               Liste.Venditori.Add(v); 
+               -------------------------------------------------------------------------------- */
 
-            // Liste.Venditori.Add(v);
+            // Nuovo Metodo :  Aggiunta dei dati su db tramite query.
 
-            /* Aggiunta dei dati su db tramite query. Costruisco un oggetto "database" di tipo ConnectionStringSql che poi estendo con il metodo
-               ExecuteQuery creato nella classe base */
+            /* Uso l' oggetto costruito "dataBase", estendo di tipo ExecuteNotQuery (che serve per il CRUD)  gli passo la query estratta direttamente
+               da SQL Management . Attenzione al $ per passare le variabili ed agli apici che sono comunque stringhe, ma necessrie a SQL 
+               Nota : Per generare la query da Sql fare = Tasto DX su tabella, Crea Script Tabella */
 
-            // Commento la riga in quanto la funzione "ConnectionStringSql dataBase = new ConnectionStringSql();" è già dichiarata sopra
-
-            /* Uso l' oggetto costruito ed estendo con l' ExecuteNotQuery che serve per il CRUD e gli passo la query estratta direttamente
-               da SQL Management . Attenzione al $ per passare le variabili ed agli apici che sono comunque stringhe, ma necessrie a SQL */
-
-            dataBase.ExecuteNotQuery($"INSERT INTO [dbo].[Venditori]([NomeVenditore]" +
+            dataBase.ExecuteNotQuery($"INSERT INTO [dbo].[Venditori]([Id]" +
+           ",[NomeVenditore]" + 
            ",[CognomeVenditore]" +
            ",[TelefonoVenditore]" +
            ",[MailVenditore]" +
@@ -111,6 +121,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
            ",[OraInserimento])" +
             "VALUES" +
            "(" +
+           $" {v.Id} ," +
            $"'{v.NomeVenditore}'," +
            $"'{v.CognomeVenditore}'," +
            $"'{v.TelefonoVenditore}'," +
@@ -124,11 +135,11 @@ namespace VenditaAutoConcessionarioConsole.Methods
             Console.Clear();
 
 
-            //Mostro ad output cosa ho inserito
+            /* Mostro ad output cosa ho inserito */
 
             Console.WriteLine("");
             Console.WriteLine("---------------------------------------------------------------------------------------------------");
-            Console.WriteLine($"- Hai inserito il venditore {v.NomeVenditore} - {v.CognomeVenditore} - Avente GuId - {v.Id} - ");
+            Console.WriteLine($"- Hai inserito il venditore {v.NomeVenditore} - {v.CognomeVenditore} - Avente Id - {v.Id} - ");
             Console.WriteLine($"- Il telefono è : {v.TelefonoVenditore} - La sua mail è : {v.MailVenditore}");
             Console.WriteLine($"- Il Venditore è attivo dal : {v.OraInserimento}");
             Console.WriteLine("---------------------------------------------------------------------------------------------------");
@@ -136,8 +147,8 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
 
 
-            // Deve tornarmi qualcosa, che sono i dati del venditore, dato che il metodo non è Void
-            // In questo caso i dati sono nell' oggetto "v" che contiene "Id, Nome, Cosgnome, telefono e mail"
+            /* Deve tornarmi qualcosa, che sono i dati del venditore, dato che il metodo non è Void
+               In questo caso i dati sono nell' oggetto "v" che contiene "Id, Nome, Cosgnome, telefono e mail" */
 
             return v;
 
@@ -149,34 +160,34 @@ namespace VenditaAutoConcessionarioConsole.Methods
             // Vecchio metodo per le Liste
             /* Eseguo un ForEach per ciclare dalla lista i miei dati. A differenza del While che cicla un condizionale
                e For che cicla una index, questo comando è dedicato alle liste.
-               Associa alla variabile "item", tramite il comando "in", la lista venditori e mostra in console cosa contengono */
+               Associa alla variabile "item", tramite il comando "in", la lista venditori e mostra in console cosa contengono
 
-            //foreach (var item in Liste.Clienti)
-            //{
+            foreach (var item in Liste.Clienti)
+            {
 
-            //    Console.WriteLine("");
-            //    Console.WriteLine(" --------------------------------------------------------------------------------------");
-            //    Console.WriteLine($"- I Clienti presenti sono :  Nome - {item.NomeCliente} | GuId - {item.Id}");
-            //    Console.WriteLine($"                             Telefono - {item.TelefonoCliente} | Mail - {item.MailCliente}");
-            //    Console.WriteLine($"                             Cliente Aggiunto il -  {item.OraInserimento}");
-            //    Console.WriteLine(" ---------------------------------------------------------------------------------------");
-            //    Console.WriteLine("");
+                Console.WriteLine("");
+                Console.WriteLine(" --------------------------------------------------------------------------------------");
+                Console.WriteLine($"- I Clienti presenti sono :  Nome - {item.NomeCliente} | GuId - {item.Id}");
+                Console.WriteLine($"                             Telefono - {item.TelefonoCliente} | Mail - {item.MailCliente}");
+                Console.WriteLine($"                             Cliente Aggiunto il -  {item.OraInserimento}");
+                Console.WriteLine(" ---------------------------------------------------------------------------------------");
+                Console.WriteLine("");
 
-            //}
+            }
 
-            //return Liste.Clienti;
-            
+            return Liste.Clienti; */
+
             Console.Clear();
 
             // Nuovo Metodo Lettura dal DB.
             /* Creo sempre un oggetto "database" di tipo Connectionstring, in modo da legare la connessione, ma utilizzo l' "using"
-               altrimenti, se utilizzassi solo l' oggetto SqlDataReade che è nella classe connessioni, dato che mi torna la connessione,
+               altrimenti, se utilizzassi solo l' oggetto SqlDataReader, che è nella classe connessioni, dato che mi torna la connessione stessa,
                me la chiuderebbe prima di eseguire la lettura dati */
-
 
             ConnectionStringSql dataBase = new ConnectionStringSql();
 
-            /* Creo una variabile Reference Type "reader" che dopo userò nel ciclo  */
+            /* Eseguo il comando "using" (di tipo IDisposable) e gli passo la variabile "reader" contenente l' oggetto
+               dataBase con il metodo ExecuteQuerys che contiene la query di lettura */
 
             using (var reader = dataBase.ExecuteQuerys(
                 @"SELECT [Id]
@@ -189,9 +200,12 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 FROM[dbo].[Venditori]"
 
                 ))
-            { 
+            // {
+                /* Esco dal task ed eseguo un while per andare a riepire la lista da stampare a schermo.
+                   Gli passo "reader" con il motodo .Read() e gli faccio richiamare il metodo .Add */ 
                 while (reader.Read())
                 {
+                    /* Passo una nuova istanza della classe Venditori ed eseguo i tryparse per la conversione in stringa */
                     Liste.Venditori.Add(new Venditori()
                     {
                         Id = Int32.Parse(reader["Id"].ToString()),
@@ -199,16 +213,22 @@ namespace VenditaAutoConcessionarioConsole.Methods
                         CognomeVenditore = reader["CognomeVenditore"].ToString(),
                         TelefonoVenditore = reader["TelefonoVenditore"].ToString(),
                         MailVenditore = reader["MailVenditore"].ToString(),
-                        VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString())
+                        VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString(),
+                        OraInserimento = reader["OraInserimento"])
                     });
                 }
-            }
+            // }
+
+            /* Ora posso chiudere la connessione con il metodo ConnectionClose */
             dataBase.ConnectionClose();
 
+            /* Modificato OutPut in modo da avere solo una lista che segue la frase I Venditori presenti in Lista sono */
             Console.WriteLine("");
             Console.WriteLine(" --------------------------------------------------------------------------------------");
             Console.WriteLine($"I Venditori presenti in Lista sono : ");
             Console.WriteLine("");
+
+            /* Inserisco tutto l' output nel foreach per implementare quanto scelto sopra */
             foreach (var item in Liste.Venditori)
             {         
                 Console.WriteLine("");
@@ -219,7 +239,32 @@ namespace VenditaAutoConcessionarioConsole.Methods
             }
             Console.WriteLine(" ---------------------------------------------------------------------------------------");
             Console.WriteLine("");
+
             return Liste.Venditori;
+        }
+
+        public static void CicloRicercaVenditoreId()
+        {
+            string idVenditore = Console.ReadLine();
+            bool value = Int32.TryParse(idVenditore, out int idVenditoreGuid);
+            if (value == true)
+            {
+
+                int index = -1;
+
+                for (int i = 0; i < Liste.Venditori.Count; i++)
+                {
+                    if (idVenditoreGuid == Liste.Venditori[i].Id)
+                    {
+                        index = i;
+                    }
+
+                }
+                if (index >= 0)
+                {
+
+                }
+            }
         }
 
         public static void VerificaListaVenditori()
@@ -448,30 +493,6 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 
                
             }   
-        }
-
-        public static void CicloRicercaVenditoreId()
-        {
-            string idVenditore = Console.ReadLine();
-            bool value = Int32.TryParse(idVenditore, out int idVenditoreGuid);
-            if (value == true)
-            {
-
-                int index = -1;
-
-                for (int i = 0; i < Liste.Venditori.Count; i++)
-                {
-                    if (idVenditoreGuid == Liste.Venditori[i].Id)
-                    {
-                        index = i;
-                    }
-
-                }
-                if (index >= 0)
-                {
-                    
-                }
-            }
         }
 
         public static void RimuoviVenditore()
