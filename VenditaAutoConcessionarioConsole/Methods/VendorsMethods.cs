@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.Design;
 using System.Net.Mail;
 using System.Text;
+using System.Xml.Linq;
 using VenditaAutoConcessionarioConsole.Class;
 using VenditaAutoConcessionarioConsole.Class.Base;
 using VenditaAutoConcessionarioConsole.Class.Liste;
@@ -190,8 +192,6 @@ namespace VenditaAutoConcessionarioConsole.Methods
             /* Eseguo il comando "using" (di tipo IDisposable) e gli passo la variabile "reader" contenente l' oggetto
                dataBase con il metodo ExecuteQuerys che contiene la query di lettura */
 
-            CIAO 
-
             using (var reader = dataBase.ExecuteQuerys(
                 @"SELECT [Id] 
                  ,[NomeVenditore]
@@ -200,12 +200,14 @@ namespace VenditaAutoConcessionarioConsole.Methods
                  ,[MailVenditore]
                  ,[VenditoreAttivo]
                  ,[OraInserimento]
-                FROM[dbo].[Venditori]"
-
+                FROM[dbo].[Venditori]
+                order by Id"
                 ))
 
+
+
             // {
-                /* Esco dal task ed eseguo un while per andare a riepire la lista da stampare a schermo.
+                /* Esco dal task ed eseguo un while per andare a riempire la lista da stampare a schermo.
                    Gli passo "reader" con il motodo .Read() e gli faccio richiamare il metodo .Add */ 
                 while (reader.Read())
                 {
@@ -218,7 +220,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
                         TelefonoVenditore = reader["TelefonoVenditore"].ToString(),                        
                         MailVenditore = reader["MailVenditore"].ToString(),
                         VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString()),
-                        OraInserimento = reader["MailVenditore"].ToString()
+                        OraInserimento = reader["OraInserimento"].ToString()
                     });
                 }
             // }
@@ -236,9 +238,9 @@ namespace VenditaAutoConcessionarioConsole.Methods
             foreach (var item in Liste.Venditori)
             {         
                 Console.WriteLine("");
-                Console.WriteLine($"Nome - {item.NomeVenditore} | GuId - {item.Id}");
+                Console.WriteLine($"Id - {item.Id} | Nome - {item.NomeVenditore} |  Cognome  -  {item.CognomeVenditore} ");
                 Console.WriteLine($"Telefono - {item.TelefonoVenditore} | Mail - {item.MailVenditore}");
-                Console.WriteLine($"Venditore Aggiunto il -  {item.OraInserimento}");
+                Console.WriteLine($"Venditore Aggiunto il -  {item.OraInserimento}  |  Il Venditore è {item.VenditoreAttivo} ");                
                 Console.WriteLine("");
             }
             Console.WriteLine(" ---------------------------------------------------------------------------------------");
@@ -247,22 +249,27 @@ namespace VenditaAutoConcessionarioConsole.Methods
             return Liste.Venditori;
         }
 
-        public static void CicloRicercaVenditoreId()
+        public static void RicercaVenditore()
         {
-            string datiVenditore = Console.ReadLine();
-            bool value = Int32.TryParse(datiVenditore, out int idVenditoreId);
+            // Vecchio metodo con Lista
+
+            /* string nomeCognomeVenditore;
+            
+            Console.WriteLine("------------------------------------------------");
+            Console.WriteLine("------------ Ricerca Id Venditore --------------");
+            Console.WriteLine("------------------------------------------------");
+            Console.WriteLine("");
+
+
+            nomeCognomeVenditore = Console.ReadLine();
+            bool value = Int32.TryParse(nomeCognomeVenditore, out int idVenditoreId);
             if (value == true)
             {
-                ConnectionStringSql dataBase = new ConnectionStringSql();
-
-                while()
-
-                 // Vecchio metodo con Lista
-                 /*int index = -1;
+                int index = -1;
 
                 for (int i = 0; i < Liste.Venditori.Count; i++)
                 {
-                    if (idVenditoreGuid == Liste.Venditori[i].Id)
+                    // if (idVenditoreGuid == Liste.Venditori[i].Id)
                     {
                         index = i;
                     }
@@ -271,86 +278,57 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 if (index >= 0)
                 {
 
-                } */
-              
-            }
-        }
+                } 
+            }  */
 
-        public static void VerificaListaVenditori()
-        {
-            // Genero il metodo di verifica presenza del Venditore
-            // Imposto le variabili da richiamare per i confronti
-
-            string nomevenditore = "";
-            // string cognomevenditore = "";
+            // Nuovo Metodo con Sql
+           
+            string nomeVenditore;
 
             Console.Clear();
 
-            Console.WriteLine();
-            Console.WriteLine("----------------------------------------------------------------");
-            Console.WriteLine("- Inserisci il Nome od il Cognome del Venditore per la ricerca -");
-            Console.WriteLine("-------------- (Restituisce le Proprietà) ----------------------");
-            Console.WriteLine("----------------------------------------------------------------");
-            Console.WriteLine();
+            Console.WriteLine("---------------------------------------------------");
+            Console.WriteLine("--------------- Ricerca Venditore -----------------");
+            Console.WriteLine("---------------------------------------------------");
+            Console.WriteLine("");
+            Console.WriteLine("---------------------------------------------------");
+            Console.WriteLine("--------- Inserisci Cognome Per la ricerca --------");
+            Console.WriteLine("--------------- (Verifica Id) ---------------------");
+            Console.WriteLine("---------------------------------------------------");
 
-            nomevenditore = Console.ReadLine();
-            // cognomevenditore = Console.ReadLine();
 
-            // Genero le variabili da utilizzare nella condizionale successiva
-            string risultatoPositivo = "Il Venditore {0} è presente - Avente GuId {1} - " +
-                "                       Il Cognome è {2} - Il Telefono è {3} - La Mail è {4}" +
-                "                       E' attivo dal {5}";
-            string risultatoNegativoNome = $"Il Venditore ''{nomevenditore}'' non è presente nella Lista";
-            // string risultatoNegativoCognome = $"Il Venditore ''{cognomevenditore}'' non è presente nella Lista ";
+            nomeVenditore = Console.ReadLine();
 
-            // Imposto Lettura ciclo : Ho un intero a -1, verifico che sia minore del conteggio della lista
-            // e nel caso questo sia true, aggiungo 1
-            // Definizione di For : https://docs.microsoft.com/it-it/dotnet/csharp/language-reference/keywords/for
+            ConnectionStringSql dataBase = new ConnectionStringSql();
 
-            // Ciclo For con indice
-            int index = -1;
 
-            for (int i = 0; i < Liste.Venditori.Count; i++)
+            using (var reader = dataBase.ExecuteQuerys(
+                @"SELECT [Id]
+                ,[NomeVenditore]
+                ,[CognomeVenditore] 
+                ,[TelefonoVenditore]
+                ,[MailVenditore]
+                ,[VenditoreAttivo]
+                ,[OraInserimento]
+                FROM [dbo].[Venditori]
+                WHERE CognomeVenditore = '" + nomeVenditore + "'"))
+
             {
-                // Lancio la condizione, che dice : Se Id è uguale ad "i" (ora maggiorato) leggendo l' "Id"
-                // della lista Venditori e "NomeVenditore" è positivo anch' esso, esegue il prossimo blocco istruzioni
-                // if (Id.ToString() == Liste.Venditori[i].Id.ToString() && NomeVenditore == Liste.Venditori[i].NomeVenditore)
-
-                //idVenditore = Liste.Venditori[i].Id.ToString();
-
-                if (nomevenditore == Liste.Venditori[i].NomeVenditore || nomevenditore == Liste.Venditori[i].CognomeVenditore)
-
+                while (reader.Read())
                 {
-                    index = i;
-                    //// Visualizza risultatoPositivo ed interrompe il ciclo
-                    //Console.WriteLine(risultatoPositivo); 
+                    Console.WriteLine("");
+                    Console.WriteLine("I Venditori trovati con quasto nome sono : ");
+
+                        Console.WriteLine("");
+                        Console.WriteLine($"Nome - " +  reader["NomeVenditore"].ToString() + " | Cognome - " + reader["CognomeVenditore"].ToString());
+                        Console.WriteLine($"Mail - " + reader["MailVenditore"].ToString() + " | Telefono - " + reader["TelefonoVenditore"].ToString());
+                        Console.WriteLine($"Avente Id - " + reader["Id"].ToString() + " | Il Venditore è - " + reader["VenditoreAttivo"]);
+                        Console.WriteLine($"Dalla Data - " + reader["OraInserimento"]);
+                        Console.WriteLine("");
+                   
                 }
 
             }
-
-
-
-            if (index >= 0)
-            {
-                Console.Clear();
-
-                // Le liste sono contenitori di dati e la posizone progressiva delle proprietà dei dati
-                // è la Index. Il dato cercato viene confrontato ogni index e se l' associaazione è trovata, mostra il risultato
-                // Utilizzo metodo String.format per rappresentare i dati
-
-                Console.WriteLine("---------------------------------------------------------");
-                Console.WriteLine(String.Format(risultatoPositivo, Liste.Venditori[index].NomeVenditore, Liste.Venditori[index].Id, Liste.Venditori[index].CognomeVenditore, Liste.Venditori[index].TelefonoVenditore, Liste.Venditori[index].MailVenditore, Liste.Venditori[index].OraInserimento));
-                Console.WriteLine("----------------------------------------------------------");
-            }
-            // Oppure Visualizza il valore di risultatoNegativo
-            else
-            {
-                Console.WriteLine("---------------------------------------------------------");
-                Console.WriteLine(risultatoNegativoNome); //risultatoNegativoCognome
-                Console.WriteLine("---------------------------------------------------------");
-            }
-
-
 
         }
 
@@ -359,21 +337,25 @@ namespace VenditaAutoConcessionarioConsole.Methods
             
 
             // Poteva anche essere senza passBlock e con while(true)
-            bool passCodeBlock = true;
-            while (passCodeBlock)
+            // bool passCodeBlock = true;
+            Console.Clear();
+            while (true)
             {
                 Console.WriteLine("");
-                Console.WriteLine("------------------------------------------------");
-                Console.WriteLine("1) ---- Esegui Metodo Modifica Venditore -------");   
-                Console.WriteLine("2) -- Ricerca Id Venditore per Nome o Cognome --");
-                Console.WriteLine("------------------------------------------------");
+                Console.WriteLine("------------------------------------------------------");
+                Console.WriteLine("1) --- Esegui Metodo Modifica Venditore tramite Id ---");
+                Console.WriteLine("2) ------- Ricerca Id Venditore per Cognome  ---------");
+                Console.WriteLine("3) ------------ Torna al Menu Venditori  -------------");
+                Console.WriteLine("------------------------------------------------------");
                 Console.WriteLine("");
 
                 string risposta = Console.ReadLine();
                 bool rispostaUtente = int.TryParse(risposta, out int rispostaUtenteInt);
 
+                
+
                 Console.Clear();
-              
+
                 if (rispostaUtente == false)
                 {
                     Console.Clear();
@@ -386,15 +368,17 @@ namespace VenditaAutoConcessionarioConsole.Methods
                     continue;
                 }
 
-                Console.WriteLine("Inserisci L' id venditore");
-                string idVenditore = Console.ReadLine();
 
-                bool value = Int32.TryParse(idVenditore, out int idVenditoreGuid);
+                // Vecchio Metodo 
+                /* Console.WriteLine("Inserisci L' id venditore");
+                   string idVenditore = "v";
 
-                int index = -1;
+                   bool value = Int32.TryParse(idVenditore, out int idVenditoreGuid);
 
-                if (value == true)
-                {
+                  int index = -1;
+
+                  if (value == true)
+                  {
 
                     for (int i = 0; i < Liste.Venditori.Count; i++)
                     {
@@ -404,104 +388,222 @@ namespace VenditaAutoConcessionarioConsole.Methods
                         }
 
                     }
-                }
+                } */
 
+                // Venditori v = new Venditori();
 
+                // string idVenditore = string.Empty;
 
-                    switch (rispostaUtenteInt)
+                Venditori v = new Venditori();
+                
+                string idVenditore = string.Empty;
+
+                ConnectionStringSql dataBase = new ConnectionStringSql();
+
+                using (var reader = dataBase.ExecuteQuerys(
+ @"SELECT [Id] 
+                        ,[NomeVenditore]
+                        ,[CognomeVenditore]
+                        ,[TelefonoVenditore]
+                        ,[MailVenditore]
+                        ,[VenditoreAttivo]
+                        ,[OraInserimento]
+                         FROM[dbo].[Venditori]
+                         WHERE [Id] = " + idVenditore))
+
+                    while (reader.Read())
                     {
+
+                        v.Id = Int32.Parse(reader["Id"].ToString());
+                        v.NomeVenditore = reader["NomeVenditore"].ToString();
+                        v.CognomeVenditore = reader["CognomeVenditore"].ToString();
+                        v.TelefonoVenditore = reader["TelefonoVenditore"].ToString();
+                        v.MailVenditore = reader["MailVenditore"].ToString();
+                        v.VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString());
+                        v.OraInserimento = reader["OraInserimento"].ToString();
+                    }
+
+
+
+                switch (rispostaUtenteInt)
+                {
                     case 1:
+
+                        Console.WriteLine();
+                        Console.WriteLine("---------------------------------------------------");
+                        Console.WriteLine("--- Inserisci l' Id del Venditore da modificare ---");
+                        Console.WriteLine("---------------------------------------------------");
+
+                        idVenditore = Console.ReadLine();
+
+ 
+
+                        Console.Clear();
+
                         Console.WriteLine();
                         Console.WriteLine("---------------------------------------------------");
                         Console.WriteLine("- Seleziona ciò che vuoi modificare del Venditore -");
-                        Console.WriteLine("-------- (Ricerca Tramite Id Venditore) -----------");
+                        Console.WriteLine("------------- (Seleione tramite Id) ---------------");
                         Console.WriteLine("---------------------------------------------------");
 
-                        
 
                         Console.WriteLine("1) Modifica il Nome");
                         Console.WriteLine("2) Modifica il Cognome");
                         Console.WriteLine("3) Modifica il Telefono");
                         Console.WriteLine("4) Modificala la Mail");
-                        Console.WriteLine("5) Torna al Menu precedente");
+                        Console.WriteLine("5) Modifica abilitazione Venditore");
 
 
                         string selezioneUtente = Console.ReadLine();
-                        bool selectUtente = int.TryParse(selezioneUtente, out int selectUtenteInt);
+                        int.TryParse(selezioneUtente, out int selectUtenteInt);
 
-                        
 
-                       
+                        switch (selectUtenteInt)
+                        {
 
-                            switch (selectUtenteInt)
-                            {
-                                case 1:
+                            case 1:
 
-                                    if (index >= 0)
-                                    {
-                                        Console.WriteLine("Inserisci l' Id del Venditore da Modificare");
-                                        
-                                        Console.WriteLine("Inserisci il nuovo Nome del Venditore");
-                                        // Inserime valore con vaviabile dichiarata vuota : string nuovoNome = Console.ReadLine();
-                                        // Oppure come segue : 
-                                        Liste.Venditori[index].NomeVenditore = Console.ReadLine();
-                                    }
-                                    break;
+                                // Vecchio Metodo
+                                /* if (index >= 0)
+                                {
+                                    Console.WriteLine("Inserisci l' Id del Venditore da Modificare");
 
-                                case 2:
-                                    if (index >= 0)
-                                    {
-                                        Console.WriteLine("Inserisci il nuovo Cognome del Venditore");
-                                        // Inserime valore con vaviabile dichiarata vuota : string nuovoCognome = Console.ReadLine();
-                                        // Oppure come segue : 
-                                        Liste.Venditori[index].CognomeVenditore = Console.ReadLine();
-                                    }
-                                    break;
+                                    Console.WriteLine("Inserisci il nuovo Nome del Venditore");
+                                    // Inserime valore con vaviabile dichiarata vuota : string nuovoNome = Console.ReadLine();
+                                    // Oppure come segue : 
+                                    Liste.Venditori[index].NomeVenditore = Console.ReadLine();
+                                } */
 
-                                case 3:
-                                    if (index >= 0)
-                                    {
-                                        Console.WriteLine("Inserisci il nuovo Telefono del Venditore");
-                                        Liste.Venditori[index].TelefonoVenditore = Console.ReadLine();
-                                    }
-                                    break;
+                                // Nuovo Metodo con Sql
+                                Console.WriteLine(" ------------------------------------------");
+                                Console.WriteLine(" - Inserisci il nuovo Nome del Venditore - ");
+                                Console.WriteLine(" ------------------------------------------");
+                                v.NomeVenditore = Console.ReadLine();
 
-                                case 4:
-                                    if (index >= 0)
-                                    {
-                                        Console.WriteLine("Inserisci la nuova mail del Venditore");
+                                break;
+
+                            case 2:
+                                /* if (index >= 0)
+                                {
+                                    Console.WriteLine("Inserisci il nuovo Cognome del Venditore");
+                                    // Inserime valore con vaviabile dichiarata vuota : string nuovoCognome = Console.ReadLine();
+                                    // Oppure come segue : 
+                                    Liste.Venditori[index].CognomeVenditore = Console.ReadLine();
+                                } */
+
+                                // Nuovo Metodo con Sql
+                                Console.WriteLine(" ----------------------------------------------");
+                                Console.WriteLine(" - Inserisci il nuovo Cognome  del Venditore - ");
+                                Console.WriteLine(" ----------------------------------------------");
+                                v.CognomeVenditore = Console.ReadLine();
+                                break;
+
+                            case 3:
+                                /* if (index >= 0)
+                                {
+                                    Console.WriteLine("Inserisci il nuovo Telefono del Venditore");
+                                    Liste.Venditori[index].TelefonoVenditore = Console.ReadLine();
+                                } */
+                                // Nuovo Metodo con Sql
+                                Console.WriteLine(" ----------------------------------------------");
+                                Console.WriteLine(" - Inserisci il nuovo Telefono del Venditore - ");
+                                Console.WriteLine(" ----------------------------------------------");
+                                v.TelefonoVenditore = Console.ReadLine();
+
+                                break;
+
+                            case 4:
+                                /* if (index >= 0)
+                                {
+                                    Console.WriteLine("Inserisci la nuova mail del Venditore");
                                     Liste.Venditori[index].MailVenditore = Console.ReadLine();
-                                    }
-                                    break;
+                                } */
+                                // Nuovo Metodo con Sql
+                                Console.WriteLine(" ------------------------------------------");
+                                Console.WriteLine(" - Inserisci la nuova Mail del Venditore - ");
+                                Console.WriteLine(" ------------------------------------------");
+                                v.MailVenditore = Console.ReadLine();
+                                break;
 
-                                case 5:
-                                    passCodeBlock = false;
+                            case 5:
+                                // Nuovo Metodo con Sql
+                                Console.WriteLine(" ------------------------------------------------------------");
+                                Console.WriteLine(" - Premi 1 per Abilitare o 2 per Disabilitare un Venditore - ");
+                                Console.WriteLine(" ------------------------------------------------------------");
+
+                                string abilita = Console.ReadLine();
+                                bool abilitaUtente = int.TryParse(abilita, out int abilitaint);
+
+                                Console.Clear();
+
+                                if (abilitaUtente == false)
+                                {
                                     Console.Clear();
-                                    break;
 
-                                default:
-                                    CommonMethods.RichiestaNonValida();
+                                    Console.WriteLine("");
+                                    Console.WriteLine("-----------------------------------------------");
+                                    Console.WriteLine("- Argomento non valido, Accetta SOLO interi ! -");
+                                    Console.WriteLine("-----------------------------------------------");
+
                                     continue;
 
+                                }
 
+                                switch (abilitaint)                                 
+                                { 
+                                    case 1:
+                                        v.VenditoreAttivo = true;
+                                        return;
 
+                                    case 2: 
+                                        v.VenditoreAttivo = false;
+                                        return;
 
-                            }
+                                    case 3:
+                                        CommonMethods.RichiestaNonValida();
+                                        break;
 
-                        
+                                }
+                                                             
+                                /* passCodeBlock = false;
+                                Console.Clear(); */
+                                return;
+
+                            case 6:
+                                return;
+
+                            default:
+                                CommonMethods.RichiestaNonValida();
+                                continue;
+                        }
                         break;
 
                     case 2:
-                        VerificaListaVenditori();
+                        RicercaVenditore();
+                        // VerificaListaVenditori();
                         break;
+
+                    case 3:
+                        return;
 
                     default:
                         CommonMethods.RichiestaNonValida();
                         continue;
-                    }
-                
-               
-            }   
+
+                }
+
+                dataBase.ExecuteNotQuery($"UPDATE[dbo].[Venditori]" +
+   "SET [NomeVenditore] = '" + v.NomeVenditore + "'" +
+   ",[CognomeVenditore] = '" + v.CognomeVenditore + "'" +
+   ",[TelefonoVenditore] = '" + v.TelefonoVenditore + "'" +
+   ",[MailVenditore] = '" + v.MailVenditore + "'" +
+   ",[VenditoreAttivo] = '" + v.VenditoreAttivo + "'" +
+
+   " WHERE [Id] = " + idVenditore
+   );
+
+            }
+
         }
 
         public static void RimuoviVenditore()
@@ -553,6 +655,88 @@ namespace VenditaAutoConcessionarioConsole.Methods
             // In  quella data lista e la lista. Viene poi data l' istruzione a va passata la variabile
             // per mostrare, non essendo void, va fatto return, in questo caso è proprio la lista.
         }
+
+        // VerificaListaVenditori() - Metodo Vecchio - sostituito con RicercaVenditore()
+        /* public static void VerificaListaVenditori()
+        // {
+
+
+        Genero il metodo di verifica presenza del Venditore
+        Imposto le variabili da richiamare per i confronti
+
+       string nomevenditore = "";
+        string cognomevenditore = "";
+
+       Console.Clear();
+
+       Console.WriteLine();
+       Console.WriteLine("----------------------------------------------------------------");
+       Console.WriteLine("- Inserisci il Nome od il Cognome del Venditore per la ricerca -");
+       Console.WriteLine("-------------- (Restituisce le Proprietà) ----------------------");
+       Console.WriteLine("----------------------------------------------------------------");
+       Console.WriteLine();
+
+       nomevenditore = Console.ReadLine();
+
+
+       // Genero le variabili da utilizzare nella condizionale successiva
+       string risultatoPositivo = "Il Venditore {0} è presente - Avente GuId {1} - " +
+           "                       Il Cognome è {2} - Il Telefono è {3} - La Mail è {4}" +
+           "                       E' attivo dal {5}";
+       string risultatoNegativoNome = $"Il Venditore ''{nomevenditore}'' non è presente nella Lista";
+       // string risultatoNegativoCognome = $"Il Venditore ''{cognomevenditore}'' non è presente nella Lista ";
+
+       // Imposto Lettura ciclo : Ho un intero a -1, verifico che sia minore del conteggio della lista
+       // e nel caso questo sia true, aggiungo 1
+       // Definizione di For : https://docs.microsoft.com/it-it/dotnet/csharp/language-reference/keywords/for
+
+       // Ciclo For con indice
+       int index = -1;
+
+       for (int i = 0; i < Liste.Venditori.Count; i++)
+       {
+           // Lancio la condizione, che dice : Se Id è uguale ad "i" (ora maggiorato) leggendo l' "Id"
+           // della lista Venditori e "NomeVenditore" è positivo anch' esso, esegue il prossimo blocco istruzioni
+           // if (Id.ToString() == Liste.Venditori[i].Id.ToString() && NomeVenditore == Liste.Venditori[i].NomeVenditore)
+
+           //idVenditore = Liste.Venditori[i].Id.ToString();
+
+           if (nomevenditore == Liste.Venditori[i].NomeVenditore || nomevenditore == Liste.Venditori[i].CognomeVenditore)
+
+           {
+               index = i;
+               //// Visualizza risultatoPositivo ed interrompe il ciclo
+               //Console.WriteLine(risultatoPositivo); 
+           }
+
+       }
+
+
+
+       if (index >= 0)
+       {
+           Console.Clear();
+
+           // Le liste sono contenitori di dati e la posizone progressiva delle proprietà dei dati
+           // è la Index. Il dato cercato viene confrontato ogni index e se l' associaazione è trovata, mostra il risultato
+           // Utilizzo metodo String.format per rappresentare i dati
+
+           Console.WriteLine("---------------------------------------------------------");
+           Console.WriteLine(String.Format(risultatoPositivo, Liste.Venditori[index].NomeVenditore, Liste.Venditori[index].Id, Liste.Venditori[index].CognomeVenditore, Liste.Venditori[index].TelefonoVenditore, Liste.Venditori[index].MailVenditore, Liste.Venditori[index].OraInserimento));
+           Console.WriteLine("----------------------------------------------------------");
+       }
+       // Oppure Visualizza il valore di risultatoNegativo
+       else
+       {
+           Console.WriteLine("---------------------------------------------------------");
+           Console.WriteLine(risultatoNegativoNome); //risultatoNegativoCognome
+           Console.WriteLine("---------------------------------------------------------");
+       }
+
+
+
+   } */
+
     }
 }
 

@@ -24,8 +24,8 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 Console.WriteLine("---------------------------------------");
                 Console.WriteLine("---  Seleziona il Metodo Deiderato  ---");
                 Console.WriteLine("- 1) Aggiungi un Venditore            -"); 
-                Console.WriteLine("- 2) Lista i Venditori ed i loro Id   -");
-                Console.WriteLine("- 3) Verifica presenza Venditore      -");
+                Console.WriteLine("- 2) Lista tutti i Venditori          -");
+                Console.WriteLine("- 3) Ricerca Un Venditore             -");
                 Console.WriteLine("- 4) Modifica un Venditore            -");
                 Console.WriteLine("- 5) Rimuovi Venditore                -");
                 Console.WriteLine("- 6) Torna al MENU Principale         -");
@@ -76,7 +76,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
                         break;
 
                     case 3:
-                        VendorsMethods.VerificaListaVenditori();
+                        VendorsMethods.RicercaVenditore();
                         break;
 
                     case 4:
@@ -226,7 +226,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
      
         }
 
-        public static void AutoSelect()
+        /* public static void AutoSelect()
         {
             string risposta = Console.ReadLine();
 
@@ -247,7 +247,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
                     VeicoliMethods.Modifica(Liste.Auto.ConvertAll(a => (IVeicolo)a));
                     break;
             }
-        }
+        } */
     }
 
 }

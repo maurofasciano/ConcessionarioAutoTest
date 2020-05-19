@@ -328,7 +328,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
         public static void RimuoviCliente()
         {
-            string id, nomecliente;
+            // string id, nomecliente;
 
             Console.WriteLine("");
             Console.WriteLine("------------------------------------------------");
@@ -358,7 +358,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
 
 
-            int index = -1;
+            // int index = -1;
 
             //for (int i = 0; i < Liste.Clienti.Count; i++)
             //{

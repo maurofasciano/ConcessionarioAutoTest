@@ -18,8 +18,9 @@ namespace VenditaAutoConcessionarioConsole.Methods
         // veicoli è una il nome della variabile, di tipo ListaIveicolo ed è il paramentro  
         // input della funzione che viene poi usata  per esere valorizzata
 
-        public static void Modifica (List<IVeicolo> veicoli)
+        /* public static void Modifica (List<IVeicolo> veicoli)
         {   
+            
             // Chiedo e valorizzo la variabile del telaio 
             Console.WriteLine("Inserisci il telaio da ricercare");
             string telaio = Console.ReadLine();
@@ -62,10 +63,11 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 Console.WriteLine("Veicolo non trovato");
                 return;
             }
+            
             veicolo = veicoli.Find(v => v.NumeroTelaio == telaio);
 
             veicolo.AnnoImmatricolazione = DateTime.Parse(Console.ReadLine());
-        }
+        } */
         
-    }
+    } 
 }
