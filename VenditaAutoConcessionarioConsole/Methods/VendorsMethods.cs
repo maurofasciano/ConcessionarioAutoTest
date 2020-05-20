@@ -398,29 +398,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
                 ConnectionStringSql dataBase = new ConnectionStringSql();
 
-                using (var reader = dataBase.ExecuteQuerys(
-                @"SELECT [Id] 
-                 ,[NomeVenditore]
-                 ,[CognomeVenditore]
-                 ,[TelefonoVenditore]
-                 ,[MailVenditore]
-                 ,[VenditoreAttivo]
-                 ,[OraInserimento]
-                FROM[dbo].[Venditori]
-                order by Id"
-                ))
-
-                while (reader.Read())
-                {
-
-                    v.Id = Int32.Parse(reader["Id"].ToString());
-                    v.NomeVenditore = reader["NomeVenditore"].ToString();
-                    v.CognomeVenditore = reader["CognomeVenditore"].ToString();
-                    v.TelefonoVenditore = reader["TelefonoVenditore"].ToString();
-                    v.MailVenditore = reader["MailVenditore"].ToString();
-                    v.VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString());
-                    v.OraInserimento = reader["OraInserimento"].ToString(););
-                }
+                
 
                 switch (rispostaUtenteInt)
                 {
@@ -433,7 +411,31 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
                         idVenditore = Console.ReadLine();
 
-                        
+                        using (var reader = dataBase.ExecuteQuerys(
+                        @"SELECT [Id] 
+                        ,[NomeVenditore]
+                        ,[CognomeVenditore]
+                        ,[TelefonoVenditore]
+                        ,[MailVenditore]
+                        ,[VenditoreAttivo]
+                        ,[OraInserimento]
+                        FROM[dbo].[Venditori]
+                        WHERE [Id] = " + idVenditore
+                ))
+
+                        while (reader.Read())
+                        {
+
+                            v.Id = Int32.Parse(reader["Id"].ToString());
+                            v.NomeVenditore = reader["NomeVenditore"].ToString();
+                            v.CognomeVenditore = reader["CognomeVenditore"].ToString();
+                            v.TelefonoVenditore = reader["TelefonoVenditore"].ToString();
+                            v.MailVenditore = reader["MailVenditore"].ToString();
+                            v.VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString());
+                            v.OraInserimento = reader["OraInserimento"].ToString();
+                        }
+
+
 
                         Console.Clear();
 
