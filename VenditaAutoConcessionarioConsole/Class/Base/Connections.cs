@@ -23,10 +23,8 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
         public SqlDataReader ExecuteQuerys(string query)
         {
             connection = new SqlConnection(GetConnectionString());
-            SqlCommand command = new SqlCommand(
-            query, connection);
+            SqlCommand command = new SqlCommand(query, connection);
             connection.Open();
-
             return command.ExecuteReader();
         }
 

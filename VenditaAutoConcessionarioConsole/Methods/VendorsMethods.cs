@@ -281,9 +281,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 } 
             }  */
 
-            // Nuovo Metodo con Sql
-           
-            string nomeVenditore;
+            // Nuovo Metodo con Sql         
 
             Console.Clear();
 
@@ -297,7 +295,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
             Console.WriteLine("---------------------------------------------------");
 
 
-            nomeVenditore = Console.ReadLine();
+            string cognomeVenditore = Console.ReadLine();
 
             ConnectionStringSql dataBase = new ConnectionStringSql();
 
@@ -311,9 +309,9 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 ,[VenditoreAttivo]
                 ,[OraInserimento]
                 FROM [dbo].[Venditori]
-                WHERE CognomeVenditore = '" + nomeVenditore + "'"))
+                WHERE CognomeVenditore = '" + cognomeVenditore + "'"))
 
-            {
+             {
                 while (reader.Read())
                 {
                     Console.WriteLine("");
@@ -328,7 +326,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
                    
                 }
 
-            }
+             }
 
         }
 
@@ -395,35 +393,34 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 // string idVenditore = string.Empty;
 
                 Venditori v = new Venditori();
-                
-                string idVenditore = string.Empty;
+
+                string idVenditore = string.Empty;                
 
                 ConnectionStringSql dataBase = new ConnectionStringSql();
 
                 using (var reader = dataBase.ExecuteQuerys(
- @"SELECT [Id] 
-                        ,[NomeVenditore]
-                        ,[CognomeVenditore]
-                        ,[TelefonoVenditore]
-                        ,[MailVenditore]
-                        ,[VenditoreAttivo]
-                        ,[OraInserimento]
-                         FROM[dbo].[Venditori]
-                         WHERE [Id] = " + idVenditore))
+                @"SELECT [Id] 
+                 ,[NomeVenditore]
+                 ,[CognomeVenditore]
+                 ,[TelefonoVenditore]
+                 ,[MailVenditore]
+                 ,[VenditoreAttivo]
+                 ,[OraInserimento]
+                FROM[dbo].[Venditori]
+                order by Id"
+                ))
 
-                    while (reader.Read())
-                    {
+                while (reader.Read())
+                {
 
-                        v.Id = Int32.Parse(reader["Id"].ToString());
-                        v.NomeVenditore = reader["NomeVenditore"].ToString();
-                        v.CognomeVenditore = reader["CognomeVenditore"].ToString();
-                        v.TelefonoVenditore = reader["TelefonoVenditore"].ToString();
-                        v.MailVenditore = reader["MailVenditore"].ToString();
-                        v.VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString());
-                        v.OraInserimento = reader["OraInserimento"].ToString();
-                    }
-
-
+                    v.Id = Int32.Parse(reader["Id"].ToString());
+                    v.NomeVenditore = reader["NomeVenditore"].ToString();
+                    v.CognomeVenditore = reader["CognomeVenditore"].ToString();
+                    v.TelefonoVenditore = reader["TelefonoVenditore"].ToString();
+                    v.MailVenditore = reader["MailVenditore"].ToString();
+                    v.VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString());
+                    v.OraInserimento = reader["OraInserimento"].ToString(););
+                }
 
                 switch (rispostaUtenteInt)
                 {
@@ -436,7 +433,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
                         idVenditore = Console.ReadLine();
 
- 
+                        
 
                         Console.Clear();
 
@@ -509,7 +506,6 @@ namespace VenditaAutoConcessionarioConsole.Methods
                                 Console.WriteLine(" - Inserisci il nuovo Telefono del Venditore - ");
                                 Console.WriteLine(" ----------------------------------------------");
                                 v.TelefonoVenditore = Console.ReadLine();
-
                                 break;
 
                             case 4:
@@ -544,7 +540,6 @@ namespace VenditaAutoConcessionarioConsole.Methods
                                     Console.WriteLine("-----------------------------------------------");
                                     Console.WriteLine("- Argomento non valido, Accetta SOLO interi ! -");
                                     Console.WriteLine("-----------------------------------------------");
-
                                     continue;
 
                                 }
@@ -553,11 +548,11 @@ namespace VenditaAutoConcessionarioConsole.Methods
                                 { 
                                     case 1:
                                         v.VenditoreAttivo = true;
-                                        return;
+                                        break;
 
                                     case 2: 
                                         v.VenditoreAttivo = false;
-                                        return;
+                                        break;
 
                                     case 3:
                                         CommonMethods.RichiestaNonValida();
@@ -592,15 +587,20 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
                 }
 
-                dataBase.ExecuteNotQuery($"UPDATE[dbo].[Venditori]" +
-   "SET [NomeVenditore] = '" + v.NomeVenditore + "'" +
-   ",[CognomeVenditore] = '" + v.CognomeVenditore + "'" +
-   ",[TelefonoVenditore] = '" + v.TelefonoVenditore + "'" +
-   ",[MailVenditore] = '" + v.MailVenditore + "'" +
-   ",[VenditoreAttivo] = '" + v.VenditoreAttivo + "'" +
-
-   " WHERE [Id] = " + idVenditore
-   );
+                if (!String.IsNullOrEmpty(idVenditore))
+                {
+                    dataBase.ExecuteNotQuery($"UPDATE[dbo].[Venditori]" +
+                        "SET [NomeVenditore] = '" + v.NomeVenditore + "'" +
+                        ",[CognomeVenditore] = '" + v.CognomeVenditore + "'" +
+                        ",[TelefonoVenditore] = '" + v.TelefonoVenditore + "'" +
+                        ",[MailVenditore] = '" + v.MailVenditore + "'" +
+                        ",[VenditoreAttivo] = '" + v.VenditoreAttivo + "'" +
+                        " WHERE [Id] = " + idVenditore);
+                }
+                else
+                {
+                    continue;
+                }
 
             }
 
