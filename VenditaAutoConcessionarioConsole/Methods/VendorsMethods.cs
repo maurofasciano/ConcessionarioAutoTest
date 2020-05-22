@@ -116,7 +116,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
                Nota : Per generare la query da Sql fare = Tasto DX su tabella, Crea Script Tabella */
 
             dataBase.ExecuteNotQuery($"INSERT INTO [dbo].[Venditori]([Id]" +
-           ",[NomeVenditore]" + 
+           ",[NomeVenditore]" +
            ",[CognomeVenditore]" +
            ",[TelefonoVenditore]" +
            ",[MailVenditore]" +
@@ -144,11 +144,14 @@ namespace VenditaAutoConcessionarioConsole.Methods
             Console.WriteLine("---------------------------------------------------------------------------------------------------");
             Console.WriteLine($"- Hai inserito il venditore {v.NomeVenditore} - {v.CognomeVenditore} - Avente Id - {v.Id} - ");
             Console.WriteLine($"- Il telefono è : {v.TelefonoVenditore} - La sua mail è : {v.MailVenditore}");
-            Console.WriteLine($"- Il Venditore è attivo dal : {v.OraInserimento}");
+            Console.WriteLine($"- Il Venditore è : {v.VenditoreAttivo} dal : {v.OraInserimento}");
             Console.WriteLine("---------------------------------------------------------------------------------------------------");
             Console.WriteLine("");
+            Console.WriteLine("");
+            Console.WriteLine("Premi un tasto per Proseguire....");
+            Console.ReadLine();
 
-
+            Console.Clear();
 
             /* Deve tornarmi qualcosa, che sono i dati del venditore, dato che il metodo non è Void
                In questo caso i dati sono nell' oggetto "v" che contiene "Id, Nome, Cosgnome, telefono e mail" */
@@ -161,12 +164,15 @@ namespace VenditaAutoConcessionarioConsole.Methods
         public static List<Venditori> ElencoVenditori()
         {
             // Vecchio metodo per le Liste
-            /* Eseguo un ForEach per ciclare dalla lista i miei dati. A differenza del While che cicla un condizionale
-               e For che cicla una index, questo comando è dedicato alle liste.
-               Associa alla variabile "item", tramite il comando "in", la lista venditori e mostra in console cosa contengono
+            /*  // Metodo per listare i venditori. Eseguo un ciclo ForEach , dato che serve proprio 
+                // per ciclare le liste (a differenza del For che cicla sugli indici e While che cicla
+                // sulle condizioni). Va impostata la variabile per contenere i dati (Item), "in" significa
+                // "In  quella data lista". 
 
             foreach (var item in Liste.Clienti)
             {
+                
+                // Ora che Itemn contiene i dati ciclati, li mostro tramite segnaposto.     
 
                 Console.WriteLine("");
                 Console.WriteLine(" --------------------------------------------------------------------------------------");
@@ -177,6 +183,8 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 Console.WriteLine("");
 
             }
+
+            // L' output sono i dati contenuti nella lista clienti, quindi torna lei.
 
             return Liste.Clienti; */
 
@@ -206,9 +214,9 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
 
 
-            // {
+                // {
                 /* Esco dal task ed eseguo un while per andare a riempire la lista da stampare a schermo.
-                   Gli passo "reader" con il motodo .Read() e gli faccio richiamare il metodo .Add */ 
+                   Gli passo "reader" con il motodo .Read() e gli faccio richiamare il metodo .Add */
                 while (reader.Read())
                 {
                     /* Passo una nuova istanza della classe Venditori ed eseguo i tryparse per la conversione in stringa */
@@ -217,11 +225,12 @@ namespace VenditaAutoConcessionarioConsole.Methods
                         Id = Int32.Parse(reader["Id"].ToString()),
                         NomeVenditore = reader["NomeVenditore"].ToString(),
                         CognomeVenditore = reader["CognomeVenditore"].ToString(),
-                        TelefonoVenditore = reader["TelefonoVenditore"].ToString(),                        
+                        TelefonoVenditore = reader["TelefonoVenditore"].ToString(),
                         MailVenditore = reader["MailVenditore"].ToString(),
                         VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString()),
                         OraInserimento = reader["OraInserimento"].ToString()
                     });
+                    
                 }
             // }
 
@@ -235,16 +244,32 @@ namespace VenditaAutoConcessionarioConsole.Methods
             Console.WriteLine("");
 
             /* Inserisco tutto l' output nel foreach per implementare quanto scelto sopra */
+            int output = 0;
             foreach (var item in Liste.Venditori)
-            {         
+            {
+                output += 1;
+
                 Console.WriteLine("");
                 Console.WriteLine($"Id - {item.Id} | Nome - {item.NomeVenditore} |  Cognome  -  {item.CognomeVenditore} ");
                 Console.WriteLine($"Telefono - {item.TelefonoVenditore} | Mail - {item.MailVenditore}");
-                Console.WriteLine($"Venditore Aggiunto il -  {item.OraInserimento}  |  Il Venditore è {item.VenditoreAttivo} ");                
+                Console.WriteLine($"Venditore Aggiunto il -  {item.OraInserimento}  |  Il Venditore è {item.VenditoreAttivo} ");
                 Console.WriteLine("");
+
+                if (output  % 5 == 0)
+                {
+                    Console.WriteLine(" ---------------------------------------------------------------------------------------");
+                    Console.WriteLine("Premi un tasto per continuare .....");
+                    Console.ReadLine();
+                }
+
             }
             Console.WriteLine(" ---------------------------------------------------------------------------------------");
             Console.WriteLine("");
+
+            Console.WriteLine("Premi tasto per continuare ..... ");
+            Console.ReadLine();
+
+            Console.Clear();
 
             return Liste.Venditori;
         }
@@ -311,28 +336,32 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 FROM [dbo].[Venditori]
                 WHERE CognomeVenditore = '" + cognomeVenditore + "'"))
 
-             {
-                while (reader.Read())
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("I Venditori trovati con quasto nome sono : ");
+            {
 
-                        Console.WriteLine("");
-                        Console.WriteLine($"Nome - " +  reader["NomeVenditore"].ToString() + " | Cognome - " + reader["CognomeVenditore"].ToString());
-                        Console.WriteLine($"Mail - " + reader["MailVenditore"].ToString() + " | Telefono - " + reader["TelefonoVenditore"].ToString());
-                        Console.WriteLine($"Avente Id - " + reader["Id"].ToString() + " | Il Venditore è - " + reader["VenditoreAttivo"]);
-                        Console.WriteLine($"Dalla Data - " + reader["OraInserimento"]);
-                        Console.WriteLine("");
-                   
+                Console.WriteLine("");
+                Console.WriteLine("I Venditori trovati con quasto nome sono : ");
+                Console.WriteLine("");
+
+                while (reader.Read())
+                {                    
+                    Console.WriteLine("");
+                    Console.WriteLine($"Nome - " + reader["NomeVenditore"].ToString() + " | Cognome - " + reader["CognomeVenditore"].ToString());
+                    Console.WriteLine($"Mail - " + reader["MailVenditore"].ToString() + " | Telefono - " + reader["TelefonoVenditore"].ToString());
+                    Console.WriteLine($"Avente Id - " + reader["Id"].ToString() + " | Il Venditore è - " + reader["VenditoreAttivo"]);
+                    Console.WriteLine($"Dalla Data - " + reader["OraInserimento"]);
+                    Console.WriteLine("");
+
                 }
 
-             }
+                Console.ReadLine();
+
+            }
 
         }
 
         public static void ModificaVenditori()
         {
-            
+
 
             // Poteva anche essere senza passBlock e con while(true)
             // bool passCodeBlock = true;
@@ -350,7 +379,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 string risposta = Console.ReadLine();
                 bool rispostaUtente = int.TryParse(risposta, out int rispostaUtenteInt);
 
-                
+
 
                 Console.Clear();
 
@@ -394,11 +423,11 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
                 Venditori v = new Venditori();
 
-                string idVenditore = string.Empty;                
+                string idVenditore = string.Empty;
 
                 ConnectionStringSql dataBase = new ConnectionStringSql();
 
-                
+
 
                 switch (rispostaUtenteInt)
                 {
@@ -411,30 +440,47 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
                         idVenditore = Console.ReadLine();
 
-                        using (var reader = dataBase.ExecuteQuerys(
-                        @"SELECT [Id] 
-                        ,[NomeVenditore]
-                        ,[CognomeVenditore]
-                        ,[TelefonoVenditore]
-                        ,[MailVenditore]
-                        ,[VenditoreAttivo]
-                        ,[OraInserimento]
-                        FROM[dbo].[Venditori]
-                        WHERE [Id] = " + idVenditore
-                ))
+                        /* Eseguzione query di lettura dei dati presenti nell tabella. Prima di ogni scrittura va associato il dato al costruttore per evitare
+                           che si scriva null od altro in update */
 
-                        while (reader.Read())
                         {
+                            using (var reader = dataBase.ExecuteQuerys(
+                              @"SELECT[Id]
+                            ,[NomeVenditore]
+                            ,[CognomeVenditore]
+                            ,[TelefonoVenditore]
+                            ,[MailVenditore]
+                            ,[VenditoreAttivo]
+                            ,[OraInserimento]
+                            FROM[dbo].[Venditori]
+                            WHERE [Id] = " + idVenditore))
 
-                            v.Id = Int32.Parse(reader["Id"].ToString());
-                            v.NomeVenditore = reader["NomeVenditore"].ToString();
-                            v.CognomeVenditore = reader["CognomeVenditore"].ToString();
-                            v.TelefonoVenditore = reader["TelefonoVenditore"].ToString();
-                            v.MailVenditore = reader["MailVenditore"].ToString();
-                            v.VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString());
-                            v.OraInserimento = reader["OraInserimento"].ToString();
+
+
+                                while (reader.Read())
+                                {
+                                    /* A questo punto viene ciclato il contenuto estratto dalla query precedente ed assegnato all' ovvetto v.*,
+                                       in questo caso stringhe, il valore di ogni variabile. Il metodo Read() estende la variabile reader che appunto 
+                                       conteneva il dato. Attenzione ai cast.  */
+
+
+                                    v.Id = Int32.Parse(reader["Id"].ToString());
+                                    v.NomeVenditore = reader["NomeVenditore"].ToString();
+                                    v.CognomeVenditore = reader["CognomeVenditore"].ToString();
+                                    v.TelefonoVenditore = reader["TelefonoVenditore"].ToString();
+                                    v.MailVenditore = reader["MailVenditore"].ToString();
+                                    v.VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString());
+                                    v.OraInserimento = reader["OraInserimento"].ToString();
+
+
+                                }
+
+                            if (v.Id == null)
+                            {
+                                Console.WriteLine("Suka");
+                            }
+
                         }
-
 
 
                         Console.Clear();
@@ -546,13 +592,13 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
                                 }
 
-                                switch (abilitaint)                                 
-                                { 
+                                switch (abilitaint)
+                                {
                                     case 1:
                                         v.VenditoreAttivo = true;
                                         break;
 
-                                    case 2: 
+                                    case 2:
                                         v.VenditoreAttivo = false;
                                         break;
 
@@ -561,7 +607,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
                                         break;
 
                                 }
-                                                             
+
                                 /* passCodeBlock = false;
                                 Console.Clear(); */
                                 return;
@@ -589,6 +635,10 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
                 }
 
+                /* La query è generata nell'  istruzione If a causa del fatto che la stessa riepscava i dati durante il ciclo di ricerca tramite Id, 
+                   andando in exception error , passando dati nulli.
+                   Ora gira solo se IdVenditore risulta valorizzato. Se così non è, continua e riparte */
+
                 if (!String.IsNullOrEmpty(idVenditore))
                 {
                     dataBase.ExecuteNotQuery($"UPDATE[dbo].[Venditori]" +
@@ -610,6 +660,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
         public static void RimuoviVenditore()
         {
+            /* Vecchio metodo 
             // dichiaro le variabili da usare nel metodo e confrontarle nel ciclo
             string NomeVenditore;
 
@@ -649,98 +700,162 @@ namespace VenditaAutoConcessionarioConsole.Methods
             if (index >= 0)
             {
                 Liste.Venditori.RemoveAt(index);
+            } */
+
+
+
+            string idVenditore = string.Empty;
+            Console.Clear();
+            while (true)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("------------------------------------------------------");
+                Console.WriteLine("1) ---- Esegui Metodo Elimina Venditore tramite Id ---");
+                Console.WriteLine("2) ------- Ricerca Id Venditore per Cognome  ---------");
+                Console.WriteLine("3) ------------ Torna al Menu Venditori  -------------");
+                Console.WriteLine("------------------------------------------------------");
+                Console.WriteLine("");
+
+                string risposta = Console.ReadLine();
+                bool rispostaUtente = int.TryParse(risposta, out int rispostaUtenteInt);
+
+                Console.Clear();
+
+                if (rispostaUtente == false)
+                {
+                    Console.Clear();
+
+                    Console.WriteLine("");
+                    Console.WriteLine("---------------------------------------------------------------");
+                    Console.WriteLine("- Argomento non valido, Accetta SOLO parametri di Selezione ! -");
+                    Console.WriteLine("---------------------------------------------------------------");
+
+                    continue;
+                }
+
+                switch (rispostaUtenteInt)
+                {
+
+                    case 1:
+
+                        Console.WriteLine();
+                        Console.WriteLine("--------------------------------------------------");
+                        Console.WriteLine("--- Inserisci l' Id del Venditore da Eliminare ---");
+                        Console.WriteLine("--------------------------------------------------");
+
+                        idVenditore = Console.ReadLine();
+
+                        ConnectionStringSql dataBase = new ConnectionStringSql();
+
+                        using (var reader = dataBase.ExecuteQuerys(
+                        @"DELETE                        
+                        FROM[dbo].[Venditori]
+                        WHERE [Id] = " + idVenditore
+                 ))
+                        break;
+
+                    case 2:
+                        RicercaVenditore();
+                        break;
+
+                    case 3:
+                        return;
+
+                    default:
+                        CommonMethods.RichiestaNonValida();
+                        continue;
+
+                }
+
             }
 
-            // Metodo per listare i venditori. Eseguo un ciclo ForEach , dato che serve proprio 
-            // per ciclare le liste (a differenza del For che cicla sugli indici e While che cicla
-            // sulle condizioni). Va impostata la variabile per contenere i dati (Item), "in" significa
-            // In  quella data lista e la lista. Viene poi data l' istruzione a va passata la variabile
-            // per mostrare, non essendo void, va fatto return, in questo caso è proprio la lista.
+
+
+                // VerificaListaVenditori() - Metodo Vecchio - sostituito con RicercaVenditore()
+                /* public static void VerificaListaVenditori()
+                // {
+
+
+                Genero il metodo di verifica presenza del Venditore
+                Imposto le variabili da richiamare per i confronti
+
+               string nomevenditore = "";
+                string cognomevenditore = "";
+
+               Console.Clear();
+
+               Console.WriteLine();
+               Console.WriteLine("----------------------------------------------------------------");
+               Console.WriteLine("- Inserisci il Nome od il Cognome del Venditore per la ricerca -");
+               Console.WriteLine("-------------- (Restituisce le Proprietà) ----------------------");
+               Console.WriteLine("----------------------------------------------------------------");
+               Console.WriteLine();
+
+               nomevenditore = Console.ReadLine();
+
+
+               // Genero le variabili da utilizzare nella condizionale successiva
+               string risultatoPositivo = "Il Venditore {0} è presente - Avente GuId {1} - " +
+                   "                       Il Cognome è {2} - Il Telefono è {3} - La Mail è {4}" +
+                   "                       E' attivo dal {5}";
+               string risultatoNegativoNome = $"Il Venditore ''{nomevenditore}'' non è presente nella Lista";
+               // string risultatoNegativoCognome = $"Il Venditore ''{cognomevenditore}'' non è presente nella Lista ";
+
+               // Imposto Lettura ciclo : Ho un intero a -1, verifico che sia minore del conteggio della lista
+               // e nel caso questo sia true, aggiungo 1
+               // Definizione di For : https://docs.microsoft.com/it-it/dotnet/csharp/language-reference/keywords/for
+
+               // Ciclo For con indice
+               int index = -1;
+
+               for (int i = 0; i < Liste.Venditori.Count; i++)
+               {
+                   // Lancio la condizione, che dice : Se Id è uguale ad "i" (ora maggiorato) leggendo l' "Id"
+                   // della lista Venditori e "NomeVenditore" è positivo anch' esso, esegue il prossimo blocco istruzioni
+                   // if (Id.ToString() == Liste.Venditori[i].Id.ToString() && NomeVenditore == Liste.Venditori[i].NomeVenditore)
+
+                   //idVenditore = Liste.Venditori[i].Id.ToString();
+
+                   if (nomevenditore == Liste.Venditori[i].NomeVenditore || nomevenditore == Liste.Venditori[i].CognomeVenditore)
+
+                   {
+                       index = i;
+                       //// Visualizza risultatoPositivo ed interrompe il ciclo
+                       //Console.WriteLine(risultatoPositivo); 
+                   }
+
+               }
+
+
+
+               if (index >= 0)
+               {
+                   Console.Clear();
+
+                   // Le liste sono contenitori di dati e la posizone progressiva delle proprietà dei dati
+                   // è la Index. Il dato cercato viene confrontato ogni index e se l' associaazione è trovata, mostra il risultato
+                   // Utilizzo metodo String.format per rappresentare i dati
+
+                   Console.WriteLine("---------------------------------------------------------");
+                   Console.WriteLine(String.Format(risultatoPositivo, Liste.Venditori[index].NomeVenditore, Liste.Venditori[index].Id, Liste.Venditori[index].CognomeVenditore, Liste.Venditori[index].TelefonoVenditore, Liste.Venditori[index].MailVenditore, Liste.Venditori[index].OraInserimento));
+                   Console.WriteLine("----------------------------------------------------------");
+               }
+               // Oppure Visualizza il valore di risultatoNegativo
+               else
+               {
+                   Console.WriteLine("---------------------------------------------------------");
+                   Console.WriteLine(risultatoNegativoNome); //risultatoNegativoCognome
+                   Console.WriteLine("---------------------------------------------------------");
+               }
+
+
+
+           } */
+
+            }
         }
-
-        // VerificaListaVenditori() - Metodo Vecchio - sostituito con RicercaVenditore()
-        /* public static void VerificaListaVenditori()
-        // {
-
-
-        Genero il metodo di verifica presenza del Venditore
-        Imposto le variabili da richiamare per i confronti
-
-       string nomevenditore = "";
-        string cognomevenditore = "";
-
-       Console.Clear();
-
-       Console.WriteLine();
-       Console.WriteLine("----------------------------------------------------------------");
-       Console.WriteLine("- Inserisci il Nome od il Cognome del Venditore per la ricerca -");
-       Console.WriteLine("-------------- (Restituisce le Proprietà) ----------------------");
-       Console.WriteLine("----------------------------------------------------------------");
-       Console.WriteLine();
-
-       nomevenditore = Console.ReadLine();
-
-
-       // Genero le variabili da utilizzare nella condizionale successiva
-       string risultatoPositivo = "Il Venditore {0} è presente - Avente GuId {1} - " +
-           "                       Il Cognome è {2} - Il Telefono è {3} - La Mail è {4}" +
-           "                       E' attivo dal {5}";
-       string risultatoNegativoNome = $"Il Venditore ''{nomevenditore}'' non è presente nella Lista";
-       // string risultatoNegativoCognome = $"Il Venditore ''{cognomevenditore}'' non è presente nella Lista ";
-
-       // Imposto Lettura ciclo : Ho un intero a -1, verifico che sia minore del conteggio della lista
-       // e nel caso questo sia true, aggiungo 1
-       // Definizione di For : https://docs.microsoft.com/it-it/dotnet/csharp/language-reference/keywords/for
-
-       // Ciclo For con indice
-       int index = -1;
-
-       for (int i = 0; i < Liste.Venditori.Count; i++)
-       {
-           // Lancio la condizione, che dice : Se Id è uguale ad "i" (ora maggiorato) leggendo l' "Id"
-           // della lista Venditori e "NomeVenditore" è positivo anch' esso, esegue il prossimo blocco istruzioni
-           // if (Id.ToString() == Liste.Venditori[i].Id.ToString() && NomeVenditore == Liste.Venditori[i].NomeVenditore)
-
-           //idVenditore = Liste.Venditori[i].Id.ToString();
-
-           if (nomevenditore == Liste.Venditori[i].NomeVenditore || nomevenditore == Liste.Venditori[i].CognomeVenditore)
-
-           {
-               index = i;
-               //// Visualizza risultatoPositivo ed interrompe il ciclo
-               //Console.WriteLine(risultatoPositivo); 
-           }
-
-       }
-
-
-
-       if (index >= 0)
-       {
-           Console.Clear();
-
-           // Le liste sono contenitori di dati e la posizone progressiva delle proprietà dei dati
-           // è la Index. Il dato cercato viene confrontato ogni index e se l' associaazione è trovata, mostra il risultato
-           // Utilizzo metodo String.format per rappresentare i dati
-
-           Console.WriteLine("---------------------------------------------------------");
-           Console.WriteLine(String.Format(risultatoPositivo, Liste.Venditori[index].NomeVenditore, Liste.Venditori[index].Id, Liste.Venditori[index].CognomeVenditore, Liste.Venditori[index].TelefonoVenditore, Liste.Venditori[index].MailVenditore, Liste.Venditori[index].OraInserimento));
-           Console.WriteLine("----------------------------------------------------------");
-       }
-       // Oppure Visualizza il valore di risultatoNegativo
-       else
-       {
-           Console.WriteLine("---------------------------------------------------------");
-           Console.WriteLine(risultatoNegativoNome); //risultatoNegativoCognome
-           Console.WriteLine("---------------------------------------------------------");
-       }
-
-
-
-   } */
-
     }
-}
+
 
    
 

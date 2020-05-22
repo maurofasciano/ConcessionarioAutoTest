@@ -1,4 +1,3 @@
-C:\Users\Faggiano\source\repos\ConcessionarioAutoTest\VenditaAutoConcessionarioConsole\obj\Debug\netcoreapp3.0\VenditaAutoConcessionarioConsole.csprojAssemblyReference.cache
 C:\Users\Faggiano\source\repos\ConcessionarioAutoTest\VenditaAutoConcessionarioConsole\obj\Debug\netcoreapp3.0\VenditaAutoConcessionarioConsole.csproj.CoreCompileInputs.cache
 C:\Users\Faggiano\source\repos\ConcessionarioAutoTest\VenditaAutoConcessionarioConsole\obj\Debug\netcoreapp3.0\VenditaAutoConcessionarioConsole.AssemblyInfoInputs.cache
 C:\Users\Faggiano\source\repos\ConcessionarioAutoTest\VenditaAutoConcessionarioConsole\obj\Debug\netcoreapp3.0\VenditaAutoConcessionarioConsole.AssemblyInfo.cs
@@ -30,3 +29,4 @@ C:\Users\Faggiano\source\repos\ConcessionarioAutoTest\VenditaAutoConcessionarioC
 C:\Users\Faggiano\source\repos\ConcessionarioAutoTest\VenditaAutoConcessionarioConsole\obj\Debug\netcoreapp3.0\VenditaAutoConcessionarioConsole.dll
 C:\Users\Faggiano\source\repos\ConcessionarioAutoTest\VenditaAutoConcessionarioConsole\obj\Debug\netcoreapp3.0\VenditaAutoConcessionarioConsole.pdb
 C:\Users\Faggiano\source\repos\ConcessionarioAutoTest\VenditaAutoConcessionarioConsole\obj\Debug\netcoreapp3.0\VenditaAutoConcessionarioConsole.genruntimeconfig.cache
+C:\Users\Faggiano\source\repos\ConcessionarioAutoTest\VenditaAutoConcessionarioConsole\obj\Debug\netcoreapp3.0\VenditaAutoConcessionarioConsole.csprojAssemblyReference.cache

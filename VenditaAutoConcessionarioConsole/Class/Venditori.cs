@@ -8,7 +8,7 @@ namespace VenditaAutoConcessionarioConsole.Class
     {
         // imposto le proprietà delle variabili
         // Il nome delle proprietà va in maiuscolo per convenzione
-        public int Id { set; get; }
+        public int? Id { set; get; }
         public string NomeVenditore { get; set; }
         public string CognomeVenditore { get; set; }
         public string TelefonoVenditore { get; set; }
