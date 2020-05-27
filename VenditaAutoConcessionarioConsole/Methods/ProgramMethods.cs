@@ -93,8 +93,6 @@ namespace VenditaAutoConcessionarioConsole.Methods
                         Console.Clear();
                         break;
                         
-
-
                     case 7: // Quitta dal programma
                         Console.WriteLine("");
                         Console.WriteLine("---------------------------------------------------------------");

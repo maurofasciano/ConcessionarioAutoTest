@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.Design;
 using System.Net.Mail;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Xml.Linq;
 using VenditaAutoConcessionarioConsole.Class;
@@ -324,36 +325,132 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
             ConnectionStringSql dataBase = new ConnectionStringSql();
 
+            Venditori v = new Venditori();
 
-            using (var reader = dataBase.ExecuteQuerys(
-                @"SELECT [Id]
-                ,[NomeVenditore]
-                ,[CognomeVenditore] 
-                ,[TelefonoVenditore]
-                ,[MailVenditore]
-                ,[VenditoreAttivo]
-                ,[OraInserimento]
-                FROM [dbo].[Venditori]
-                WHERE CognomeVenditore = '" + cognomeVenditore + "'"))
+            //using (var reader = dataBase.ExecuteQuerys(
+            //    @"SELECT [Id]
+            //    ,[NomeVenditore]
+            //    ,[CognomeVenditore] 
+            //    ,[TelefonoVenditore]
+            //    ,[MailVenditore]
+            //    ,[VenditoreAttivo]
+            //    ,[OraInserimento]
+            //    FROM [dbo].[Venditori]
+            //    WHERE CognomeVenditore = '" + cognomeVenditore + "'"))
+
+            CommonMethods.DbVendorsReader("WHERE CognomeVenditore = '" + cognomeVenditore + "'", v.CognomeVenditore, v.NomeVenditore
+                    , v.TelefonoVenditore, v.MailVenditore, v.OraInserimento, v.Id);
+
+
+            while (reader.Read())
+            {
+                v.Id = Int32.Parse(reader["Id"].ToString());
+                v.NomeVenditore = reader["NomeVenditore"].ToString();
+                v.CognomeVenditore = reader["CognomeVenditore"].ToString();
+                v.TelefonoVenditore = reader["TelefonoVenditore"].ToString();
+                v.MailVenditore = reader["MailVenditore"].ToString();
+                v.VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString());
+                v.OraInserimento = reader["OraInserimento"].ToString();
+            }
+
+            if (v.CognomeVenditore == null)
+            {
+                Console.WriteLine("Suka");
+                Console.ReadLine();
+                return;
+            }
+
+            //using (var reader = dataBase.ExecuteQuerys(
+            //    @"SELECT [Id]
+            //    ,[NomeVenditore]
+            //    ,[CognomeVenditore] 
+            //    ,[TelefonoVenditore]
+            //    ,[MailVenditore]
+            //    ,[VenditoreAttivo]
+            //    ,[OraInserimento]
+            //    FROM [dbo].[Venditori]
+            //    WHERE CognomeVenditore = '" + cognomeVenditore + "'"))
+
+            //  CommonMethods.DbVendorsReader("WHERE cognomeVenditore =" + v.CognomeVenditore);
 
             {
+
+                
+
+                //while (reader.Read())
+                //{
+                //if (!string.IsNullOrEmpty(cognomeVenditore))
+                //{
+
+                //    Console.WriteLine("");
+                //    Console.WriteLine("-----------------------------------------------");
+                //    Console.WriteLine("- Nessun Venditore Trovato con questo Cognome -");
+                //    Console.WriteLine("-----------------------------------------------");
+                //    Console.WriteLine("");
+
+                //    Console.WriteLine("Premi un tasto per continuare ....");
+                //    Console.ReadLine();
+                //    Console.Clear();
+                //    return;
+
+                //}
+
+                //Console.WriteLine("");
+                //Console.WriteLine($"Nome - " + reader["NomeVenditore"].ToString() + " | Cognome - " + reader["CognomeVenditore"].ToString());
+                //Console.WriteLine($"Mail - " + reader["MailVenditore"].ToString() + " | Telefono - " + reader["TelefonoVenditore"].ToString());
+                //Console.WriteLine($"Avente Id - " + reader["Id"].ToString() + " | Il Venditore è - " + reader["VenditoreAttivo"]);
+                //Console.WriteLine($"Dalla Data - " + reader["OraInserimento"]);
+                //Console.WriteLine("");
+
+
+                //Liste.Venditori.Add(new Venditori()
+                //{
+                //    v.Id
+                //    Id = Int32.Parse(reader["Id"].ToString()),
+                //    NomeVenditore = reader["NomeVenditore"].ToString(),
+                //    CognomeVenditore = reader["CognomeVenditore"].ToString(),
+                //    TelefonoVenditore = reader["TelefonoVenditore"].ToString(),
+                //    MailVenditore = reader["MailVenditore"].ToString(),
+                //    VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString()),
+                //    OraInserimento = reader["OraInserimento"].ToString()
+                //}) ;
+
+                Liste.Venditori.Add(v);
 
                 Console.WriteLine("");
                 Console.WriteLine("I Venditori trovati con quasto nome sono : ");
                 Console.WriteLine("");
 
-                while (reader.Read())
-                {                    
+                int output = 0;
+                foreach (var item in Liste.Venditori)
+                {
+                    output += 1;
+
                     Console.WriteLine("");
-                    Console.WriteLine($"Nome - " + reader["NomeVenditore"].ToString() + " | Cognome - " + reader["CognomeVenditore"].ToString());
-                    Console.WriteLine($"Mail - " + reader["MailVenditore"].ToString() + " | Telefono - " + reader["TelefonoVenditore"].ToString());
-                    Console.WriteLine($"Avente Id - " + reader["Id"].ToString() + " | Il Venditore è - " + reader["VenditoreAttivo"]);
-                    Console.WriteLine($"Dalla Data - " + reader["OraInserimento"]);
+                    Console.WriteLine($"Id - {item.Id} | Nome - {item.NomeVenditore} |  Cognome  -  {item.CognomeVenditore} ");
+                    Console.WriteLine($"Telefono - {item.TelefonoVenditore} | Mail - {item.MailVenditore}");
+                    Console.WriteLine($"Venditore Aggiunto il -  {item.OraInserimento}  |  Il Venditore è {item.VenditoreAttivo} ");
                     Console.WriteLine("");
+
+                    if (output % 5 == 0)
+                    {
+                        Console.WriteLine(" ---------------------------------------------------------------------------------------");
+                        Console.WriteLine("Premi un tasto per continuare .....");
+                        Console.ReadLine();
+                    }
+
+                    Console.WriteLine(" ---------------------------------------------------------------------------------------");
+                    Console.WriteLine("");
+
+                    Console.WriteLine("Premi tasto per continuare ..... ");
+                    Console.ReadLine();
+
+                    Console.Clear();
 
                 }
 
-                Console.ReadLine();
+                CommonMethods.DbVendorsReader("WHERE CognomeVenditore = '" + cognomeVenditore + "'" , v.CognomeVenditore, v.NomeVenditore
+                    ,v.TelefonoVenditore, v.MailVenditore, v.OraInserimento, v.Id);
 
             }
 
@@ -378,8 +475,6 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
                 string risposta = Console.ReadLine();
                 bool rispostaUtente = int.TryParse(risposta, out int rispostaUtenteInt);
-
-
 
                 Console.Clear();
 
@@ -455,29 +550,30 @@ namespace VenditaAutoConcessionarioConsole.Methods
                             FROM[dbo].[Venditori]
                             WHERE [Id] = " + idVenditore))
 
+                            while (reader.Read())
+                            {
+                             /* A questo punto viene ciclato il contenuto estratto dalla query precedente ed assegnato all' ovvetto v.*,
+                             in questo caso stringhe, il valore di ogni variabile. Il metodo Read() estende la variabile reader che appunto 
+                             conteneva il dato. Attenzione ai cast.  */
 
 
-                                while (reader.Read())
-                                {
-                                    /* A questo punto viene ciclato il contenuto estratto dalla query precedente ed assegnato all' ovvetto v.*,
-                                       in questo caso stringhe, il valore di ogni variabile. Il metodo Read() estende la variabile reader che appunto 
-                                       conteneva il dato. Attenzione ai cast.  */
+
+                                v.Id = Int32.Parse(reader["Id"].ToString());
+                                v.NomeVenditore = reader["NomeVenditore"].ToString();
+                                v.CognomeVenditore = reader["CognomeVenditore"].ToString();
+                                v.TelefonoVenditore = reader["TelefonoVenditore"].ToString();
+                                v.MailVenditore = reader["MailVenditore"].ToString();
+                                v.VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString());
+                                v.OraInserimento = reader["OraInserimento"].ToString();
 
 
-                                    v.Id = Int32.Parse(reader["Id"].ToString());
-                                    v.NomeVenditore = reader["NomeVenditore"].ToString();
-                                    v.CognomeVenditore = reader["CognomeVenditore"].ToString();
-                                    v.TelefonoVenditore = reader["TelefonoVenditore"].ToString();
-                                    v.MailVenditore = reader["MailVenditore"].ToString();
-                                    v.VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString());
-                                    v.OraInserimento = reader["OraInserimento"].ToString();
-
-
-                                }
+                            }
 
                             if (v.Id == null)
                             {
                                 Console.WriteLine("Suka");
+                                Console.ReadLine();
+                                return;
                             }
 
                         }
