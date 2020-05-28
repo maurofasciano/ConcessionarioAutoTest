@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Collections.Generic;
 
 namespace VenditaAutoConcessionarioConsole.Class.Base
 {
@@ -25,24 +26,44 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
 
         }
 
-        public static Venditori DbVendorsReader(string query, string CognomeVenditore, string NoneVenditore
-            , string OraInserimento, string TelefonoVenditore, string MailVenditore, int? Id )
+        public static List<Venditori> DbVendorsReader(string whereCondition)
         {
             ConnectionStringSql dataBase = new ConnectionStringSql();
 
-            Venditori v = new Venditori();
+            List<Venditori> lista = new List<Venditori>();
 
-            using (var reader = dataBase.ExecuteQuerys(
-                @"SELECT [Id]
+            string query = @"SELECT [Id]
                 ,[NomeVenditore]
                 ,[CognomeVenditore] 
                 ,[TelefonoVenditore]
                 ,[MailVenditore]
                 ,[VenditoreAttivo]
                 ,[OraInserimento]
-                FROM [dbo].[Venditori]")) ;
+                FROM [dbo].[Venditori] ";
 
-            return v;
+            if (!String.IsNullOrEmpty(whereCondition))
+                query += whereCondition;
+
+            using (var reader = dataBase.ExecuteQuerys(query))
+            {
+                while (reader.Read())
+                {
+                    /* Passo una nuova istanza della classe Venditori ed eseguo i tryparse per la conversione in stringa */
+                    lista.Add(new Venditori()
+                    {
+                        Id = Int32.Parse(reader["Id"].ToString()),
+                        NomeVenditore = reader["NomeVenditore"].ToString(),
+                        CognomeVenditore = reader["CognomeVenditore"].ToString(),
+                        TelefonoVenditore = reader["TelefonoVenditore"].ToString(),
+                        MailVenditore = reader["MailVenditore"].ToString(),
+                        VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString()),
+                        OraInserimento = reader["OraInserimento"].ToString()
+                    });
+
+                }
+            }
+
+            return lista;
 
         }
 

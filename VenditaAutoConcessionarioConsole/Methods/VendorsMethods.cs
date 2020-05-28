@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.Design;
+using System.Linq;
 using System.Net.Mail;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
@@ -323,9 +324,8 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
             string cognomeVenditore = Console.ReadLine();
 
-            ConnectionStringSql dataBase = new ConnectionStringSql();
+            // ConnectionStringSql dataBase = new ConnectionStringSql();
 
-            Venditori v = new Venditori();
 
             //using (var reader = dataBase.ExecuteQuerys(
             //    @"SELECT [Id]
@@ -338,22 +338,9 @@ namespace VenditaAutoConcessionarioConsole.Methods
             //    FROM [dbo].[Venditori]
             //    WHERE CognomeVenditore = '" + cognomeVenditore + "'"))
 
-            CommonMethods.DbVendorsReader("WHERE CognomeVenditore = '" + cognomeVenditore + "'", v.CognomeVenditore, v.NomeVenditore
-                    , v.TelefonoVenditore, v.MailVenditore, v.OraInserimento, v.Id);
+            List<Venditori> lista = CommonMethods.DbVendorsReader("WHERE CognomeVenditore = '" + cognomeVenditore + "'");
 
-
-            while (reader.Read())
-            {
-                v.Id = Int32.Parse(reader["Id"].ToString());
-                v.NomeVenditore = reader["NomeVenditore"].ToString();
-                v.CognomeVenditore = reader["CognomeVenditore"].ToString();
-                v.TelefonoVenditore = reader["TelefonoVenditore"].ToString();
-                v.MailVenditore = reader["MailVenditore"].ToString();
-                v.VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString());
-                v.OraInserimento = reader["OraInserimento"].ToString();
-            }
-
-            if (v.CognomeVenditore == null)
+            if (lista.Count() == 0)
             {
                 Console.WriteLine("Suka");
                 Console.ReadLine();
@@ -373,88 +360,79 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
             //  CommonMethods.DbVendorsReader("WHERE cognomeVenditore =" + v.CognomeVenditore);
 
+
+            //while (reader.Read())
+            //{
+            //if (!string.IsNullOrEmpty(cognomeVenditore))
+            //{
+
+            //    Console.WriteLine("");
+            //    Console.WriteLine("-----------------------------------------------");
+            //    Console.WriteLine("- Nessun Venditore Trovato con questo Cognome -");
+            //    Console.WriteLine("-----------------------------------------------");
+            //    Console.WriteLine("");
+
+            //    Console.WriteLine("Premi un tasto per continuare ....");
+            //    Console.ReadLine();
+            //    Console.Clear();
+            //    return;
+
+            //}
+
+            //Console.WriteLine("");
+            //Console.WriteLine($"Nome - " + reader["NomeVenditore"].ToString() + " | Cognome - " + reader["CognomeVenditore"].ToString());
+            //Console.WriteLine($"Mail - " + reader["MailVenditore"].ToString() + " | Telefono - " + reader["TelefonoVenditore"].ToString());
+            //Console.WriteLine($"Avente Id - " + reader["Id"].ToString() + " | Il Venditore è - " + reader["VenditoreAttivo"]);
+            //Console.WriteLine($"Dalla Data - " + reader["OraInserimento"]);
+            //Console.WriteLine("");
+
+
+            //Liste.Venditori.Add(new Venditori()
+            //{
+            //    v.Id
+            //    Id = Int32.Parse(reader["Id"].ToString()),
+            //    NomeVenditore = reader["NomeVenditore"].ToString(),
+            //    CognomeVenditore = reader["CognomeVenditore"].ToString(),
+            //    TelefonoVenditore = reader["TelefonoVenditore"].ToString(),
+            //    MailVenditore = reader["MailVenditore"].ToString(),
+            //    VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString()),
+            //    OraInserimento = reader["OraInserimento"].ToString()
+            //}) ;
+
+
+            Console.WriteLine("");
+            Console.WriteLine("I Venditori trovati con quasto nome sono : ");
+            Console.WriteLine("");
+
+            int output = 0;
+            foreach (var item in lista)
             {
-
-                
-
-                //while (reader.Read())
-                //{
-                //if (!string.IsNullOrEmpty(cognomeVenditore))
-                //{
-
-                //    Console.WriteLine("");
-                //    Console.WriteLine("-----------------------------------------------");
-                //    Console.WriteLine("- Nessun Venditore Trovato con questo Cognome -");
-                //    Console.WriteLine("-----------------------------------------------");
-                //    Console.WriteLine("");
-
-                //    Console.WriteLine("Premi un tasto per continuare ....");
-                //    Console.ReadLine();
-                //    Console.Clear();
-                //    return;
-
-                //}
-
-                //Console.WriteLine("");
-                //Console.WriteLine($"Nome - " + reader["NomeVenditore"].ToString() + " | Cognome - " + reader["CognomeVenditore"].ToString());
-                //Console.WriteLine($"Mail - " + reader["MailVenditore"].ToString() + " | Telefono - " + reader["TelefonoVenditore"].ToString());
-                //Console.WriteLine($"Avente Id - " + reader["Id"].ToString() + " | Il Venditore è - " + reader["VenditoreAttivo"]);
-                //Console.WriteLine($"Dalla Data - " + reader["OraInserimento"]);
-                //Console.WriteLine("");
-
-
-                //Liste.Venditori.Add(new Venditori()
-                //{
-                //    v.Id
-                //    Id = Int32.Parse(reader["Id"].ToString()),
-                //    NomeVenditore = reader["NomeVenditore"].ToString(),
-                //    CognomeVenditore = reader["CognomeVenditore"].ToString(),
-                //    TelefonoVenditore = reader["TelefonoVenditore"].ToString(),
-                //    MailVenditore = reader["MailVenditore"].ToString(),
-                //    VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString()),
-                //    OraInserimento = reader["OraInserimento"].ToString()
-                //}) ;
-
-                Liste.Venditori.Add(v);
+                output += 1;
 
                 Console.WriteLine("");
-                Console.WriteLine("I Venditori trovati con quasto nome sono : ");
+                Console.WriteLine($"Id - {item.Id} | Nome - {item.NomeVenditore} |  Cognome  -  {item.CognomeVenditore} ");
+                Console.WriteLine($"Telefono - {item.TelefonoVenditore} | Mail - {item.MailVenditore}");
+                Console.WriteLine($"Venditore Aggiunto il -  {item.OraInserimento}  |  Il Venditore è {item.VenditoreAttivo} ");
                 Console.WriteLine("");
 
-                int output = 0;
-                foreach (var item in Liste.Venditori)
+                if (output % 5 == 0)
                 {
-                    output += 1;
-
-                    Console.WriteLine("");
-                    Console.WriteLine($"Id - {item.Id} | Nome - {item.NomeVenditore} |  Cognome  -  {item.CognomeVenditore} ");
-                    Console.WriteLine($"Telefono - {item.TelefonoVenditore} | Mail - {item.MailVenditore}");
-                    Console.WriteLine($"Venditore Aggiunto il -  {item.OraInserimento}  |  Il Venditore è {item.VenditoreAttivo} ");
-                    Console.WriteLine("");
-
-                    if (output % 5 == 0)
-                    {
-                        Console.WriteLine(" ---------------------------------------------------------------------------------------");
-                        Console.WriteLine("Premi un tasto per continuare .....");
-                        Console.ReadLine();
-                    }
-
                     Console.WriteLine(" ---------------------------------------------------------------------------------------");
-                    Console.WriteLine("");
-
-                    Console.WriteLine("Premi tasto per continuare ..... ");
+                    Console.WriteLine("Premi un tasto per continuare .....");
                     Console.ReadLine();
-
-                    Console.Clear();
-
                 }
 
-                CommonMethods.DbVendorsReader("WHERE CognomeVenditore = '" + cognomeVenditore + "'" , v.CognomeVenditore, v.NomeVenditore
-                    ,v.TelefonoVenditore, v.MailVenditore, v.OraInserimento, v.Id);
+                Console.WriteLine(" ---------------------------------------------------------------------------------------");
+                Console.WriteLine("");
+
+                Console.WriteLine("Premi tasto per continuare ..... ");
+                Console.ReadLine();
+
+                Console.Clear();
 
             }
-
         }
+
 
         public static void ModificaVenditori()
         {
