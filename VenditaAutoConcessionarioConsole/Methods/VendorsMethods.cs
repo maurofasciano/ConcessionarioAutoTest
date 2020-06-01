@@ -214,13 +214,15 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 order by Id"
                 ))
 
+                
 
 
                 // {
                 /* Esco dal task ed eseguo un while per andare a riempire la lista da stampare a schermo.
                    Gli passo "reader" con il motodo .Read() e gli faccio richiamare il metodo .Add */
                 while (reader.Read())
-                {
+                { 
+
                     /* Passo una nuova istanza della classe Venditori ed eseguo i tryparse per la conversione in stringa */
                     Liste.Venditori.Add(new Venditori()
                     {
@@ -229,11 +231,14 @@ namespace VenditaAutoConcessionarioConsole.Methods
                         CognomeVenditore = reader["CognomeVenditore"].ToString(),
                         TelefonoVenditore = reader["TelefonoVenditore"].ToString(),
                         MailVenditore = reader["MailVenditore"].ToString(),
+                        // VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString()),
+                        OraInserimento = reader["OraInserimento"].ToString(),  
                         VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString()),
-                        OraInserimento = reader["OraInserimento"].ToString()
                     });
                     
-                }
+                }     
+            
+
             // }
 
             /* Ora posso chiudere la connessione con il metodo ConnectionClose */
@@ -249,20 +254,39 @@ namespace VenditaAutoConcessionarioConsole.Methods
             int output = 0;
             foreach (var item in Liste.Venditori)
             {
-                output += 1;
+                output += 1;       
 
                 Console.WriteLine("");
                 Console.WriteLine($"Id - {item.Id} | Nome - {item.NomeVenditore} |  Cognome  -  {item.CognomeVenditore} ");
                 Console.WriteLine($"Telefono - {item.TelefonoVenditore} | Mail - {item.MailVenditore}");
-                Console.WriteLine($"Venditore Aggiunto il -  {item.OraInserimento}  |  Il Venditore è {item.VenditoreAttivo} ");
+
+                /* Si pone il problema che l' output di "VenditoreAttivo" è sempre true o false (bool) con il seguente codice.
+                   
+                Console.WriteLine($"Aggiunto il - {item.TelefonoVenditore} | Il Venditore è - {item.VenditoreAttivo}");
+
+                Per restituire invece una stringa (Attivo - Disattivo) è necessario usare una Lambda Expression */
+
+                Console.WriteLine("Venditore Aggiunto il - " + item.OraInserimento + "  |  Il Venditore è " + (item.VenditoreAttivo == true ? " attivo" : "disattivo"));
                 Console.WriteLine("");
 
-                if (output  % 5 == 0)
+                /* Oppure è possibile generare uno statement come segue : 
+
+                if (item.VenditoreAttivo == true)
                 {
+                    Console.WriteLine($"Aggiunto il - { item.TelefonoVenditore} | Il Venditore è - Attivo");
+                }
+                else
+                {
+                    Console.WriteLine($"Aggiunto il - { item.TelefonoVenditore} | Il Venditore è - Disattivo");
+                }
+
+                if (output % 5 == 0)
+                {
+
                     Console.WriteLine(" ---------------------------------------------------------------------------------------");
                     Console.WriteLine("Premi un tasto per continuare .....");
                     Console.ReadLine();
-                }
+                } */
 
             }
             Console.WriteLine(" ---------------------------------------------------------------------------------------");
@@ -308,9 +332,9 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 } 
             }  */
 
-            // Nuovo Metodo con Sql         
+                // Nuovo Metodo con Sql         
 
-            Console.Clear();
+                Console.Clear();
 
             Console.WriteLine("---------------------------------------------------");
             Console.WriteLine("--------------- Ricerca Venditore -----------------");
@@ -324,112 +348,144 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
             string cognomeVenditore = Console.ReadLine();
 
-            // ConnectionStringSql dataBase = new ConnectionStringSql();
+            // Metodo con query diretta al Db, senza oggetto 
 
+            // Eseguo l' implementazione dell' oggetto database
+            /* ConnectionStringSql dataBase = new ConnectionStringSql();
 
-            //using (var reader = dataBase.ExecuteQuerys(
-            //    @"SELECT [Id]
-            //    ,[NomeVenditore]
-            //    ,[CognomeVenditore] 
-            //    ,[TelefonoVenditore]
-            //    ,[MailVenditore]
-            //    ,[VenditoreAttivo]
-            //    ,[OraInserimento]
-            //    FROM [dbo].[Venditori]
-            //    WHERE CognomeVenditore = '" + cognomeVenditore + "'"))
+                // Imposto la query dove reader è la variabile che contiene la query a sql
+                   La condizione WHERE è seguita dalla variabile (concatenata) ed indica il match con il valore rilevato
 
-            List<Venditori> lista = CommonMethods.DbVendorsReader("WHERE CognomeVenditore = '" + cognomeVenditore + "'");
+            using (var reader = dataBase.ExecuteQuerys(
+                @"SELECT [Id]
+                ,[NomeVenditore]
+                ,[CognomeVenditore] 
+                ,[TelefonoVenditore]
+                ,[MailVenditore]
+                ,[VenditoreAttivo]
+                ,[OraInserimento]
+                FROM [dbo].[Venditori]
+                WHERE CognomeVenditore = '" + cognomeVenditore + "'")) 
 
-            if (lista.Count() == 0)
-            {
-                Console.WriteLine("Suka");
-                Console.ReadLine();
-                return;
-            }
-
-            //using (var reader = dataBase.ExecuteQuerys(
-            //    @"SELECT [Id]
-            //    ,[NomeVenditore]
-            //    ,[CognomeVenditore] 
-            //    ,[TelefonoVenditore]
-            //    ,[MailVenditore]
-            //    ,[VenditoreAttivo]
-            //    ,[OraInserimento]
-            //    FROM [dbo].[Venditori]
-            //    WHERE CognomeVenditore = '" + cognomeVenditore + "'"))
-
-            //  CommonMethods.DbVendorsReader("WHERE cognomeVenditore =" + v.CognomeVenditore);
-
-
-            //while (reader.Read())
-            //{
-            //if (!string.IsNullOrEmpty(cognomeVenditore))
-            //{
-
-            //    Console.WriteLine("");
-            //    Console.WriteLine("-----------------------------------------------");
-            //    Console.WriteLine("- Nessun Venditore Trovato con questo Cognome -");
-            //    Console.WriteLine("-----------------------------------------------");
-            //    Console.WriteLine("");
-
-            //    Console.WriteLine("Premi un tasto per continuare ....");
-            //    Console.ReadLine();
-            //    Console.Clear();
-            //    return;
-
-            //}
-
-            //Console.WriteLine("");
-            //Console.WriteLine($"Nome - " + reader["NomeVenditore"].ToString() + " | Cognome - " + reader["CognomeVenditore"].ToString());
-            //Console.WriteLine($"Mail - " + reader["MailVenditore"].ToString() + " | Telefono - " + reader["TelefonoVenditore"].ToString());
-            //Console.WriteLine($"Avente Id - " + reader["Id"].ToString() + " | Il Venditore è - " + reader["VenditoreAttivo"]);
-            //Console.WriteLine($"Dalla Data - " + reader["OraInserimento"]);
-            //Console.WriteLine("");
-
-
-            //Liste.Venditori.Add(new Venditori()
-            //{
-            //    v.Id
-            //    Id = Int32.Parse(reader["Id"].ToString()),
-            //    NomeVenditore = reader["NomeVenditore"].ToString(),
-            //    CognomeVenditore = reader["CognomeVenditore"].ToString(),
-            //    TelefonoVenditore = reader["TelefonoVenditore"].ToString(),
-            //    MailVenditore = reader["MailVenditore"].ToString(),
-            //    VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString()),
-            //    OraInserimento = reader["OraInserimento"].ToString()
-            //}) ;
-
-
-            Console.WriteLine("");
-            Console.WriteLine("I Venditori trovati con quasto nome sono : ");
-            Console.WriteLine("");
-
-            int output = 0;
-            foreach (var item in lista)
-            {
-                output += 1;
+                // Eseguo la WriteLine prima del ciclo per evitare che venga ripetuto se trovati più riferimenti
+                   con lo stesso cognome
 
                 Console.WriteLine("");
-                Console.WriteLine($"Id - {item.Id} | Nome - {item.NomeVenditore} |  Cognome  -  {item.CognomeVenditore} ");
-                Console.WriteLine($"Telefono - {item.TelefonoVenditore} | Mail - {item.MailVenditore}");
-                Console.WriteLine($"Venditore Aggiunto il -  {item.OraInserimento}  |  Il Venditore è {item.VenditoreAttivo} ");
+                Console.WriteLine("I Venditori trovati con quasto nome sono : ");
                 Console.WriteLine("");
 
-                if (output % 5 == 0)
+               // Eseguo il ciclo per mostrare i miei dati contenuti in reader
+
+            while (reader.Read())
+            {
+                
+                // Imposto una condizione se non trovo riferimenti nel Db. Dato che la stringa non può essere 
+                   Null Or Empty sulla variabile che passo, imposto il suo opposto "!"
+
+                if (!string.IsNullOrEmpty(cognomeVenditore))
                 {
-                    Console.WriteLine(" ---------------------------------------------------------------------------------------");
-                    Console.WriteLine("Premi un tasto per continuare .....");
+
+                    Console.WriteLine("");
+                    Console.WriteLine("-----------------------------------------------");
+                    Console.WriteLine("- Nessun Venditore Trovato con questo Cognome -");
+                    Console.WriteLine("-----------------------------------------------");
+                    Console.WriteLine("");
+
+                    Console.WriteLine("Premi un tasto per continuare ....");
                     Console.ReadLine();
+                    Console.Clear();
+                    return;
+
                 }
 
-                Console.WriteLine(" ---------------------------------------------------------------------------------------");
+                Console.WriteLine("");
+                Console.WriteLine($"Nome - " + reader["NomeVenditore"].ToString() + " | Cognome - " + reader["CognomeVenditore"].ToString());
+                Console.WriteLine($"Mail - " + reader["MailVenditore"].ToString() + " | Telefono - " + reader["TelefonoVenditore"].ToString());
+                Console.WriteLine($"Avente Id - " + reader["Id"].ToString() + " | Il Venditore è - " + reader["VenditoreAttivo"]);
+                Console.WriteLine($"Dalla Data - " + reader["OraInserimento"]);
                 Console.WriteLine("");
 
-                Console.WriteLine("Premi tasto per continuare ..... ");
-                Console.ReadLine();
+                // E' anche possibile inserire i dati in reader in una lista
 
-                Console.Clear();
+                Liste.Venditori.Add(new Venditori()
+            
+                Id = Int32.Parse(reader["Id"].ToString()),
+                NomeVenditore = reader["NomeVenditore"].ToString(),
+                CognomeVenditore = reader["CognomeVenditore"].ToString(),
+                TelefonoVenditore = reader["TelefonoVenditore"].ToString(),
+                MailVenditore = reader["MailVenditore"].ToString(),
+                VenditoreAttivo = Boolean.Parse(reader["VenditoreAttivo"].ToString()),
+                OraInserimento = reader["OraInserimento"].ToString()
+            }); */
 
+            // Poi li mostro tramite ciclo foreach
+
+            //foreach (var item in Liste.Venditori)
+            //{
+            //    Console.WriteLine($"I Venditori presenti in Elenco sono - Nome : {item.NomeVenditore} - Cognome {item.CognomeVenditore}");
+            //    Console.WriteLine($"                                      Telefono : {item.TelefonoVenditore} - Mail : {item.NomeVenditore} ");
+            //    Console.WriteLine($"                                      Il suo Id è : {item.Id} - E' inserito dal {item.OraInserimento}");
+            //    Console.WriteLine($"                                      Il Venditore è in stato {item.VenditoreAttivo}");
+            //}
+
+            {
+                // Metodo nuovo con query in metodo comune
+
+                /* Creo un oggetto lista di tipo ListaVenditori che è uguale alla query contenuta in DbVendorsReader
+                   Gli passo solo il parametro query mancante. Questo è fatto ramite Linq */
+
+                List<Venditori> lista = CommonMethods.DbVendorsReader("WHERE CognomeVenditore = '" + cognomeVenditore + "'");
+
+                /* Inserisco l' eccezione nel caso non trovassi riferimenti */
+
+                if (lista.Count() == 0)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("-----------------------------------------------");
+                    Console.WriteLine("- Nessun Venditore Trovato con questo Cognome -");
+                    Console.WriteLine("-----------------------------------------------");
+                    Console.WriteLine("");
+
+                    Console.WriteLine("Premi un tasto per continuare ....");
+                    Console.ReadLine();
+                    Console.Clear();
+                    return;
+                }
+
+                Console.WriteLine("");
+                Console.WriteLine("I Venditori trovati con quasto nome sono : ");
+                Console.WriteLine("");
+
+                /* La seguente logica mi permette di suddividere l' output in blocchi di 5 referenze trovate
+                Genero una variabile "output" a 0, ad ogni ciclo aggiungo 1 alla stessa ( += ), poi imposto la 
+                condizione che se quando divido per 5 mi restituisce 0, allora interrompo l' output e chiedo
+                all' utente di premere un tasto per continure la visualizzazione */
+
+                int output = 0;
+                foreach (var item in lista)
+                {
+                    output += 1;
+
+                    Console.WriteLine("");
+                    Console.WriteLine($"Id - {item.Id} | Nome - {item.NomeVenditore} |  Cognome  -  {item.CognomeVenditore} ");
+                    Console.WriteLine($"Telefono - {item.TelefonoVenditore} | Mail - {item.MailVenditore}");
+                    Console.WriteLine($"Venditore Aggiunto il -  {item.OraInserimento}  |  Il Venditore è {item.VenditoreAttivo} ");
+                    Console.WriteLine("");
+
+                    if (output % 5 == 0)
+                    {
+                        Console.WriteLine(" ---------------------------------------------------------------------------------------");
+                        Console.WriteLine("Premi un tasto per continuare .....");
+                        Console.ReadLine();
+                    }
+
+                    Console.WriteLine(" ---------------------------------------------------------------------------------------");                   
+                    Console.WriteLine("Premi tasto per continuare ..... ");
+                    Console.ReadLine();
+
+                    Console.Clear();                    
+
+                }
             }
         }
 
@@ -678,13 +734,15 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
                                     case 3:
                                         CommonMethods.RichiestaNonValida();
-                                        break;
+                                        continue;
 
                                 }
 
+
+
                                 /* passCodeBlock = false;
                                 Console.Clear(); */
-                                return;
+                                break;
 
                             case 6:
                                 return;
@@ -709,19 +767,21 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
                 }
 
-                /* La query è generata nell'  istruzione If a causa del fatto che la stessa riepscava i dati durante il ciclo di ricerca tramite Id, 
+                /* La query è generata nell'  istruzione If a causa del fatto che la stessa ripescava i dati durante il ciclo di ricerca tramite Id, 
                    andando in exception error , passando dati nulli.
                    Ora gira solo se IdVenditore risulta valorizzato. Se così non è, continua e riparte */
 
+
                 if (!String.IsNullOrEmpty(idVenditore))
                 {
-                    dataBase.ExecuteNotQuery($"UPDATE[dbo].[Venditori]" +
-                        "SET [NomeVenditore] = '" + v.NomeVenditore + "'" +
-                        ",[CognomeVenditore] = '" + v.CognomeVenditore + "'" +
-                        ",[TelefonoVenditore] = '" + v.TelefonoVenditore + "'" +
-                        ",[MailVenditore] = '" + v.MailVenditore + "'" +
-                        ",[VenditoreAttivo] = '" + v.VenditoreAttivo + "'" +
-                        " WHERE [Id] = " + idVenditore);
+                    //dataBase.ExecuteNotQuery($"UPDATE[dbo].[Venditori]" +
+                    //    "SET [NomeVenditore] = '" + v.NomeVenditore + "'" +
+                    //    ",[CognomeVenditore] = '" + v.CognomeVenditore + "'" +
+                    //    ",[TelefonoVenditore] = '" + v.TelefonoVenditore + "'" +
+                    //    ",[MailVenditore] = '" + v.MailVenditore + "'" +
+                    //    ",[VenditoreAttivo] = '" + v.VenditoreAttivo + "'" +
+                    //    " WHERE [Id] = " + idVenditore);
+                    CommonMethods.DbVendorWriter("WHERE [Id] = " + idVenditore, v);
                 }
                 else
                 {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Collections.Generic;
 
 namespace VenditaAutoConcessionarioConsole.Class.Base
 {
@@ -67,5 +66,24 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
 
         }
 
+        public static void DbVendorWriter(string whereCondition, Venditori v)
+
+        {
+            ConnectionStringSql database = new ConnectionStringSql();
+
+            string query = $"UPDATE[dbo].[Venditori]" +
+                        "SET [NomeVenditore] = '" + v.NomeVenditore + "'" +
+                        ",[CognomeVenditore] = '" + v.CognomeVenditore + "'" +
+                        ",[TelefonoVenditore] = '" + v.TelefonoVenditore + "'" +
+                        ",[MailVenditore] = '" + v.MailVenditore + "'" +
+                        ",[VenditoreAttivo] = '" + v.VenditoreAttivo + "'";
+
+
+            if (!String.IsNullOrEmpty(whereCondition))
+                query += whereCondition;
+
+            database.ExecuteNotQuery(query);
+
+        }
     }
 }
