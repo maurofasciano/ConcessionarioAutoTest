@@ -85,5 +85,19 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
             database.ExecuteNotQuery(query);
 
         }
+
+        public static void DbVendorDeleter(string whereCondition)
+
+        {
+            ConnectionStringSql database = new ConnectionStringSql();
+
+            string query = $"delete from dbo.Venditori ";
+
+            if (!String.IsNullOrEmpty(whereCondition))
+                query += whereCondition;
+
+            database.ExecuteNotQuery(query);
+
+        }
     }
 }

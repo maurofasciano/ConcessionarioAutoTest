@@ -96,7 +96,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
                     case 7: // Quitta dal programma
                         Console.WriteLine("");
                         Console.WriteLine("---------------------------------------------------------------");
-                        Console.WriteLine("- Hai selezionato QUIT, premi due volte INVIO per chiudere ! - ");
+                        Console.WriteLine("------ Hai selezionato QUIT, premi INVIO per chiudere ! ------ ");
                         Console.WriteLine("---------------------------------------------------------------");
                         Console.WriteLine("");
                         Console.ReadLine();
