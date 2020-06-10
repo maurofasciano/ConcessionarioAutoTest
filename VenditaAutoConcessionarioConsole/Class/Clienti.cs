@@ -10,8 +10,8 @@ namespace VenditaAutoConcessionarioConsole.Class
         public int Id { get; set; }
         public string NomeCliente { get; set; }
         public string CognomeCliente { get; set; }
-        public string TelefonoCliente { get; set; }
-        public string MailCliente { get; set; }
+        public string? TelefonoCliente { get; set; }
+        public string? MailCliente { get; set; }
         public bool ClienteAttivo { get; set; }
         public string OraInserimento { get; set; }
 

@@ -6,12 +6,12 @@ using System.Text;
 namespace VenditaAutoConcessionarioConsole.Class.Base
 {
     // Connessione a Sql 2019
-    public class ConnectionStringSql
+    public class ConnectionStringSql : IDisposable
     {
         public string connectionString = "Server=DAMAGE003\\SQLEXPRESS;Database=ConcessionarioAutoTest;User Id=faggiano;Password=cippi1;";
         SqlConnection connection = null;
 
-        public  string GetConnectionString()
+        public string GetConnectionString()
         {
             // To avoid storing the connection string in your code, 
             // you can retrieve it from a configuration file, using the 
@@ -44,11 +44,15 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
             connection.Close();
         }
 
-        
-        
-        
+        public void Dispose()
+        {
+
+        }
+
+
+
         // Esempio di stringa connessione con query di lettura
-        
+
         /* string connectionString = "Server=DAMAGE000\\SQLEXPRESS;Database=ConcessionarioAutoConsole;Integrated Security=true";
 
         string queryString =

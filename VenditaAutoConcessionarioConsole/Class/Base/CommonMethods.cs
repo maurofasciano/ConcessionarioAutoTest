@@ -66,6 +66,50 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
 
         }
 
+        public static List<Clienti> DbCustomersReader(string whereCondition)
+        {
+            ConnectionStringSql dataBase = new ConnectionStringSql();
+            List<Clienti> lista = new List<Clienti>();
+
+            string query = @"SELECT[Id]
+                        ,[NomeCliente]
+                        ,[CognomeCliente]
+                        ,[TelefonoCliente]
+                        ,[MailCliente]
+                        ,[ClienteAttivo]
+                        ,[OraInserimento]
+                        FROM[dbo].[Clienti]
+                        ORDER By Id";
+
+            if (!String.IsNullOrEmpty(whereCondition))
+                query += whereCondition;
+
+            using(var reader = dataBase.ExecuteQuerys(query))
+            {
+                while (reader.Read())
+                { 
+                    lista.Add(new Clienti()
+                    { 
+                        
+                        Id= Int32.Parse(reader["Id"].ToString()),
+                        NomeCliente = reader["NomeCliente"].ToString(),
+                        CognomeCliente = reader["CognomeCliente"].ToString(),
+                        TelefonoCliente = reader["TelefonoCliente"].ToString(),
+                        MailCliente = reader["MailCliente"].ToString(),
+                        ClienteAttivo = Boolean.Parse(reader["ClienteAttivo"].ToString()),
+                        OraInserimento = reader["OraInserimento"].ToString()
+
+
+                    });
+                }
+
+            }
+
+
+            return lista;
+
+        }
+
         public static void DbVendorWriter(string whereCondition, Venditori v)
 
         {
@@ -99,5 +143,8 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
             database.ExecuteNotQuery(query);
 
         }
+
+
+
     }
 }

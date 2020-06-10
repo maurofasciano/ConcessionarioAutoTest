@@ -5,6 +5,7 @@ using VenditaAutoConcessionarioConsole.Class;
 using VenditaAutoConcessionarioConsole.Class.Base;
 using VenditaAutoConcessionarioConsole.Class.Liste;
 
+
 namespace VenditaAutoConcessionarioConsole.Methods
 {
     class CustomersMethods
@@ -15,7 +16,9 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
             Clienti c = new Clienti();
 
-            if (Liste.Clienti.Count > 0)
+            // Vecchio metodo per autoincrement sullId in Liste
+
+            /* if (Liste.Clienti.Count > 0)
             {
                 int maxId = Liste.Clienti[0].Id;
 
@@ -35,7 +38,22 @@ namespace VenditaAutoConcessionarioConsole.Methods
             else
             {
                 c.Id = 1;
+            } */
+            ConnectionStringSql database = new ConnectionStringSql();
+
+
+            
+            int maxId = 0;
+
+            using (var reader = database.ExecuteQuerys("SELECT ISNULL(max(Id),0) as maxId from Clienti"))
+            {
+                while (reader.Read())
+                {
+                    maxId = Int32.Parse(reader["maxId"].ToString());
+                }
             }
+
+            c.Id = maxId + 1;
 
             Console.Clear();
 
@@ -73,29 +91,58 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
             c.OraInserimento = DateTime.Now.ToString();
 
-            Liste.Clienti.Add(c);
+            // Vecchio inserimento in liste
+            /* Liste.Clienti.Add(c); */
+
+
 
             Console.Clear();
 
+            
+
+            c.ClienteAttivo = true;
+
+            c.OraInserimento = DateTime.Now.ToString();
+
+            database.ExecuteNotQuery($"INSERT INTO [dbo].[Clienti]([Id]" +
+                ",[NomeCliente]" +
+                ",[CognomeCliente]" +
+                ",[TelefonoCliente]" +
+                ",[MailCliente]" +
+                ",[ClienteAttivo]" +
+                ",[OraInserimento])" +
+                "VALUES" + "(" + $"{c.Id}," + $"'{c.NomeCliente}', '{c.CognomeCliente}', '{c.TelefonoCliente}'," +
+                $"'{c.MailCliente}', '{c.ClienteAttivo}', '{c.OraInserimento}')") ;
+
+            // database.ConnectionClose();
+            database.Dispose();
+
+
             Console.WriteLine("");
             Console.WriteLine("---------------------------------------------------------------------------------------------------");
-            Console.WriteLine($"- Hai inserito il Cliente {c.NomeCliente} - {c.CognomeCliente} - Avente GuId - {c.Id} - ");
+            Console.WriteLine($"- Hai inserito il Cliente con {c.NomeCliente} - {c.CognomeCliente} - Avente Id - {c.Id} - ");
             Console.WriteLine($"- Il telefono è : {c.TelefonoCliente} - La sua mail è : {c.MailCliente}");
-            Console.WriteLine($"- Il Venditore è stato inserito il  : {c.OraInserimento}");
+            Console.WriteLine($"- Il cliente è : " + (c.ClienteAttivo == true ? "Attivo" : "") + "  Registrato il : " + $"{c.OraInserimento}");
             Console.WriteLine("---------------------------------------------------------------------------------------------------");
-            Console.WriteLine("");
             Console.WriteLine("");
 
+            Console.WriteLine("---------------------------------------");
+            Console.WriteLine("Premi un tasto per continuare....");
+            Console.ReadLine();
+            Console.Clear();
 
             return c;
 
         }
 
-        public static List<Clienti> ElencoClienti()
+        public static  List<Clienti> ElencoClienti()
         {
-            // Eseguo un ForEach per ciclare dalla lista i miei dati. A differenza del While che cicla un condizionale
-            // e For che cicla una index, questo comando è dedicato alle liste.
-            // Associa alla variabile "item", tramite il comando "in", la lista venditori e mostra in console cosa contengono
+
+            // Vecchio metodo con Lista
+
+            /* Eseguo un ForEach per ciclare dalla lista i miei dati. A differenza del While che cicla un condizionale
+            e For che cicla una index, questo comando è dedicato alle liste.
+            Associa alla variabile "item", tramite il comando "in", la lista venditori e mostra in console cosa contengono
 
             Console.Clear();
 
@@ -110,9 +157,29 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 Console.WriteLine(" ---------------------------------------------------------------------------------------");
                 Console.WriteLine("");
                               
+            } */
+
+            Console.Clear();
+
+            List<Clienti> lista = new List<Clienti>();
+
+            lista = CommonMethods.DbCustomersReader("");
+
+            Console.WriteLine("I Clienti presenti sono :");
+
+            foreach (var item in lista)
+            {
+
+                Console.WriteLine("");
+                Console.WriteLine($"Id - {item.Id} | Nome - {item.NomeCliente} |  Cognome  -  {item.CognomeCliente} ");
+                Console.WriteLine($"Telefono - {item.TelefonoCliente} | Mail - {item.MailCliente}");
+                Console.WriteLine("Cliente Aggiunto il" +  item.OraInserimento + " |  Il Venditore è : " + (item.ClienteAttivo == true ? "Attivo" : "Disattivo"));
+                Console.WriteLine("");
+
             }
-            
-            return Liste.Clienti;
+
+
+            return Liste.Clienti; 
             
             
         }

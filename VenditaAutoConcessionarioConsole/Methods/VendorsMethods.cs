@@ -42,6 +42,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
                ConnectionString. Essendo nel metodo di classe, verrà istanziato anche per le altre queries */
 
             ConnectionStringSql dataBase = new ConnectionStringSql();
+            
 
             /* Imposto la variabile maxId su 0 */
             int maxId = 0;
@@ -147,7 +148,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
             Console.WriteLine("---------------------------------------------------------------------------------------------------");
             Console.WriteLine($"- Hai inserito il venditore {v.NomeVenditore} - {v.CognomeVenditore} - Avente Id - {v.Id} - ");
             Console.WriteLine($"- Il telefono è : {v.TelefonoVenditore} - La sua mail è : {v.MailVenditore}");
-            Console.WriteLine($"- Il Venditore è :" + (v.VenditoreAttivo == true ? "  Attivo" : "") +"  " + "Registrato il : "+$"{v.OraInserimento}"); 
+            Console.WriteLine($"- Il Venditore è : " + (v.VenditoreAttivo == true ? "  Attivo" : "") +"  " + "Registrato il : "+$"{v.OraInserimento}"); 
             Console.WriteLine("---------------------------------------------------------------------------------------------------");
             Console.WriteLine("");
             Console.WriteLine("");
@@ -493,7 +494,6 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
             }
         }
-
 
         public static void ModificaVenditori()
         {
@@ -939,13 +939,14 @@ namespace VenditaAutoConcessionarioConsole.Methods
                             Console.WriteLine("- Hai eliminato il venditore");
                             Console.WriteLine($"- Nome : {item.NomeVenditore} | Cognome : {item.CognomeVenditore} ");
                             Console.WriteLine($"- Il Telefono era : {item.TelefonoVenditore} | La Mail era : {item.MailVenditore}");
-                            Console.WriteLine($"- Il suo status era :" + (item.VenditoreAttivo == true ? "Attivo" : "Disattivo") + $" |  Era inserito dal : {item.OraInserimento}");
+                            Console.WriteLine($"- Il suo status era : " + (item.VenditoreAttivo == true ? "Attivo" : "Disattivo") + $" |  Era inserito dal : {item.OraInserimento}");
                             Console.WriteLine("-------------------------------------------------------------------");
                             Console.WriteLine("");
                             Console.WriteLine("------------------------------");
                             Console.WriteLine("Premi un tasto per continuare ....");
                             Console.ReadLine();
                             Console.Clear();
+                            Liste.Venditori.Clear();
 
                         }
 
