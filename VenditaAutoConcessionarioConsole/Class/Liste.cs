@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using VenditaAutoConcessionarioConsole.Class;
-using VenditaAutoConcessionarioConsole.Models.Interfaces;
+
 
 namespace VenditaAutoConcessionarioConsole.Class.Liste
 {
@@ -19,10 +19,6 @@ namespace VenditaAutoConcessionarioConsole.Class.Liste
         public static List<Venditori> Venditori = new List<Venditori>();
 
         public static List<Clienti> Clienti = new List<Clienti>();
-
-        public static List<Auto> Auto = new List<Auto>();
-
-        public static List<Moto> Moto = new List<Moto>();
 
     }
 

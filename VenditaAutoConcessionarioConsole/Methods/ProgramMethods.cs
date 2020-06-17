@@ -4,7 +4,7 @@ using System.Text;
 using VenditaAutoConcessionarioConsole.Class;
 using VenditaAutoConcessionarioConsole.Class.Base;
 using VenditaAutoConcessionarioConsole.Class.Liste;
-using VenditaAutoConcessionarioConsole.Models.Interfaces;
+
 
 namespace VenditaAutoConcessionarioConsole.Methods
 {

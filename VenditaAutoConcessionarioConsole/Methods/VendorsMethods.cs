@@ -161,6 +161,8 @@ namespace VenditaAutoConcessionarioConsole.Methods
             /* Deve tornarmi qualcosa, che sono i dati del venditore, dato che il metodo non è Void
                In questo caso i dati sono nell' oggetto "v" che contiene "Id, Nome, Cosgnome, telefono e mail" */
 
+            dataBase.Dispose();
+
             return v;
 
             
@@ -245,6 +247,9 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
             /* Ora posso chiudere la connessione con il metodo ConnectionClose */
             dataBase.ConnectionClose();
+
+            /* Posso anche bruciare l' oggetto di connessione a Sql e scaricare la Ram */
+            dataBase.Dispose();
 
             /* Modificato OutPut in modo da avere solo una lista che segue la frase I Venditori presenti in Lista sono */
             Console.WriteLine("");
@@ -454,7 +459,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
                     Console.ReadLine();
                     Console.Clear();
                     return;
-                }
+                }                
 
                 Console.WriteLine("");
                 Console.WriteLine("I Venditori trovati con quasto nome sono : ");
@@ -489,6 +494,9 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 Console.WriteLine(" --- Ricerca completata - Premi tasto per continuare ..... ");
                 Console.WriteLine(" ---------------------------------------------------------------------------------------");
                 Console.ReadLine();
+
+                lista.Clear();
+                
 
                 Console.Clear();
 
@@ -573,7 +581,22 @@ namespace VenditaAutoConcessionarioConsole.Methods
                         Console.WriteLine("--- Inserisci l' Id del Venditore da modificare ---");
                         Console.WriteLine("---------------------------------------------------");
 
+                        
                         idVenditore = Console.ReadLine();
+
+                        if (string.IsNullOrEmpty(idVenditore))
+                        {
+                            Console.WriteLine("");
+                            Console.WriteLine("-----------------------------------------------");
+                            Console.WriteLine("- Nessun Venditore Trovato con questo Cognome -");
+                            Console.WriteLine("-----------------------------------------------");
+                            Console.WriteLine("");
+                            Console.WriteLine("-----------------------------------------");
+                            Console.WriteLine("Premi un tasto per continuare ....");
+                            Console.ReadLine();
+                            Console.Clear();
+                            break;
+                        }
 
                         /* Eseguzione query di lettura dei dati presenti nell tabella. Prima di ogni scrittura va associato il dato al costruttore per evitare
                            che si scriva null od altro in update */
@@ -592,12 +615,10 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
                             while (reader.Read())
                             {
-                             /* A questo punto viene ciclato il contenuto estratto dalla query precedente ed assegnato all' ovvetto v.*,
-                             in questo caso stringhe, il valore di ogni variabile. Il metodo Read() estende la variabile reader che appunto 
-                             conteneva il dato. Attenzione ai cast.  */
-
-
-
+                                    /* A questo punto viene ciclato il contenuto estratto dalla query precedente ed assegnato all' ovvetto v.*,
+                                    in questo caso stringhe, il valore di ogni variabile. Il metodo Read() estende la variabile reader che appunto 
+                                    conteneva il dato. Attenzione ai cast.  */
+                                     
                                 v.Id = Int32.Parse(reader["Id"].ToString());
                                 v.NomeVenditore = reader["NomeVenditore"].ToString();
                                 v.CognomeVenditore = reader["CognomeVenditore"].ToString();
@@ -607,22 +628,21 @@ namespace VenditaAutoConcessionarioConsole.Methods
                                 v.OraInserimento = reader["OraInserimento"].ToString();
 
 
-                            }
+                               if (v.Id == null)
+                               {
+                                   Console.WriteLine("");
+                                   Console.WriteLine("------------------------------------------");
+                                   Console.WriteLine("- Nessun Venditore Trovato con questo Id -");
+                                   Console.WriteLine("------------------------------------------");
+                                   Console.WriteLine("");
+                                                                            Console.WriteLine("-----------------------------------------");
+                                   Console.WriteLine("Premi un tasto per continuare ....");
+                                   Console.ReadLine();
+                                   Console.Clear();
+                                   return;
+                               }
 
-                            if (v.Id == null)
-                            {
-                                Console.WriteLine("");
-                                Console.WriteLine("-----------------------------------------------");
-                                Console.WriteLine("- Nessun Venditore Trovato con questo Cognome -");
-                                Console.WriteLine("-----------------------------------------------");
-                                Console.WriteLine("");
-
-                                Console.WriteLine("-----------------------------------------");
-                                Console.WriteLine("Premi un tasto per continuare ....");
-                                Console.ReadLine();
-                                Console.Clear();
-                                return;
-                            }
+                                }
 
                         }
 
@@ -793,7 +813,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
                     //    ",[MailVenditore] = '" + v.MailVenditore + "'" +
                     //    ",[VenditoreAttivo] = '" + v.VenditoreAttivo + "'" +
                     //    " WHERE [Id] = " + idVenditore);
-                    CommonMethods.DbVendorWriter("WHERE [Id] = " + idVenditore, v);                    
+                    CommonMethods.DbVendorUpDater("WHERE [Id] = " + idVenditore, v);                    
                     
                 }
                 else

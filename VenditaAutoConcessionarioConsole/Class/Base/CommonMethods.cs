@@ -6,8 +6,6 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
 {
     public static class CommonMethods
     {
-
-
         /// <summary>
         /// Medoto comune, chiamato quando l' utente usa numero non valido della select. ./Class/Base/Commonx.cs
         /// </summary>
@@ -62,6 +60,8 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
                 }
             }
 
+            dataBase.Dispose();
+
             return lista;
 
         }
@@ -78,8 +78,7 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
                         ,[MailCliente]
                         ,[ClienteAttivo]
                         ,[OraInserimento]
-                        FROM[dbo].[Clienti]
-                        ORDER By Id";
+                        FROM[dbo].[Clienti]";                       
 
             if (!String.IsNullOrEmpty(whereCondition))
                 query += whereCondition;
@@ -105,13 +104,12 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
 
             }
 
-
+            dataBase.Dispose();
             return lista;
 
         }
 
-        public static void DbVendorWriter(string whereCondition, Venditori v)
-
+        public static void DbVendorUpDater(string whereCondition, Venditori v)
         {
             ConnectionStringSql database = new ConnectionStringSql();
 
@@ -127,6 +125,27 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
                 query += whereCondition;
 
             database.ExecuteNotQuery(query);
+            database.Dispose();
+
+        }
+
+        public static void DbCustomersUpDater(string whereCondition, Clienti c)
+        {
+
+            ConnectionStringSql dataBase = new ConnectionStringSql();
+
+            string query = $"UPDATE [dbo].[Venditori]" + 
+                "SET [NomeCliente] = '" + c.NomeCliente + "'" +
+                ",[CognomeCliente] = '" + c.CognomeCliente + "'" +
+                ",[TelefonoCliente] = '" + c.TelefonoCliente + "'" +
+                ",[MailCliente] = '" + c.MailCliente + "'" +
+                ",[ClienteAttivo] = '" + c.ClienteAttivo + "'";
+
+            if (!String.IsNullOrEmpty(whereCondition))
+                query += whereCondition;
+
+            dataBase.ExecuteNotQuery(query);
+            dataBase.Dispose();
 
         }
 
@@ -143,8 +162,5 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
             database.ExecuteNotQuery(query);
 
         }
-
-
-
     }
 }

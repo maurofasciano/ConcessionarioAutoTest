@@ -10,8 +10,6 @@ namespace VenditaAutoConcessionarioConsole
 {
     public class Program
     {
-
-
         static void Main(string[] args)
         {
             // bool passBlockCode = true;

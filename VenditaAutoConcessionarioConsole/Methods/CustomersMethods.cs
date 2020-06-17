@@ -41,8 +41,6 @@ namespace VenditaAutoConcessionarioConsole.Methods
             } */
             ConnectionStringSql database = new ConnectionStringSql();
 
-
-            
             int maxId = 0;
 
             using (var reader = database.ExecuteQuerys("SELECT ISNULL(max(Id),0) as maxId from Clienti"))
@@ -55,7 +53,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
             c.Id = maxId + 1;
 
-            Console.Clear();
+            Console.Clear();         
 
             Console.WriteLine();
             Console.WriteLine("-----------------------------------");
@@ -94,11 +92,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
             // Vecchio inserimento in liste
             /* Liste.Clienti.Add(c); */
 
-
-
-            Console.Clear();
-
-            
+            Console.Clear();            
 
             c.ClienteAttivo = true;
 
@@ -165,10 +159,16 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
             lista = CommonMethods.DbCustomersReader("");
 
-            Console.WriteLine("I Clienti presenti sono :");
+            Console.WriteLine("");
+            Console.WriteLine(" --------------------------------------------------------------------------------------");
+            Console.WriteLine($"I Venditori presenti in Lista sono : ");
+            Console.WriteLine("");
+
+            int output = 0;
 
             foreach (var item in lista)
             {
+                output += 1;
 
                 Console.WriteLine("");
                 Console.WriteLine($"Id - {item.Id} | Nome - {item.NomeCliente} |  Cognome  -  {item.CognomeCliente} ");
@@ -176,9 +176,21 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 Console.WriteLine("Cliente Aggiunto il" +  item.OraInserimento + " |  Il Venditore è : " + (item.ClienteAttivo == true ? "Attivo" : "Disattivo"));
                 Console.WriteLine("");
 
+                if (output % 5 == 0)
+                {
+                    Console.WriteLine(" ---------------------------------------------------------------------------------------");
+                    Console.WriteLine("Premi un tasto per continuare .....");
+                    Console.ReadLine();
+                }
             }
 
+            Console.WriteLine(" ---------------------------------------------------------------------------------------");
+            Console.WriteLine(" --- Ricerca completata - Premi tasto per continuare ..... ");
+            Console.WriteLine(" ---------------------------------------------------------------------------------------");
+            Console.ReadLine();
 
+            Console.Clear();
+            Liste.Clienti.Clear();
             return Liste.Clienti; 
             
             
@@ -193,9 +205,12 @@ namespace VenditaAutoConcessionarioConsole.Methods
             Console.WriteLine("-------------- (Restituisce le Proprietà) --------------------");
             Console.WriteLine("--------------------------------------------------------------");
             Console.WriteLine();
-            string nomeCliente = Console.ReadLine();
+            string cognomeCliente = Console.ReadLine();
 
-            string risultatoPositivo1 ="Il Cliente {0} è presente - Il Cognome è {1}";
+
+            // Vecchiometodo con lista e segnaposto
+
+            /* string risultatoPositivo1 ="Il Cliente {0} è presente - Il Cognome è {1}";
             string risultatoPositivo2 ="Il Telefono è {0} - La Mail è {1}";
             string risultatoPositivo3 = "Avente Id {0} - E' stato inserito il {1}";
             string risultatoNegativoNome = $"Il Venditore ''{nomeCliente}'' non è presente nella Lista";
@@ -244,8 +259,52 @@ namespace VenditaAutoConcessionarioConsole.Methods
                 Console.WriteLine("---------------------------------------------------------");
                 Console.WriteLine(risultatoNegativoNome); 
                 Console.WriteLine("---------------------------------------------------------");
+            } */
+
+            
+
+            List<Clienti> lista = CommonMethods.DbCustomersReader("WHERE CognomeCliente = '" + cognomeCliente + "'" + 
+                "OR NomeCliente = '" + cognomeCliente + "'");
+
+            if (lista.Count == 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("-----------------------------------------------");
+                Console.WriteLine("- Nessun Venditore Trovato con questo Cognome -");
+                Console.WriteLine("-----------------------------------------------");
+                Console.WriteLine("");
+
+                Console.WriteLine("---------------------------------------");
+                Console.WriteLine("Premi un tasto per continuare ....");
+                Console.ReadLine();
+                Console.Clear();
+                return;
             }
 
+            Console.WriteLine("");
+            Console.WriteLine("I Venditori trovati con quasto nome sono : ");
+            Console.WriteLine("");
+
+            int output = 0;
+            foreach (var item in lista)
+            {
+
+                Console.WriteLine("");
+                Console.WriteLine($"Id - {item.Id} | Nome - {item.NomeCliente} |  Cognome  -  {item.CognomeCliente} ");
+                Console.WriteLine($"Telefono - {item.TelefonoCliente} | Mail - {item.MailCliente}");
+                Console.WriteLine($"Venditore Aggiunto il -  {item.OraInserimento}  |  Il Cliente è :  "  + (item.ClienteAttivo == true? "Attivo" : "Disattivo" ));
+                Console.WriteLine("");
+
+                if (output % 3 == 0)
+                {
+                    Console.WriteLine(" ---------------------------------------------------------------------------------------");
+                    Console.WriteLine("Premi un tasto per continuare .....");
+                    Console.ReadLine();
+                }
+
+            }
+
+            Liste.Clienti.Clear();
         }
 
         public static void ModificaClienti()

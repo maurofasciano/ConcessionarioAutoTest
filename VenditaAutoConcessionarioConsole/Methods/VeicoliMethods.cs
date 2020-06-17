@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using VenditaAutoConcessionarioConsole.Class;
-using VenditaAutoConcessionarioConsole.Models.Interfaces;
+
 
 namespace VenditaAutoConcessionarioConsole.Methods
 {
