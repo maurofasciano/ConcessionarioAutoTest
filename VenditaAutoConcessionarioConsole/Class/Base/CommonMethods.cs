@@ -66,9 +66,10 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
 
         }
 
-        public static List<Clienti> DbCustomersReader(string whereCondition)
+        public static List<Clienti> DbCustomersReader(string whereCondition, Clienti c)
         {
             ConnectionStringSql dataBase = new ConnectionStringSql();
+
             List<Clienti> lista = new List<Clienti>();
 
             string query = @"SELECT[Id]
@@ -86,20 +87,15 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
             using(var reader = dataBase.ExecuteQuerys(query))
             {
                 while (reader.Read())
-                { 
-                    lista.Add(new Clienti()
-                    { 
-                        
-                        Id= Int32.Parse(reader["Id"].ToString()),
-                        NomeCliente = reader["NomeCliente"].ToString(),
-                        CognomeCliente = reader["CognomeCliente"].ToString(),
-                        TelefonoCliente = reader["TelefonoCliente"].ToString(),
-                        MailCliente = reader["MailCliente"].ToString(),
-                        ClienteAttivo = Boolean.Parse(reader["ClienteAttivo"].ToString()),
-                        OraInserimento = reader["OraInserimento"].ToString()
+                {
+                    c.Id = Int32.Parse(reader["Id"].ToString());
+                    c.NomeCliente = reader["NomeCliente"].ToString();
+                    c.CognomeCliente = reader["CognomeCliente"].ToString();
+                    c.TelefonoCliente = reader["TelefonoCliente"].ToString();
+                    c.MailCliente = reader["MailCliente"].ToString();
+                    c.ClienteAttivo = Boolean.Parse(reader["ClienteAttivo"].ToString());
+                    c.OraInserimento = reader["OraInserimento"].ToString();
 
-
-                    });
                 }
 
             }
@@ -134,7 +130,7 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
 
             ConnectionStringSql dataBase = new ConnectionStringSql();
 
-            string query = $"UPDATE [dbo].[Venditori]" + 
+            string query = $"UPDATE [dbo].[Clienti]" + 
                 "SET [NomeCliente] = '" + c.NomeCliente + "'" +
                 ",[CognomeCliente] = '" + c.CognomeCliente + "'" +
                 ",[TelefonoCliente] = '" + c.TelefonoCliente + "'" +
@@ -144,7 +140,21 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
             if (!String.IsNullOrEmpty(whereCondition))
                 query += whereCondition;
 
+            
+
             dataBase.ExecuteNotQuery(query);
+
+            Console.WriteLine("------------------------------------------------------------------------------------------");
+            Console.WriteLine("I Nuovi dati del Venditore Modificato sono :");
+            Console.WriteLine("");
+            Console.WriteLine($"Id - {c.Id} | Nome - {c.NomeCliente} |  Cognome  -  {c.CognomeCliente} ");
+            Console.WriteLine($"Telefono - {c.TelefonoCliente} | Mail - {c.MailCliente}");
+            Console.WriteLine($"Venditore Aggiunto il -  {c.OraInserimento}  |  Il Venditore è " + (c.ClienteAttivo == true ? " Attivo " : " Disattivo"));
+            Console.WriteLine("");
+            Console.WriteLine("------------------------------------------------------------------------------------------");
+
+            Console.ReadLine();
+
             dataBase.Dispose();
 
         }
@@ -160,7 +170,22 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
                 query += whereCondition;
 
             database.ExecuteNotQuery(query);
+            database.Dispose();
+
+        }
+
+        public static void DbCustomerDeleter(string whereCondition)
+        {
+            ConnectionStringSql dataBase = new ConnectionStringSql();
+            string query = $"DELETE from dbo.Venditori";
+
+            if (!String.IsNullOrEmpty(query))
+                query += whereCondition;
+            dataBase.ExecuteNotQuery(query);
+            dataBase.Dispose();
 
         }
     }
+
+
 }

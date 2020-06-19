@@ -581,7 +581,6 @@ namespace VenditaAutoConcessionarioConsole.Methods
                         Console.WriteLine("--- Inserisci l' Id del Venditore da modificare ---");
                         Console.WriteLine("---------------------------------------------------");
 
-                        
                         idVenditore = Console.ReadLine();
 
                         if (string.IsNullOrEmpty(idVenditore))
@@ -635,14 +634,14 @@ namespace VenditaAutoConcessionarioConsole.Methods
                                    Console.WriteLine("- Nessun Venditore Trovato con questo Id -");
                                    Console.WriteLine("------------------------------------------");
                                    Console.WriteLine("");
-                                                                            Console.WriteLine("-----------------------------------------");
+                                   Console.WriteLine("-----------------------------------------");
                                    Console.WriteLine("Premi un tasto per continuare ....");
                                    Console.ReadLine();
                                    Console.Clear();
                                    return;
                                }
 
-                                }
+                            }                            
 
                         }
 
@@ -736,7 +735,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
                             case 5:
                                 // Nuovo Metodo con Sql
                                 Console.WriteLine(" ------------------------------------------------------------");
-                                Console.WriteLine(" - Premi 1 per Abilitare o 2 per Disabilitare un Venditore - ");
+                                Console.WriteLine(" - Premi 1 per Abilitare o 2 per Disabilitare il Venditore - ");
                                 Console.WriteLine(" ------------------------------------------------------------");
 
                                 string abilita = Console.ReadLine();
