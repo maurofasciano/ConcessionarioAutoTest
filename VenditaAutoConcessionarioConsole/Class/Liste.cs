@@ -20,9 +20,9 @@ namespace VenditaAutoConcessionarioConsole.Class.Liste
 
         public static List<Clienti> Clienti = new List<Clienti>();
 
-    }
+        public static List<Veicoli> Veicoli = new List<Veicoli>();
 
-    
+    }    
 
 }
 
