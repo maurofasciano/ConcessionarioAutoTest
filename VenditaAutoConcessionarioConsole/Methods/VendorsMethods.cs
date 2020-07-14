@@ -570,8 +570,6 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
                 ConnectionStringSql dataBase = new ConnectionStringSql();
 
-
-
                 switch (rispostaUtenteInt)
                 {
                     case 1:
@@ -586,9 +584,9 @@ namespace VenditaAutoConcessionarioConsole.Methods
                         if (string.IsNullOrEmpty(idVenditore))
                         {
                             Console.WriteLine("");
-                            Console.WriteLine("-----------------------------------------------");
-                            Console.WriteLine("- Nessun Venditore Trovato con questo Cognome -");
-                            Console.WriteLine("-----------------------------------------------");
+                            Console.WriteLine("------------------------------------------");
+                            Console.WriteLine("- Nessun Venditore Trovato con questo Id -");
+                            Console.WriteLine("------------------------------------------");
                             Console.WriteLine("");
                             Console.WriteLine("-----------------------------------------");
                             Console.WriteLine("Premi un tasto per continuare ....");
@@ -660,6 +658,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
                         Console.WriteLine("3) Modifica il Telefono");
                         Console.WriteLine("4) Modificala la Mail");
                         Console.WriteLine("5) Modifica abilitazione Venditore");
+                        Console.WriteLine("6) Ritorna al Menu precedente");
 
 
                         string selezioneUtente = Console.ReadLine();
@@ -765,7 +764,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
                                         v.VenditoreAttivo = false;
                                         break;                                        
 
-                                    case 3:
+                                    default:
                                         CommonMethods.RichiestaNonValida();
                                         continue;
 

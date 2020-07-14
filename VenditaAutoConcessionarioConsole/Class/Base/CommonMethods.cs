@@ -66,7 +66,7 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
 
         }
 
-        public static List<Clienti> DbCustomersReader(string whereCondition, Clienti c)
+        public static List<Clienti> DbCustomersReader(string whereCondition)
         {
             ConnectionStringSql dataBase = new ConnectionStringSql();
 
@@ -88,14 +88,16 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
             {
                 while (reader.Read())
                 {
-                    c.Id = Int32.Parse(reader["Id"].ToString());
-                    c.NomeCliente = reader["NomeCliente"].ToString();
-                    c.CognomeCliente = reader["CognomeCliente"].ToString();
-                    c.TelefonoCliente = reader["TelefonoCliente"].ToString();
-                    c.MailCliente = reader["MailCliente"].ToString();
-                    c.ClienteAttivo = Boolean.Parse(reader["ClienteAttivo"].ToString());
-                    c.OraInserimento = reader["OraInserimento"].ToString();
-
+                    lista.Add(new Clienti()
+                    {
+                        Id = Int32.Parse(reader["Id"].ToString()),
+                        NomeCliente = reader["NomeCliente"].ToString(),
+                        CognomeCliente = reader["CognomeCliente"].ToString(),
+                        TelefonoCliente = reader["TelefonoCliente"].ToString(),
+                        MailCliente = reader["MailCliente"].ToString(),
+                        ClienteAttivo = Boolean.Parse(reader["ClienteAttivo"].ToString()),
+                        OraInserimento = reader["OraInserimento"].ToString()
+                    });
                 }
 
             }
@@ -152,6 +154,9 @@ namespace VenditaAutoConcessionarioConsole.Class.Base
             Console.WriteLine($"Venditore Aggiunto il -  {c.OraInserimento}  |  Il Venditore è " + (c.ClienteAttivo == true ? " Attivo " : " Disattivo"));
             Console.WriteLine("");
             Console.WriteLine("------------------------------------------------------------------------------------------");
+
+            Console.WriteLine("-----------------------------------------");
+            Console.WriteLine("Premi un testo per continuare ... ");
 
             Console.ReadLine();
 

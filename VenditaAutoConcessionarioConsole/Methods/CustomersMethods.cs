@@ -157,26 +157,25 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
             List<Clienti> lista = new List<Clienti>();
 
-            Clienti c = new Clienti();
-
-            lista = CommonMethods.DbCustomersReader("", c );
+   
+            lista = CommonMethods.DbCustomersReader("" );
             
 
             Console.WriteLine("");
             Console.WriteLine(" --------------------------------------------------------------------------------------");
-            Console.WriteLine($"I Venditori presenti in Lista sono : ");
+            Console.WriteLine($"I Clienti presenti in Lista sono : ");
             Console.WriteLine("");
 
             int output = 0;
 
-            foreach (var item in lista)
+            foreach (var c in lista)
             {
                 output += 1;
 
                 Console.WriteLine("");
-                Console.WriteLine($"Id - {item.Id} | Nome - {item.NomeCliente} |  Cognome  -  {item.CognomeCliente} ");
-                Console.WriteLine($"Telefono - {item.TelefonoCliente} | Mail - {item.MailCliente}");
-                Console.WriteLine("Cliente Aggiunto il" + item.OraInserimento + " |  Il Venditore è : " + (item.ClienteAttivo == true ? "Attivo" : "Disattivo"));
+                Console.WriteLine($"Id - {c.Id} | Nome - {c.NomeCliente} |  Cognome  -  {c.CognomeCliente} ");
+                Console.WriteLine($"Telefono - {c.TelefonoCliente} | Mail - {c.MailCliente}");
+                Console.WriteLine("Cliente Aggiunto il" + c.OraInserimento + " |  Il Venditore è : " + (c.ClienteAttivo == true ? "Attivo" : "Disattivo"));
                 Console.WriteLine("");
 
                 if (output % 5 == 0)
@@ -185,6 +184,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
                     Console.WriteLine("Premi un tasto per continuare .....");
                     Console.ReadLine();
                 }
+
             }
 
             Console.WriteLine(" ---------------------------------------------------------------------------------------");
@@ -193,7 +193,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
             Console.ReadLine();
 
             Console.Clear();
-            Liste.Clienti.Clear();
+            // Liste.Clienti.Clear();
             return Liste.Clienti;
 
 
@@ -210,6 +210,7 @@ namespace VenditaAutoConcessionarioConsole.Methods
             Console.WriteLine();
             string cognomeCliente = Console.ReadLine();
 
+            List<Clienti> lista = new List<Clienti>();
 
             // Vecchiometodo con lista e segnaposto
 
@@ -263,10 +264,9 @@ namespace VenditaAutoConcessionarioConsole.Methods
             } */
 
             // Genero un oggetto che non mi serve a nulla, se non a farlo passare nel metodo DbCustomerReader
-            Clienti c = new Clienti();
 
-            List<Clienti> lista = CommonMethods.DbCustomersReader("WHERE CognomeCliente = '" + cognomeCliente + "'" +
-                "OR NomeCliente = '" + cognomeCliente + "'", c);
+            lista = CommonMethods.DbCustomersReader("WHERE CognomeCliente = '" + cognomeCliente + "'" +
+                "OR NomeCliente = '" + cognomeCliente + "'");
 
             if (lista.Count == 0)
             {
@@ -346,15 +346,17 @@ namespace VenditaAutoConcessionarioConsole.Methods
                     continue;
                 }
 
-                Clienti c = new Clienti();
-
-                ConnectionStringSql dataBase = new ConnectionStringSql();
+                Clienti c = new Clienti();               
 
                 string idCliente = string.Empty;
 
+                List<Clienti> lista = new List<Clienti>();
+
                 switch (rispostaUtenteInt)
-                {
+                {                    
+
                     case 1:
+
                         Console.WriteLine("");
                         Console.WriteLine("---------------------------------------------");
                         Console.WriteLine("- Inserisci L' Id del Cliente da Modificare -");
@@ -366,6 +368,22 @@ namespace VenditaAutoConcessionarioConsole.Methods
                         if (string.IsNullOrEmpty(idCliente))
                         {
                             Console.WriteLine("");
+                            Console.WriteLine("---------------------------------------------");
+                            Console.WriteLine("- Inserisci un valore valido per la ricerca -");
+                            Console.WriteLine("---------------------------------------------");
+                            Console.WriteLine("");
+                            Console.WriteLine("Premi un tasto per continuare");
+                            Console.ReadLine();
+                            Console.Clear();
+                            continue;
+
+                        }
+
+                        lista = CommonMethods.DbCustomersReader("WHERE [Id] =" + idCliente);
+
+                        if (lista.Count == 0)
+                        {
+                            Console.WriteLine("");
                             Console.WriteLine("------------------------------------------");
                             Console.WriteLine("- Nessun Venditore Trovato con questo Id -");
                             Console.WriteLine("------------------------------------------");
@@ -374,139 +392,122 @@ namespace VenditaAutoConcessionarioConsole.Methods
                             Console.WriteLine("Premi un tasto per continuare ....");
                             Console.ReadLine();
                             Console.Clear();
-                            break;
-                        }                        
-
-                        CommonMethods.DbCustomersReader("WHERE [Id] = " + idCliente, c);
-
-                        if (c.Id == null)
-                        {
-                            Console.WriteLine("");
-                            Console.WriteLine("------------------------------------------");
-                            Console.WriteLine("- Nessun Venditore Trovato con questo Id -");
-                            Console.WriteLine("------------------------------------------");
-                            Console.WriteLine("");
-                            Console.WriteLine("-----------------------------------------");
-                            Console.WriteLine("Premi un tasto per continuare ....");
-                            Console.ReadLine();
-                            Console.Clear();
+                            continue;
                         }
+                        c = lista[0];
+
+                        Console.Clear();
+
+                        Console.WriteLine();
+                        Console.WriteLine("-------------------------------------------------");
+                        Console.WriteLine("- Seleziona ciò che vuoi modificare del Cliente -");
+                        Console.WriteLine("-------- (Ricerca Tramite Id Venditore) ---------");
+                        Console.WriteLine("-------------------------------------------------");
+
+                        Console.WriteLine("1) Modifica il Nome");
+                        Console.WriteLine("2) Modifica il Cognome");
+                        Console.WriteLine("3) Modifica il Telefono");
+                        Console.WriteLine("4) Modificala la Mail");
+                        Console.WriteLine("5) Modifica abilitazione Cliente");
+                        Console.WriteLine("6) Torna al Menu precedente");
+
+                        string selezioneUtente = Console.ReadLine();
+                        int.TryParse(selezioneUtente, out int selectUtenteInt);
 
 
-                        switch (rispostaUtenteInt)
+                        switch (selectUtenteInt)
                         {
-                            case 1:
-
-                                Console.WriteLine();
-                                Console.WriteLine("-------------------------------------------------");
-                                Console.WriteLine("- Seleziona ciò che vuoi modificare del Cliente -");
-                                Console.WriteLine("-------- (Ricerca Tramite Id Venditore) ---------");
-                                Console.WriteLine("-------------------------------------------------");
-
-                                Console.WriteLine("1) Modifica il Nome");
-                                Console.WriteLine("2) Modifica il Cognome");
-                                Console.WriteLine("3) Modifica il Telefono");
-                                Console.WriteLine("4) Modificala la Mail");
-                                Console.WriteLine("5) Modifica abilitazione Cliente");
-                                Console.WriteLine("6) Torna al Menu precedente");
-
-
-                                string selezioneUtente = Console.ReadLine();
-                                bool selectUtente = int.TryParse(selezioneUtente, out int selectUtenteInt);
-
-
-                                switch (selectUtenteInt)
-                                {
-                                    case 1:                                        
-                                        Console.WriteLine("Inserisci il nuovo Nome del Cliente");
-                                        c.NomeCliente = Console.ReadLine();
+                            case 1:                                        
+                                Console.WriteLine("Inserisci il nuovo Nome del Cliente");
+                                c.NomeCliente = Console.ReadLine();
                                         
+                                break;
+
+                            case 2:
+                                Console.WriteLine("Inserisci il nuovo Cognome del Cliente");
+                                c.CognomeCliente = Console.ReadLine();                                    
+                                break;
+
+                            case 3:
+                                Console.WriteLine("Inserisci il nuovo Telefono del Cliente");
+                                c.TelefonoCliente = Console.ReadLine();
+                                break;
+
+                            case 4:
+                                    Console.WriteLine("Inserisci la nuova mail del Cliente");
+                                    c.MailCliente = Console.ReadLine();
+                                break;
+
+                            case 5:
+                                Console.WriteLine(" ----------------------------------------------------------");
+                                Console.WriteLine(" - Premi 1 per Abilitare o 2 per Disabilitare il Cliente - ");
+                                Console.WriteLine(" ----------------------------------------------------------");
+
+                                string abilita = Console.ReadLine();
+                                bool abilitaUtente = int.TryParse(abilita, out int abilitaint);
+
+                                Console.Clear();
+
+                                if (abilitaUtente == false)
+                                {
+                                    Console.Clear();
+
+                                    Console.WriteLine("");
+                                    Console.WriteLine("-----------------------------------------------");
+                                    Console.WriteLine("- Argomento non valido, Accetta SOLO interi ! -");
+                                    Console.WriteLine("-----------------------------------------------");
+                                    continue;
+
+                                }
+
+                                switch (abilitaint)
+                                {
+                                    case 1:
+                                        c.ClienteAttivo = true;
                                         break;
 
                                     case 2:
-                                        Console.WriteLine("Inserisci il nuovo Cognome del Cliente");
-                                        c.CognomeCliente = Console.ReadLine();                                    
+                                        c.ClienteAttivo = false;
                                         break;
 
                                     case 3:
-                                        Console.WriteLine("Inserisci il nuovo Telefono del Cliente");
-                                        c.TelefonoCliente = Console.ReadLine();
-                                        break;
+                                        CommonMethods.RichiestaNonValida();
+                                        continue;                                            
 
-                                    case 4:
-                                            Console.WriteLine("Inserisci la nuova mail del Cliente");
-                                            c.MailCliente = Console.ReadLine();
-                                        break;
-
-                                    case 5:
-                                        Console.WriteLine(" ----------------------------------------------------------");
-                                        Console.WriteLine(" - Premi 1 per Abilitare o 2 per Disabilitare il Cliente - ");
-                                        Console.WriteLine(" ----------------------------------------------------------");
-
-                                        string abilita = Console.ReadLine();
-                                        bool abilitaUtente = int.TryParse(abilita, out int abilitaint);
-
-                                        Console.Clear();
-
-                                        if (abilitaUtente == false)
-                                        {
-                                            Console.Clear();
-
-                                            Console.WriteLine("");
-                                            Console.WriteLine("-----------------------------------------------");
-                                            Console.WriteLine("- Argomento non valido, Accetta SOLO interi ! -");
-                                            Console.WriteLine("-----------------------------------------------");
-                                            continue;
-
-                                        }
-
-                                        switch (abilitaint)
-                                        {
-                                            case 1:
-                                                c.ClienteAttivo = true;
-                                                break;
-
-                                            case 2:
-                                                c.ClienteAttivo = false;
-                                                break;
-
-                                            case 3:
-                                                CommonMethods.RichiestaNonValida();
-                                                continue;
-
-                                            case 6:
-                                                return;
-
-                                            default:
-                                                CommonMethods.RichiestaNonValida();
-                                                continue;
-                                        }
-                                        break;
-
+                                    default:
+                                        CommonMethods.RichiestaNonValida();
+                                        continue;
                                 }
-                                break;                                
+                                break;                               
 
-                            case 2:
-                                VerificaListaClienti();
-                                break;
-
-                            default:
-                                CommonMethods.RichiestaNonValida();
-                                continue;
                         }
                         break;
 
-                        
+                    case 2:
+                        VerificaListaClienti();
+                        break;
 
+                    case 3:
+                        return;
+
+                    default:
+                        CommonMethods.RichiestaNonValida();
+                        continue;
+
+                }                               
+
+                if (!String.IsNullOrEmpty(idCliente))
+                {
+                    CommonMethods.DbCustomersUpDater("WHERE [Id] = " + idCliente, c);
                 }
-
-                CommonMethods.DbCustomersUpDater("Where [Id] =" + idCliente, c);
-
-
+                else
+                {
+                    continue;
+                }
+                
+            }   
             
-            }
-
-        }
+        }    
 
         public static void RimuoviCliente()
         {
