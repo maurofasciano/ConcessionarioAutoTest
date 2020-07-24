@@ -10,8 +10,7 @@ namespace VenditaAutoConcessionarioConsole.Class
     {
         
         public int Id { get; set; }
-        public string Marca { get; set; }
-        public string Modello { get; set; }
+        public string MarcaModello { get; set; }
         public string TipoVeicolo { get; set; }
         public DateTime? DataImmatricolazione { get; set; }
         public string Targa { get; set; }
@@ -23,11 +22,12 @@ namespace VenditaAutoConcessionarioConsole.Class
         public bool inMagazzino { get; set; }
         public bool VeicoloNuovo { get; set; }
 
-        public Veicoli(int id, string tipoveicolo, DateTime dataimmatricolazione, string targa, string cilindrata, int potenza, int numeroruote, 
+        public Veicoli(int id, string tipoveicolo, string marcamodello, DateTime dataimmatricolazione, string targa, string cilindrata, int potenza, int numeroruote, 
             DateTime dataacquisto, DateTime datavendita, bool inmagazzino, bool veicolonuovo)
         {
             this.Id = id;
             this.TipoVeicolo = tipoveicolo;
+            MarcaModello = marcamodello;
             DataImmatricolazione = dataimmatricolazione;
             Targa = targa;
             Cilindrata = cilindrata;
