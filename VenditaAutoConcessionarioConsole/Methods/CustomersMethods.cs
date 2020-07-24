@@ -8,7 +8,7 @@ using VenditaAutoConcessionarioConsole.Class.Liste;
 
 namespace VenditaAutoConcessionarioConsole.Methods
 {
-    class CustomersMethods
+    class CustomerMethods
     {
 
         public static Clienti RegistraClienti()

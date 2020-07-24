@@ -587,11 +587,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Faggiano\\source\\repos\\Progetti\\ConcessionarioAutoTest\\VenditaAutoConcessionarioConsole\\VenditaAutoConcessionarioConsole.csproj",
+      "projectUniqueName": "C:\\Users\\Faggiano\\source\\repos\\ConcessionarioAutoTest\\VenditaAutoConcessionarioConsole\\VenditaAutoConcessionarioConsole.csproj",
       "projectName": "VenditaAutoConcessionarioConsole",
-      "projectPath": "C:\\Users\\Faggiano\\source\\repos\\Progetti\\ConcessionarioAutoTest\\VenditaAutoConcessionarioConsole\\VenditaAutoConcessionarioConsole.csproj",
+      "projectPath": "C:\\Users\\Faggiano\\source\\repos\\ConcessionarioAutoTest\\VenditaAutoConcessionarioConsole\\VenditaAutoConcessionarioConsole.csproj",
       "packagesPath": "C:\\Users\\Faggiano\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Faggiano\\source\\repos\\Progetti\\ConcessionarioAutoTest\\VenditaAutoConcessionarioConsole\\obj\\",
+      "outputPath": "C:\\Users\\Faggiano\\source\\repos\\ConcessionarioAutoTest\\VenditaAutoConcessionarioConsole\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\",
@@ -643,7 +643,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
       }
     }
   }

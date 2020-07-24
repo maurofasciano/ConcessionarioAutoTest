@@ -177,25 +177,23 @@ namespace VenditaAutoConcessionarioConsole.Methods
 
                 {
                     case 1:
-                        CustomersMethods.RegistraClienti();
+                        CustomerMethods.RegistraClienti();
                         break;
 
                     case 2:
-                        CustomersMethods.ElencoClienti();
-                        
+                        CustomerMethods.ElencoClienti();
                         break;
 
                     case 3:
-                        CustomersMethods.VerificaListaClienti();
+                        CustomerMethods.VerificaListaClienti();
                         break;
 
                     case 4:
-                        CustomersMethods.ModificaClienti();
+                        CustomerMethods.ModificaClienti();
                         break;
 
-
                     case 5:
-                        CustomersMethods.RimuoviCliente();
+                        CustomerMethods.RimuoviCliente();
                         break;
 
                     case 6:
@@ -224,28 +222,86 @@ namespace VenditaAutoConcessionarioConsole.Methods
      
         }
 
-        /* public static void AutoSelect()
+        public static void VehiclesSelect()
         {
-            string risposta = Console.ReadLine();
-
-            bool rispostaUtente = int.TryParse(risposta, out int rispostaUtenteInt);
-
-            if (rispostaUtente == false)
+            while (true)
             {
-                Console.WriteLine("-------------------------------------------------");
-                Console.WriteLine("- Argomento NON VALIDO, usa SOLO le selezioni ! -");
-                Console.WriteLine("-------------------------------------------------");
+                Console.WriteLine();
+                Console.WriteLine("----------------------------------");
+                Console.WriteLine("- Cosa vuoi fare per i Veicoli ? -");
+                Console.WriteLine("----------------------------------");
+                Console.WriteLine();
+
+                Console.WriteLine("-----------------------------------------");
+                Console.WriteLine("----  Seleziona il Metodo Deiderato  ----");
+                Console.WriteLine("- 1) Aggiungi un Veicolo                -");
+                Console.WriteLine("- 2) Lista i Veicoli ed i loro Id       -");
+                Console.WriteLine("- 3) Verifica la presenza di un Veicolo -");
+                Console.WriteLine("- 4) Modifica un Veicolo                -");
+                Console.WriteLine("- 5) Rimuovi un Veicolo                 -");
+                Console.WriteLine("- 6) Torna al MENU Principale           -");
+                Console.WriteLine("- 7) Esci dal Programma                 -");
+                Console.WriteLine("-----------------------------------------");
+
+                string risposta = Console.ReadLine();
+
+                bool rispostaUtente = int.TryParse(risposta, out int rispostaUtenteInt);
+
+                if (rispostaUtente == false)
+                {
+                    Console.Clear();
+                    Console.WriteLine("");
+                    Console.WriteLine("-------------------------------------------------");
+                    Console.WriteLine("- Argomento NON VALIDO, usa SOLO le selezioni ! -");
+                    Console.WriteLine("-------------------------------------------------");
+                    Console.WriteLine("");
+
+                    continue;
+                }
+
+                switch (rispostaUtenteInt)
+
+                {
+                    case 1:
+                        VeicoliMethods.InserisciVeicolo();
+                        break;
+
+                    case 2:
+                        break;
+
+                    case 3:
+                        break;
+
+                    case 4:
+                        break;
+
+                    case 5:
+                        break;
+
+                    case 6:                        
+                        Console.Clear();
+                        return;
+
+                    case 7:
+                        Console.WriteLine("");
+                        Console.WriteLine("------------------------------------------------------");
+                        Console.WriteLine("- Hai selezionato QUIT, premi  INVIO per chiudere ! - ");
+                        Console.WriteLine("------------------------------------------------------");
+                        Console.WriteLine("");
+                        Console.ReadLine();
+                        Environment.Exit(0);
+                        break;
+
+                    default:
+                        CommonMethods.RichiestaNonValida();
+                        continue;
+
+                }
 
             }
 
-            switch (rispostaUtenteInt)
 
-            {
-                case 1:
-                    VeicoliMethods.Modifica(Liste.Auto.ConvertAll(a => (IVeicolo)a));
-                    break;
-            }
-        } */
+        }
     }
-
+    
 }

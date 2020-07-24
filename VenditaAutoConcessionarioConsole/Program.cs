@@ -60,7 +60,7 @@ namespace VenditaAutoConcessionarioConsole
                         break;
 
                     case 3:
-
+                        ProgramMethods.VehiclesSelect();
                         break;
 
                     case 4:
